@@ -705,84 +705,84 @@ function drawCutieMark(ctx: CanvasRenderingContext2D, charId: string, x: number,
 export function drawScaryPony(ctx: CanvasRenderingContext2D, x: number, y: number, frame: number) {
   const s = 2;
   ctx.save();
-  ctx.translate(x, y);
+  ctx.translate(x-6, y-12);
   
   const wf = frame % 4;
-  const lo = [0, 1, 2, 1][wf];
-  const lo2 = [2, 1, 0, 1][wf];
+  const legFront1 = [0, 1, 0, -1][wf];
+  const legFront2 = [0, -1, 0, 1][wf];
+  const legBack1 = [0, -1, 0, 1][wf];
+  const legBack2 = [0, 1, 0, -1][wf];
   const bob = [0, -1, 0, -1][wf];
 
-  // Outline
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(5*s, (9+bob)*s, 12*s, 8*s);
-  ctx.fillRect(6*s, (2+bob)*s, 10*s, 8*s);
-
-  // Body (dark, corrupted)
-  ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(6*s, (10+bob)*s, 10*s, 6*s);
-  ctx.fillRect(7*s, (9+bob)*s, 8*s, 8*s);
-  ctx.fillRect(13*s, (10+bob)*s, 3*s, 5*s);
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillRect(4*s, 22*s, 14*s, 2*s);
 
   // Tail (wild, dark)
   ctx.fillStyle = '#0a000a';
-  ctx.fillRect(14*s, (8+bob)*s, 3*s, 3*s);
-  ctx.fillRect(15*s, (7+bob)*s, 3*s, 2*s);
-  ctx.fillRect(16*s, (9+bob)*s, 2*s, 4*s);
-  ctx.fillRect(14*s, (11+bob)*s, 2*s, 3*s);
+  ctx.fillRect(16*s, (10+bob)*s, 3*s, 4*s);
+  ctx.fillRect(17*s, (9+bob)*s, 2*s, 3*s);
+  ctx.fillRect(18*s, (11+bob)*s, 1*s, 3*s);
+
+  // Back legs
+  ctx.fillStyle = '#0a000a';
+  ctx.fillRect(13*s, (16+bob)*s, 2*s, (4+legBack1)*s);
+  ctx.fillRect(15*s, (16+bob)*s, 2*s, (4+legBack2)*s);
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(13*s, (20+bob+legBack1)*s, 2*s, 1*s);
+  ctx.fillRect(15*s, (20+bob+legBack2)*s, 2*s, 1*s);
+
+  // Body
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(5*s, (10+bob)*s, 13*s, 7*s);
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(6*s, (11+bob)*s, 11*s, 5*s);
+  ctx.fillRect(7*s, (10+bob)*s, 9*s, 6*s);
+  ctx.fillRect(15*s, (11+bob)*s, 2*s, 4*s);
+
+  // Front legs
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(6*s, (16+bob)*s, 2*s, (4+legFront1)*s);
+  ctx.fillRect(8*s, (16+bob)*s, 2*s, (4+legFront2)*s);
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(6*s, (20+bob+legFront1)*s, 2*s, 1*s);
+  ctx.fillRect(8*s, (20+bob+legFront2)*s, 2*s, 1*s);
+
+  // Neck
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(5*s, (8+bob)*s, 4*s, 4*s);
 
   // Head
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(2*s, (3+bob)*s, 8*s, 7*s);
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(7*s, (3+bob)*s, 8*s, 7*s);
-  ctx.fillRect(6*s, (4+bob)*s, 10*s, 5*s);
-  ctx.fillRect(8*s, (2+bob)*s, 6*s, 2*s);
-  ctx.fillRect(5*s, (6+bob)*s, 3*s, 3*s);
+  ctx.fillRect(3*s, (4+bob)*s, 6*s, 5*s);
+  ctx.fillRect(4*s, (3+bob)*s, 5*s, 2*s);
+  ctx.fillRect(2*s, (6+bob)*s, 3*s, 3*s);
 
   // Ears
-  ctx.fillRect(8*s, (1+bob)*s, 2*s, 3*s);
-  ctx.fillRect(12*s, (1+bob)*s, 2*s, 3*s);
+  ctx.fillRect(4*s, (1+bob)*s, 2*s, 3*s);
+  ctx.fillRect(7*s, (1+bob)*s, 2*s, 3*s);
 
   // Mane (wild, corrupted)
   ctx.fillStyle = '#0a000a';
-  ctx.fillRect(6*s, (0+bob)*s, 10*s, 4*s);
-  ctx.fillRect(5*s, (1+bob)*s, 2*s, 6*s);
-  ctx.fillRect(14*s, (1+bob)*s, 2*s, 4*s);
-  ctx.fillRect(5*s, (4+bob)*s, 1*s, 4*s);
+  ctx.fillRect(3*s, (1+bob)*s, 6*s, 4*s);
+  ctx.fillRect(2*s, (2+bob)*s, 2*s, 5*s);
+  ctx.fillRect(8*s, (2+bob)*s, 2*s, 4*s);
 
-  // Glowing red eyes (HUGE)
+  // Glowing red eye
   ctx.fillStyle = frame % 6 < 3 ? '#FF0000' : '#CC0000';
-  ctx.fillRect(6*s, (4+bob)*s, 4*s, 4*s);
-  ctx.fillRect(11*s, (4+bob)*s, 4*s, 4*s);
-  
-  // Eye glow
+  ctx.fillRect(3*s, (5+bob)*s, 3*s, 3*s);
   ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-  ctx.fillRect(5*s, (3+bob)*s, 6*s, 6*s);
-  ctx.fillRect(10*s, (3+bob)*s, 6*s, 6*s);
-
-  // Pupils
+  ctx.fillRect(2*s, (4+bob)*s, 5*s, 5*s);
   ctx.fillStyle = '#000000';
-  ctx.fillRect(7*s, (5+bob)*s, 2*s, 2*s);
-  ctx.fillRect(12*s, (5+bob)*s, 2*s, 2*s);
+  ctx.fillRect(3*s, (6+bob)*s, 1*s, 2*s);
 
   // Creepy smile
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(7*s, (8+bob)*s, 5*s, 1*s);
+  ctx.fillRect(2*s, (8+bob)*s, 2*s, 1*s);
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(8*s, (8+bob)*s, 1*s, 1*s);
-  ctx.fillRect(10*s, (8+bob)*s, 1*s, 1*s);
-
-  // Legs
-  ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(6*s, (16+bob)*s, 2*s, (3+lo)*s);
-  ctx.fillRect(8*s, (16+bob)*s, 2*s, (3+lo2)*s);
-  ctx.fillRect(12*s, (16+bob)*s, 2*s, (3+lo2)*s);
-  ctx.fillRect(14*s, (16+bob)*s, 2*s, (3+lo)*s);
-
-  // Hooves
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(6*s, (19+bob+lo)*s, 2*s, 1*s);
-  ctx.fillRect(8*s, (19+bob+lo2)*s, 2*s, 1*s);
-  ctx.fillRect(12*s, (19+bob+lo2)*s, 2*s, 1*s);
-  ctx.fillRect(14*s, (19+bob+lo)*s, 2*s, 1*s);
+  ctx.fillRect(2*s, (8+bob)*s, 1*s, 1*s);
 
   ctx.restore();
 }
@@ -790,98 +790,97 @@ export function drawScaryPony(ctx: CanvasRenderingContext2D, x: number, y: numbe
 export function drawBossPony(ctx: CanvasRenderingContext2D, x: number, y: number, frame: number, phase: number) {
   const s = 2;
   ctx.save();
-  ctx.translate(x, y);
-  const sc = phase === 2 ? 1.3 : 1.1;
+  ctx.translate(x-8, y-14);
+  const sc = phase === 2 ? 1.4 : 1.2;
   ctx.scale(sc, sc);
   
   const wf = frame % 4;
-  const lo = [0, 1, 2, 1][wf];
-  const lo2 = [2, 1, 0, 1][wf];
+  const legFront1 = [0, 1, 0, -1][wf];
+  const legFront2 = [0, -1, 0, 1][wf];
+  const legBack1 = [0, -1, 0, 1][wf];
+  const legBack2 = [0, 1, 0, -1][wf];
   const bob = [0, -1, 0, -1][wf];
 
-  // Outline
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(5*s, (9+bob)*s, 12*s, 8*s);
-  ctx.fillRect(6*s, (2+bob)*s, 10*s, 8*s);
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.3)';
+  ctx.fillRect(4*s, 22*s, 14*s, 2*s);
 
-  // Body
-  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
-  ctx.fillRect(6*s, (10+bob)*s, 10*s, 6*s);
-  ctx.fillRect(7*s, (9+bob)*s, 8*s, 8*s);
-  ctx.fillRect(13*s, (10+bob)*s, 3*s, 5*s);
-
-  // Tail (wild, menacing)
+  // Tail (wild, menacing Pinkie tail)
   ctx.fillStyle = phase === 2 ? '#0a000a' : '#FF1493';
-  ctx.fillRect(14*s, (8+bob)*s, 3*s, 3*s);
-  ctx.fillRect(15*s, (7+bob)*s, 3*s, 2*s);
-  ctx.fillRect(16*s, (9+bob)*s, 2*s, 4*s);
-  ctx.fillRect(14*s, (11+bob)*s, 2*s, 3*s);
+  ctx.fillRect(16*s, (10+bob)*s, 3*s, 4*s);
+  ctx.fillRect(17*s, (9+bob)*s, 2*s, 3*s);
+  ctx.fillRect(18*s, (11+bob)*s, 1*s, 3*s);
   ctx.fillRect(15*s, (13+bob)*s, 2*s, 2*s);
 
-  // Head
+  // Back legs
   ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
-  ctx.fillRect(7*s, (3+bob)*s, 8*s, 7*s);
-  ctx.fillRect(6*s, (4+bob)*s, 10*s, 5*s);
-  ctx.fillRect(8*s, (2+bob)*s, 6*s, 2*s);
-  ctx.fillRect(5*s, (6+bob)*s, 3*s, 3*s);
+  ctx.fillRect(13*s, (16+bob)*s, 2*s, (4+legBack1)*s);
+  ctx.fillRect(15*s, (16+bob)*s, 2*s, (4+legBack2)*s);
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(13*s, (20+bob+legBack1)*s, 2*s, 1*s);
+  ctx.fillRect(15*s, (20+bob+legBack2)*s, 2*s, 1*s);
+
+  // Body
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(5*s, (10+bob)*s, 13*s, 7*s);
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
+  ctx.fillRect(6*s, (11+bob)*s, 11*s, 5*s);
+  ctx.fillRect(7*s, (10+bob)*s, 9*s, 6*s);
+  ctx.fillRect(15*s, (11+bob)*s, 2*s, 4*s);
+
+  // Front legs
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
+  ctx.fillRect(6*s, (16+bob)*s, 2*s, (4+legFront1)*s);
+  ctx.fillRect(8*s, (16+bob)*s, 2*s, (4+legFront2)*s);
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(6*s, (20+bob+legFront1)*s, 2*s, 1*s);
+  ctx.fillRect(8*s, (20+bob+legFront2)*s, 2*s, 1*s);
+
+  // Neck
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
+  ctx.fillRect(5*s, (8+bob)*s, 4*s, 4*s);
+
+  // Head
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(2*s, (3+bob)*s, 8*s, 7*s);
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
+  ctx.fillRect(3*s, (4+bob)*s, 6*s, 5*s);
+  ctx.fillRect(4*s, (3+bob)*s, 5*s, 2*s);
+  ctx.fillRect(2*s, (6+bob)*s, 3*s, 3*s);
 
   // Ears
-  ctx.fillRect(8*s, (1+bob)*s, 2*s, 3*s);
-  ctx.fillRect(12*s, (1+bob)*s, 2*s, 3*s);
+  ctx.fillRect(4*s, (1+bob)*s, 2*s, 3*s);
+  ctx.fillRect(7*s, (1+bob)*s, 2*s, 3*s);
 
-  // Mane (wild, corrupted Pinkie)
+  // Mane (wild, corrupted Pinkie mane)
   ctx.fillStyle = phase === 2 ? '#0a000a' : '#FF1493';
-  ctx.fillRect(6*s, (0+bob)*s, 10*s, 4*s);
-  ctx.fillRect(5*s, (1+bob)*s, 2*s, 6*s);
-  ctx.fillRect(14*s, (1+bob)*s, 2*s, 4*s);
-  ctx.fillRect(5*s, (4+bob)*s, 1*s, 4*s);
-  ctx.fillRect(15*s, (2+bob)*s, 1*s, 3*s);
+  ctx.fillRect(3*s, (1+bob)*s, 6*s, 4*s);
+  ctx.fillRect(2*s, (2+bob)*s, 2*s, 5*s);
+  ctx.fillRect(8*s, (2+bob)*s, 2*s, 4*s);
   // Curls
   ctx.fillStyle = phase === 2 ? '#1a001a' : '#FF69B4';
-  ctx.fillRect(7*s, (0+bob)*s, 2*s, 1*s);
-  ctx.fillRect(11*s, (0+bob)*s, 2*s, 1*s);
+  ctx.fillRect(4*s, (1+bob)*s, 2*s, 1*s);
+  ctx.fillRect(7*s, (2+bob)*s, 1*s, 1*s);
 
-  // Glowing red eyes (HUGE)
+  // Glowing red eye
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(6*s, (4+bob)*s, 4*s, 4*s);
-  ctx.fillRect(11*s, (4+bob)*s, 4*s, 4*s);
-  
-  // Eye glow
+  ctx.fillRect(3*s, (5+bob)*s, 3*s, 3*s);
   ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-  ctx.fillRect(5*s, (3+bob)*s, 6*s, 6*s);
-  ctx.fillRect(10*s, (3+bob)*s, 6*s, 6*s);
-
-  // Pupils
+  ctx.fillRect(2*s, (4+bob)*s, 5*s, 5*s);
   ctx.fillStyle = '#000000';
-  ctx.fillRect(7*s, (5+bob)*s, 2*s, 2*s);
-  ctx.fillRect(12*s, (5+bob)*s, 2*s, 2*s);
+  ctx.fillRect(3*s, (6+bob)*s, 1*s, 2*s);
 
   // Creepy wide smile
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(7*s, (8+bob)*s, 6*s, 1*s);
+  ctx.fillRect(2*s, (8+bob)*s, 3*s, 1*s);
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(8*s, (8+bob)*s, 1*s, 1*s);
-  ctx.fillRect(10*s, (8+bob)*s, 1*s, 1*s);
-  ctx.fillRect(12*s, (8+bob)*s, 1*s, 1*s);
-
-  // Legs
-  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
-  ctx.fillRect(6*s, (16+bob)*s, 2*s, (3+lo)*s);
-  ctx.fillRect(8*s, (16+bob)*s, 2*s, (3+lo2)*s);
-  ctx.fillRect(12*s, (16+bob)*s, 2*s, (3+lo2)*s);
-  ctx.fillRect(14*s, (16+bob)*s, 2*s, (3+lo)*s);
-
-  // Hooves
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(6*s, (19+bob+lo)*s, 2*s, 1*s);
-  ctx.fillRect(8*s, (19+bob+lo2)*s, 2*s, 1*s);
-  ctx.fillRect(12*s, (19+bob+lo2)*s, 2*s, 1*s);
-  ctx.fillRect(14*s, (19+bob+lo)*s, 2*s, 1*s);
+  ctx.fillRect(2*s, (8+bob)*s, 1*s, 1*s);
+  ctx.fillRect(4*s, (8+bob)*s, 1*s, 1*s);
 
   // Aura effect in phase 2
   if (phase === 2 && frame % 8 < 4) {
     ctx.fillStyle = 'rgba(255, 0, 100, 0.3)';
-    ctx.fillRect(2*s, 0, 16*s, 20*s);
+    ctx.fillRect(0, 0, 22*s, 24*s);
   }
 
   ctx.restore();
@@ -1679,14 +1678,14 @@ export class GameEngine {
     }
 
     // Enemies (Pony Town style positioning)
-    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE, this.chaserY*TILE_SIZE, this.frame);
-    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE, this.pinkieChaseY*TILE_SIZE, this.frame);
-    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE, this.bossY*TILE_SIZE, this.frame, this.bossPhase);
+    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE+6, this.chaserY*TILE_SIZE+12, this.frame);
+    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE+6, this.pinkieChaseY*TILE_SIZE+12, this.frame);
+    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE+8, this.bossY*TILE_SIZE+14, this.frame, this.bossPhase);
 
     // Player (Pony Town style positioning)
     if (!this.isHiding) {
       const c = CHARACTERS.find(ch=>ch.id===this.characterId)||CHARACTERS[0];
-      drawPonySprite(ctx, this.playerX*TILE_SIZE, this.playerY*TILE_SIZE, c, this.playerDir, this.playerMoving?this.playerFrame:0);
+      drawPonySprite(ctx, this.playerX*TILE_SIZE-6, this.playerY*TILE_SIZE-12, c, this.playerDir, this.playerMoving?this.playerFrame:0);
     } else {
       ctx.fillStyle='rgba(50,50,150,0.3)';
       ctx.fillRect(this.playerX*TILE_SIZE+4, this.playerY*TILE_SIZE+4, TILE_SIZE-8, TILE_SIZE-8);
