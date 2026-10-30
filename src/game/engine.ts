@@ -1,6 +1,7 @@
 // Game Engine - Pixel Art Horror Game
 import { playStep, playPickup, playDoor, playScare, playLaugh, playMusic, stopMusic, playHeartbeat, playGemPickup, playCelebration, playMagicReveal } from './audio';
 import { drawPonySpriteDetailed } from './sprites';
+import { drawNotePhoto } from './notePhotos';
 
 export type GameState = 'menu' | 'characterSelect' | 'playing' | 'inventory' | 'ending' | 'secretEnding' | 'gameover';
 export type Direction = 'up' | 'down' | 'left' | 'right';
@@ -1169,6 +1170,7 @@ export class GameEngine {
   characterId = 'pinkie';
   inventory: InventoryItem[] = [];
   dialogText = ''; showDialog = false; dialogTimer = 0;
+  currentNotePhoto: string | null = null; showNotePhoto = false; notePhotoTimer = 0;
   frame = 0;
   keys = new Set<string>();
   lastMove = 0; moveDelay = 150;
@@ -1296,7 +1298,10 @@ export class GameEngine {
         }
         break;
       case 'note':
-        if (entity.data) { this.addMessage(entity.data.text); entity.active = false; }
+        if (entity.data) { 
+          this.showNotePhotoMessage(entity.data.text); 
+          entity.active = false; 
+        }
         break;
       case 'switch':
         if (entity.data && !entity.data.activated) {
@@ -1343,6 +1348,17 @@ export class GameEngine {
   addMessage(text: string) {
     this.dialogText = text; this.showDialog = true; this.dialogTimer = 180;
     this.onDialog?.(text);
+  }
+
+  showNotePhotoMessage(text: string) {
+    this.currentNotePhoto = text;
+    this.showNotePhoto = true;
+    this.notePhotoTimer = 240; // 4 segundos a 60fps
+    this.dialogText = text;
+    this.showDialog = true;
+    this.dialogTimer = 240;
+    this.onDialog?.(text);
+    playPickup();
   }
 
   toggleHide() {
@@ -1418,7 +1434,13 @@ export class GameEngine {
     if (this.state !== 'playing') return;
     if (this.showDialog) {
       this.dialogTimer--;
-      if (this.dialogTimer <= 0) { this.showDialog = false; this.onDialog?.(''); }
+      if (this.notePhotoTimer > 0) this.notePhotoTimer--;
+      if (this.dialogTimer <= 0) { 
+        this.showDialog = false; 
+        this.showNotePhoto = false;
+        this.currentNotePhoto = null;
+        this.onDialog?.(''); 
+      }
       return;
     }
 
@@ -1749,7 +1771,44 @@ export class GameEngine {
       ctx.textAlign='left';
     }
 
-    if (this.showDialog && this.dialogText) {
+    // Dibujar foto de nota si está activa
+    if (this.showNotePhoto && this.currentNotePhoto) {
+      const photoW = 120, photoH = 80;
+      const photoX = (CANVAS_WIDTH - photoW) / 2;
+      const photoY = 30;
+      
+      // Fondo oscuro detrás de la foto
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+      ctx.fillRect(photoX - 10, photoY - 10, photoW + 20, photoH + 60);
+      
+      // Dibujar la foto
+      drawNotePhoto(ctx, this.currentNotePhoto, photoX, photoY, photoW, photoH);
+      
+      // Texto debajo de la foto
+      const bH = 40, bY = photoY + photoH + 10;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.fillRect(15, bY, CANVAS_WIDTH - 30, bH);
+      ctx.strokeStyle = '#FF69B4';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(15, bY, CANVAS_WIDTH - 30, bH);
+      ctx.fillStyle = '#FFF';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'center';
+      const words = this.currentNotePhoto.split(' ');
+      let line = '', lineY = bY + 18;
+      for (const w of words) {
+        const tl = line + w + ' ';
+        if (ctx.measureText(tl).width > CANVAS_WIDTH - 50) {
+          ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
+          line = w + ' ';
+          lineY += 13;
+        } else {
+          line = tl;
+        }
+      }
+      ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
+      ctx.textAlign = 'left';
+    } else if (this.showDialog && this.dialogText) {
       const bH=50, bY=CANVAS_HEIGHT-70;
       ctx.fillStyle='rgba(0,0,0,0.9)'; ctx.fillRect(15,bY,CANVAS_WIDTH-30,bH);
       ctx.strokeStyle='#FF69B4'; ctx.lineWidth=2; ctx.strokeRect(15,bY,CANVAS_WIDTH-30,bH);
