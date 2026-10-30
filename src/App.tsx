@@ -72,7 +72,7 @@ function App() {
 
   // Game loop
   useEffect(() => {
-    if (gameState === 'playing' && canvasRef.current && engineRef.current) {
+    if ((gameState === 'playing' || gameState === 'inventory') && canvasRef.current && engineRef.current) {
       const engine = engineRef.current;
       const loop = () => {
         engine.update();
@@ -520,7 +520,7 @@ function App() {
       )}
 
       {/* ===== PLAYING ===== */}
-      {gameState === 'playing' && (
+      {(gameState === 'playing' || gameState === 'inventory') && (
         <div className="relative w-full h-full flex flex-col items-center justify-center bg-black">
           <canvas
             ref={canvasRef}
