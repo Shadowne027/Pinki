@@ -94,7 +94,6 @@ function createLevel1(): Level {
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 2, targetX: 1, targetY: 7 },
-      { x: 0, y: 7, targetLevel: 6, targetX: 18, targetY: 7 }, // return from final
     ],
     objectives: ['Encontrar la llave de Sugarcube Corner'],
     bgColor: '#0d0520', darkLevel: 0.75, musicTrack: 'exploration',
