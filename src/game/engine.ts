@@ -329,172 +329,137 @@ export function getLevel(id: number): Level {
   }
 }
 
-// ============ PONY SPRITES - Detailed MLP Style ============
+// ============ PONY TOWN STYLE SPRITES ============
+// Compact, cute proportions with 4-frame walk animation
 export function drawPonySprite(ctx: CanvasRenderingContext2D, x: number, y: number, char: Character, dir: Direction, frame: number) {
   const s = 2; // pixel scale
   ctx.save();
   ctx.translate(x, y);
 
-  // Body (rounder, more proportional)
-  ctx.fillStyle = char.color;
-  ctx.fillRect(5*s, 8*s, 10*s, 8*s);
-  ctx.fillRect(4*s, 9*s, 12*s, 6*s);
-  ctx.fillRect(6*s, 7*s, 8*s, 2*s);
-  
-  // Neck
-  ctx.fillRect(7*s, 6*s, 6*s, 3*s);
+  // 4-frame walk animation
+  const walkFrame = frame % 4;
+  const legOffset = [0, 1, 0, -1][walkFrame];
+  const legOffset2 = [0, -1, 0, 1][walkFrame];
 
-  // Head (larger, more expressive)
-  ctx.fillRect(6*s, 2*s, 8*s, 6*s);
-  ctx.fillRect(5*s, 3*s, 10*s, 4*s);
-  ctx.fillRect(7*s, 1*s, 6*s, 2*s);
+  // Body (compact, cute proportions - Pony Town style)
+  ctx.fillStyle = char.color;
+  ctx.fillRect(6*s, 10*s, 8*s, 6*s);
+  ctx.fillRect(5*s, 11*s, 10*s, 4*s);
+  
+  // Neck (shorter)
+  ctx.fillRect(8*s, 8*s, 4*s, 3*s);
+
+  // Head (smaller relative to body - cuter)
+  ctx.fillRect(7*s, 3*s, 6*s, 5*s);
+  ctx.fillRect(6*s, 4*s, 8*s, 3*s);
 
   // Snout
-  ctx.fillStyle = char.color;
-  ctx.fillRect(12*s, 4*s, 3*s, 3*s);
+  ctx.fillRect(11*s, 5*s, 2*s, 2*s);
   ctx.fillStyle = '#FFB6C1';
-  ctx.fillRect(13*s, 5*s, 1*s, 1*s);
+  ctx.fillRect(12*s, 6*s, 1*s, 1*s);
 
-  // Ears (pointed)
+  // Ears (small, pointed)
   ctx.fillStyle = char.color;
-  ctx.fillRect(6*s, 0, 2*s, 3*s);
-  ctx.fillRect(12*s, 0, 2*s, 3*s);
-  ctx.fillStyle = char.maneColor;
-  ctx.fillRect(7*s, 1*s, 1*s, 1*s);
-  ctx.fillRect(13*s, 1*s, 1*s, 1*s);
+  ctx.fillRect(7*s, 2*s, 2*s, 2*s);
+  ctx.fillRect(11*s, 2*s, 2*s, 2*s);
 
-  // Mane (unique per character, more detailed)
+  // Mane (unique per character - Pony Town style)
   ctx.fillStyle = char.maneColor;
   if (char.id === 'pinkie') {
-    // Voluminous curly mane
-    ctx.fillRect(4*s, 0, 12*s, 4*s);
-    ctx.fillRect(3*s, 1*s, 2*s, 6*s);
-    ctx.fillRect(14*s, 1*s, 2*s, 5*s);
-    ctx.fillRect(2*s, 2*s, 2*s, 4*s);
-    ctx.fillRect(15*s, 2*s, 1*s, 4*s);
-    ctx.fillRect(3*s, 5*s, 1*s, 3*s);
-    // Curls
-    ctx.fillRect(4*s, 0, 1*s, 1*s);
-    ctx.fillRect(7*s, 0, 1*s, 1*s);
-    ctx.fillRect(10*s, 0, 1*s, 1*s);
-    ctx.fillRect(13*s, 0, 1*s, 1*s);
+    // Curly, voluminous
+    ctx.fillRect(5*s, 1*s, 10*s, 3*s);
+    ctx.fillRect(4*s, 2*s, 2*s, 5*s);
+    ctx.fillRect(13*s, 2*s, 2*s, 4*s);
+    ctx.fillRect(4*s, 4*s, 1*s, 3*s);
   } else if (char.id === 'twilight') {
-    // Straight mane with bang
-    ctx.fillRect(5*s, 0, 10*s, 3*s);
-    ctx.fillRect(4*s, 1*s, 2*s, 7*s);
-    ctx.fillRect(13*s, 2*s, 2*s, 6*s);
-    ctx.fillRect(14*s, 4*s, 1*s, 5*s);
-    // Bang
-    ctx.fillRect(6*s, 1*s, 4*s, 2*s);
+    // Straight with bang
+    ctx.fillRect(6*s, 1*s, 8*s, 2*s);
+    ctx.fillRect(5*s, 2*s, 2*s, 6*s);
+    ctx.fillRect(13*s, 2*s, 2*s, 5*s);
+    ctx.fillRect(7*s, 2*s, 3*s, 1*s);
   } else if (char.id === 'rainbow') {
-    // Spiky colorful mane
-    ctx.fillRect(5*s, 0, 10*s, 2*s);
-    ctx.fillRect(4*s, 1*s, 2*s, 5*s);
-    ctx.fillRect(13*s, 1*s, 3*s, 4*s);
+    // Spiky
+    ctx.fillRect(6*s, 1*s, 8*s, 2*s);
+    ctx.fillRect(5*s, 2*s, 2*s, 4*s);
+    ctx.fillRect(13*s, 2*s, 2*s, 3*s);
     // Rainbow stripes
     ctx.fillStyle = '#FF0000';
-    ctx.fillRect(5*s, 0, 2*s, 1*s);
+    ctx.fillRect(6*s, 1*s, 2*s, 1*s);
     ctx.fillStyle = '#FFA500';
-    ctx.fillRect(7*s, 0, 2*s, 1*s);
+    ctx.fillRect(8*s, 1*s, 2*s, 1*s);
     ctx.fillStyle = '#FFFF00';
-    ctx.fillRect(9*s, 0, 2*s, 1*s);
+    ctx.fillRect(10*s, 1*s, 2*s, 1*s);
     ctx.fillStyle = '#00FF00';
-    ctx.fillRect(11*s, 0, 2*s, 1*s);
-    ctx.fillStyle = '#0000FF';
-    ctx.fillRect(13*s, 0, 2*s, 1*s);
+    ctx.fillRect(12*s, 1*s, 2*s, 1*s);
   } else if (char.id === 'fluttershy') {
-    // Long flowing mane
-    ctx.fillRect(5*s, 1*s, 10*s, 2*s);
-    ctx.fillRect(4*s, 2*s, 2*s, 10*s);
-    ctx.fillRect(13*s, 2*s, 2*s, 8*s);
-    ctx.fillRect(14*s, 5*s, 1*s, 6*s);
-    ctx.fillRect(3*s, 4*s, 1*s, 6*s);
+    // Long, flowing
+    ctx.fillRect(6*s, 2*s, 8*s, 2*s);
+    ctx.fillRect(5*s, 3*s, 2*s, 8*s);
+    ctx.fillRect(13*s, 3*s, 2*s, 6*s);
   } else if (char.id === 'rarity') {
-    // Elegant curled mane
-    ctx.fillRect(5*s, 0, 10*s, 3*s);
-    ctx.fillRect(4*s, 1*s, 2*s, 6*s);
-    ctx.fillRect(13*s, 1*s, 2*s, 6*s);
-    ctx.fillRect(14*s, 4*s, 1*s, 4*s);
-    // Curls
-    ctx.fillRect(4*s, 6*s, 1*s, 2*s);
-    ctx.fillRect(14*s, 6*s, 1*s, 2*s);
+    // Elegant, curled
+    ctx.fillRect(6*s, 1*s, 8*s, 2*s);
+    ctx.fillRect(5*s, 2*s, 2*s, 5*s);
+    ctx.fillRect(13*s, 2*s, 2*s, 5*s);
+    ctx.fillRect(5*s, 6*s, 1*s, 2*s);
   } else if (char.id === 'applejack') {
-    // Short mane
-    ctx.fillRect(5*s, 1*s, 10*s, 2*s);
-    ctx.fillRect(4*s, 2*s, 2*s, 4*s);
-    ctx.fillRect(13*s, 2*s, 2*s, 4*s);
+    // Short with hat
+    ctx.fillRect(6*s, 2*s, 8*s, 2*s);
+    ctx.fillRect(5*s, 3*s, 2*s, 3*s);
+    ctx.fillRect(13*s, 3*s, 2*s, 3*s);
     // Hat
     ctx.fillStyle = '#8B4513';
-    ctx.fillRect(4*s, -1*s, 12*s, 3*s);
-    ctx.fillRect(6*s, -2*s, 8*s, 2*s);
-    ctx.fillStyle = '#A0522D';
-    ctx.fillRect(5*s, 0, 10*s, 1*s);
+    ctx.fillRect(5*s, 0, 10*s, 2*s);
+    ctx.fillRect(7*s, -1*s, 6*s, 2*s);
   }
 
-  // Eyes (large, expressive, anime-style)
+  // Eyes (large, expressive - Pony Town style)
   if (dir !== 'up') {
-    // Eye whites
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(7*s, 3*s, 3*s, 3*s);
-    ctx.fillRect(11*s, 3*s, 3*s, 3*s);
+    ctx.fillRect(8*s, 4*s, 2*s, 2*s);
+    ctx.fillRect(11*s, 4*s, 2*s, 2*s);
     
-    // Iris
     ctx.fillStyle = char.eyeColor;
     if (dir === 'left') {
-      ctx.fillRect(7*s, 4*s, 2*s, 2*s);
-      ctx.fillRect(11*s, 4*s, 2*s, 2*s);
-    } else if (dir === 'right') {
-      ctx.fillRect(8*s, 4*s, 2*s, 2*s);
-      ctx.fillRect(12*s, 4*s, 2*s, 2*s);
-    } else {
-      ctx.fillRect(8*s, 4*s, 2*s, 2*s);
-      ctx.fillRect(12*s, 4*s, 2*s, 2*s);
-    }
-    
-    // Pupils
-    ctx.fillStyle = '#000000';
-    if (dir === 'left') {
-      ctx.fillRect(7*s, 4*s, 1*s, 2*s);
+      ctx.fillRect(8*s, 4*s, 1*s, 2*s);
       ctx.fillRect(11*s, 4*s, 1*s, 2*s);
     } else if (dir === 'right') {
       ctx.fillRect(9*s, 4*s, 1*s, 2*s);
-      ctx.fillRect(13*s, 4*s, 1*s, 2*s);
+      ctx.fillRect(12*s, 4*s, 1*s, 2*s);
     } else {
       ctx.fillRect(8*s, 5*s, 1*s, 1*s);
-      ctx.fillRect(12*s, 5*s, 1*s, 1*s);
+      ctx.fillRect(11*s, 5*s, 1*s, 1*s);
     }
     
-    // Eye highlights
+    // Highlights
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(8*s, 3*s, 1*s, 1*s);
-    ctx.fillRect(12*s, 3*s, 1*s, 1*s);
+    ctx.fillRect(8*s, 4*s, 1*s, 1*s);
+    ctx.fillRect(11*s, 4*s, 1*s, 1*s);
   }
 
-  // Legs (thicker, more proportional)
+  // Legs (4-frame animation - Pony Town style)
   ctx.fillStyle = char.color;
-  const lo = frame % 2 === 0 ? 0 : 1;
   // Front legs
-  ctx.fillRect(5*s, 16*s, 3*s, (4+lo)*s);
-  ctx.fillRect(12*s, 16*s, 3*s, (5-lo)*s);
+  ctx.fillRect(6*s, 16*s, 2*s, (3+legOffset)*s);
+  ctx.fillRect(12*s, 16*s, 2*s, (3+legOffset2)*s);
   // Back legs
-  ctx.fillRect(7*s, 16*s, 3*s, (5-lo)*s);
-  ctx.fillRect(10*s, 16*s, 3*s, (4+lo)*s);
+  ctx.fillRect(8*s, 16*s, 2*s, (3+legOffset2)*s);
+  ctx.fillRect(10*s, 16*s, 2*s, (3+legOffset)*s);
 
   // Hooves
   ctx.fillStyle = char.id === 'applejack' ? '#8B4513' : '#333';
-  ctx.fillRect(5*s, (20+lo)*s, 3*s, 1*s);
-  ctx.fillRect(12*s, (21-lo)*s, 3*s, 1*s);
-  ctx.fillRect(7*s, (21-lo)*s, 3*s, 1*s);
-  ctx.fillRect(10*s, (20+lo)*s, 3*s, 1*s);
+  ctx.fillRect(6*s, (19+legOffset)*s, 2*s, 1*s);
+  ctx.fillRect(12*s, (19+legOffset2)*s, 2*s, 1*s);
+  ctx.fillRect(8*s, (19+legOffset2)*s, 2*s, 1*s);
+  ctx.fillRect(10*s, (19+legOffset)*s, 2*s, 1*s);
 
-  // Tail (longer, more detailed)
+  // Tail
   ctx.fillStyle = char.maneColor;
-  ctx.fillRect(14*s, 10*s, 2*s, 5*s);
-  ctx.fillRect(15*s, 11*s, 2*s, 4*s);
-  ctx.fillRect(16*s, 12*s, 1*s, 3*s);
+  ctx.fillRect(14*s, 11*s, 2*s, 4*s);
+  ctx.fillRect(15*s, 12*s, 1*s, 3*s);
 
-  // CUTIE MARK (on the flank)
-  drawCutieMark(ctx, char.id, 10*s, 10*s, s);
+  // Cutie Mark
+  drawCutieMark(ctx, char.id, 10*s, 12*s, s);
 
   ctx.restore();
 }
@@ -597,62 +562,61 @@ export function drawScaryPony(ctx: CanvasRenderingContext2D, x: number, y: numbe
   ctx.save();
   ctx.translate(x, y);
   
-  // Body (darker, corrupted)
+  // 4-frame walk animation
+  const walkFrame = frame % 4;
+  const legOffset = [0, 1, 0, -1][walkFrame];
+  const legOffset2 = [0, -1, 0, 1][walkFrame];
+  
+  // Body (darker, corrupted - compact)
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(5*s, 8*s, 10*s, 8*s);
-  ctx.fillRect(4*s, 9*s, 12*s, 6*s);
-  ctx.fillRect(6*s, 7*s, 8*s, 2*s);
+  ctx.fillRect(6*s, 10*s, 8*s, 6*s);
+  ctx.fillRect(5*s, 11*s, 10*s, 4*s);
   
   // Neck
-  ctx.fillRect(7*s, 6*s, 6*s, 3*s);
+  ctx.fillRect(8*s, 8*s, 4*s, 3*s);
 
-  // Head
-  ctx.fillRect(6*s, 2*s, 8*s, 6*s);
-  ctx.fillRect(5*s, 3*s, 10*s, 4*s);
-  ctx.fillRect(7*s, 1*s, 6*s, 2*s);
+  // Head (smaller, menacing)
+  ctx.fillRect(7*s, 3*s, 6*s, 5*s);
+  ctx.fillRect(6*s, 4*s, 8*s, 3*s);
 
-  // Ears (pointed, menacing)
-  ctx.fillRect(6*s, 0, 2*s, 3*s);
-  ctx.fillRect(12*s, 0, 2*s, 3*s);
+  // Ears
+  ctx.fillRect(7*s, 2*s, 2*s, 2*s);
+  ctx.fillRect(11*s, 2*s, 2*s, 2*s);
 
-  // Glowing red eyes (large, menacing)
+  // Glowing red eyes
   ctx.fillStyle = frame % 6 < 3 ? '#FF0000' : '#CC0000';
-  ctx.fillRect(7*s, 3*s, 3*s, 3*s);
-  ctx.fillRect(11*s, 3*s, 3*s, 3*s);
+  ctx.fillRect(8*s, 4*s, 2*s, 2*s);
+  ctx.fillRect(11*s, 4*s, 2*s, 2*s);
   
-  // Eye glow effect
-  ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
-  ctx.fillRect(6*s, 2*s, 5*s, 5*s);
-  ctx.fillRect(10*s, 2*s, 5*s, 5*s);
+  // Eye glow
+  ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+  ctx.fillRect(7*s, 3*s, 4*s, 4*s);
+  ctx.fillRect(10*s, 3*s, 4*s, 4*s);
 
-  // Creepy wide smile with teeth
+  // Creepy smile
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(6*s, 6*s, 8*s, 2*s);
+  ctx.fillRect(8*s, 6*s, 5*s, 1*s);
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(7*s, 6*s, 1*s, 1*s);
   ctx.fillRect(9*s, 6*s, 1*s, 1*s);
   ctx.fillRect(11*s, 6*s, 1*s, 1*s);
-  ctx.fillRect(13*s, 6*s, 1*s, 1*s);
 
-  // Dark mane (wild, corrupted)
+  // Dark mane
   ctx.fillStyle = '#0a000a';
-  ctx.fillRect(4*s, 0, 12*s, 3*s);
-  ctx.fillRect(3*s, 1*s, 2*s, 7*s);
-  ctx.fillRect(14*s, 1*s, 2*s, 7*s);
-  ctx.fillRect(2*s, 2*s, 2*s, 5*s);
-  ctx.fillRect(15*s, 2*s, 1*s, 5*s);
+  ctx.fillRect(5*s, 1*s, 10*s, 3*s);
+  ctx.fillRect(4*s, 2*s, 2*s, 6*s);
+  ctx.fillRect(14*s, 2*s, 2*s, 5*s);
 
-  // Legs
+  // Legs (4-frame animation)
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(5*s, 16*s, 3*s, 5*s);
-  ctx.fillRect(12*s, 16*s, 3*s, 5*s);
-  ctx.fillRect(7*s, 16*s, 3*s, 4*s);
-  ctx.fillRect(10*s, 16*s, 3*s, 4*s);
+  ctx.fillRect(6*s, 16*s, 2*s, (3+legOffset)*s);
+  ctx.fillRect(12*s, 16*s, 2*s, (3+legOffset2)*s);
+  ctx.fillRect(8*s, 16*s, 2*s, (3+legOffset2)*s);
+  ctx.fillRect(10*s, 16*s, 2*s, (3+legOffset)*s);
 
-  // Tail (wild)
+  // Tail
   ctx.fillStyle = '#0a000a';
-  ctx.fillRect(14*s, 10*s, 3*s, 6*s);
-  ctx.fillRect(16*s, 11*s, 2*s, 5*s);
+  ctx.fillRect(14*s, 11*s, 2*s, 4*s);
+  ctx.fillRect(15*s, 12*s, 1*s, 3*s);
 
   ctx.restore();
 }
@@ -661,80 +625,74 @@ export function drawBossPony(ctx: CanvasRenderingContext2D, x: number, y: number
   const s = 2;
   ctx.save();
   ctx.translate(x, y);
-  const sc = phase === 2 ? 1.3 : 1.1;
+  const sc = phase === 2 ? 1.2 : 1.0;
   ctx.scale(sc, sc);
   
-  // Body (larger, more menacing)
+  // 4-frame walk animation
+  const walkFrame = frame % 4;
+  const legOffset = [0, 1, 0, -1][walkFrame];
+  const legOffset2 = [0, -1, 0, 1][walkFrame];
+  
+  // Body (larger, menacing - compact)
   ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
-  ctx.fillRect(5*s, 8*s, 12*s, 10*s);
-  ctx.fillRect(4*s, 9*s, 14*s, 8*s);
-  ctx.fillRect(6*s, 7*s, 10*s, 2*s);
+  ctx.fillRect(6*s, 10*s, 8*s, 6*s);
+  ctx.fillRect(5*s, 11*s, 10*s, 4*s);
   
   // Neck
-  ctx.fillRect(7*s, 6*s, 8*s, 3*s);
+  ctx.fillRect(8*s, 8*s, 4*s, 3*s);
 
-  // Head (larger)
-  ctx.fillRect(6*s, 1*s, 10*s, 7*s);
-  ctx.fillRect(5*s, 2*s, 12*s, 5*s);
-  ctx.fillRect(7*s, 0, 8*s, 2*s);
+  // Head
+  ctx.fillRect(7*s, 3*s, 6*s, 5*s);
+  ctx.fillRect(6*s, 4*s, 8*s, 3*s);
 
   // Ears
-  ctx.fillRect(6*s, -1*s, 2*s, 3*s);
-  ctx.fillRect(14*s, -1*s, 2*s, 3*s);
+  ctx.fillRect(7*s, 2*s, 2*s, 2*s);
+  ctx.fillRect(11*s, 2*s, 2*s, 2*s);
 
-  // Glowing red eyes (very large, menacing)
+  // Glowing red eyes
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(7*s, 2*s, 4*s, 4*s);
-  ctx.fillRect(12*s, 2*s, 4*s, 4*s);
+  ctx.fillRect(8*s, 4*s, 2*s, 2*s);
+  ctx.fillRect(11*s, 4*s, 2*s, 2*s);
   
   // Pupils
   ctx.fillStyle = '#000';
-  ctx.fillRect(8*s, 3*s, 2*s, 2*s);
-  ctx.fillRect(13*s, 3*s, 2*s, 2*s);
+  ctx.fillRect(8*s, 4*s, 1*s, 2*s);
+  ctx.fillRect(11*s, 4*s, 1*s, 2*s);
   
   // Eye glow
   ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
-  ctx.fillRect(6*s, 1*s, 6*s, 6*s);
-  ctx.fillRect(11*s, 1*s, 6*s, 6*s);
+  ctx.fillRect(7*s, 3*s, 4*s, 4*s);
+  ctx.fillRect(10*s, 3*s, 4*s, 4*s);
 
-  // Creepy wide smile
+  // Creepy smile
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(7*s, 6*s, 10*s, 2*s);
+  ctx.fillRect(8*s, 6*s, 5*s, 1*s);
   ctx.fillStyle = '#FFFFFF';
-  for (let i = 0; i < 5; i++) ctx.fillRect((7+i*2)*s, 6*s, 1*s, 1*s);
+  ctx.fillRect(9*s, 6*s, 1*s, 1*s);
+  ctx.fillRect(11*s, 6*s, 1*s, 1*s);
 
-  // Wild mane (Pinkie Pie corrupted)
-  ctx.fillStyle = '#FF1493';
-  ctx.fillRect(4*s, -1*s, 14*s, 4*s);
-  ctx.fillRect(3*s, 0, 3*s, 8*s);
-  ctx.fillRect(16*s, 0, 3*s, 8*s);
-  ctx.fillRect(2*s, 1*s, 2*s, 6*s);
-  ctx.fillRect(18*s, 1*s, 1*s, 6*s);
-  
-  // Dark mane in phase 2
-  if (phase === 2) {
-    ctx.fillStyle = '#0a000a';
-    ctx.fillRect(4*s, -1*s, 14*s, 4*s);
-    ctx.fillRect(3*s, 0, 3*s, 8*s);
-    ctx.fillRect(16*s, 0, 3*s, 8*s);
-  }
-
-  // Legs
-  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
-  ctx.fillRect(5*s, 18*s, 3*s, 5*s);
-  ctx.fillRect(14*s, 18*s, 3*s, 5*s);
-  ctx.fillRect(8*s, 18*s, 3*s, 4*s);
-  ctx.fillRect(11*s, 18*s, 3*s, 4*s);
-
-  // Tail (wild)
+  // Wild mane
   ctx.fillStyle = phase === 2 ? '#0a000a' : '#FF1493';
-  ctx.fillRect(16*s, 10*s, 3*s, 7*s);
-  ctx.fillRect(18*s, 11*s, 2*s, 6*s);
+  ctx.fillRect(5*s, 1*s, 10*s, 3*s);
+  ctx.fillRect(4*s, 2*s, 2*s, 6*s);
+  ctx.fillRect(14*s, 2*s, 2*s, 5*s);
+
+  // Legs (4-frame animation)
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#2a0a2a';
+  ctx.fillRect(6*s, 16*s, 2*s, (3+legOffset)*s);
+  ctx.fillRect(12*s, 16*s, 2*s, (3+legOffset2)*s);
+  ctx.fillRect(8*s, 16*s, 2*s, (3+legOffset2)*s);
+  ctx.fillRect(10*s, 16*s, 2*s, (3+legOffset)*s);
+
+  // Tail
+  ctx.fillStyle = phase === 2 ? '#0a000a' : '#FF1493';
+  ctx.fillRect(14*s, 11*s, 2*s, 4*s);
+  ctx.fillRect(15*s, 12*s, 1*s, 3*s);
 
   // Aura effect in phase 2
   if (phase === 2 && frame % 8 < 4) {
     ctx.fillStyle = 'rgba(255, 0, 100, 0.3)';
-    ctx.fillRect(-2*s, -2*s, 24*s, 26*s);
+    ctx.fillRect(2*s, 0, 16*s, 20*s);
   }
 
   ctx.restore();
@@ -1275,15 +1233,15 @@ export class GameEngine {
       }
     }
 
-    // Enemies
-    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE-4, this.chaserY*TILE_SIZE-8, this.frame);
-    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE-4, this.pinkieChaseY*TILE_SIZE-8, this.frame);
-    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE-8, this.bossY*TILE_SIZE-12, this.frame, this.bossPhase);
+    // Enemies (Pony Town style positioning)
+    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE, this.chaserY*TILE_SIZE, this.frame);
+    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE, this.pinkieChaseY*TILE_SIZE, this.frame);
+    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE, this.bossY*TILE_SIZE, this.frame, this.bossPhase);
 
-    // Player
+    // Player (Pony Town style positioning)
     if (!this.isHiding) {
       const c = CHARACTERS.find(ch=>ch.id===this.characterId)||CHARACTERS[0];
-      drawPonySprite(ctx, this.playerX*TILE_SIZE-6, this.playerY*TILE_SIZE-10, c, this.playerDir, this.playerMoving?this.playerFrame:0);
+      drawPonySprite(ctx, this.playerX*TILE_SIZE, this.playerY*TILE_SIZE, c, this.playerDir, this.playerMoving?this.playerFrame:0);
     } else {
       ctx.fillStyle='rgba(50,50,150,0.3)';
       ctx.fillRect(this.playerX*TILE_SIZE+4, this.playerY*TILE_SIZE+4, TILE_SIZE-8, TILE_SIZE-8);
