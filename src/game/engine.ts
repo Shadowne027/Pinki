@@ -1356,14 +1356,14 @@ export class GameEngine {
     // Level-specific events
     if (levelId === 3) {
       // Delay chaser activation significantly
-      this.chaserDelay = 600; // ~10 seconds at 60fps
+      this.chaserDelay = 900; // ~15 seconds at 60fps
     }
     if (levelId === 5) {
       setTimeout(() => { playLaugh(); this.addMessage('¡Pinkie aparece! ¡HUYE!'); this.activatePinkieChase(); playMusic('chase'); }, 8000);
     }
   }
 
-  activateChaser() { this.chaserActive = true; this.chaserX = 18; this.chaserY = 14; this.dangerLevel = 2; }
+  activateChaser() { this.chaserActive = true; this.chaserX = 5; this.chaserY = 5; this.dangerLevel = 2; }
   activatePinkieChase() { this.pinkieChaseActive = true; this.pinkieChaseX = 5; this.pinkieChaseY = 5; this.dangerLevel = 3; }
 
   update() {
@@ -1408,7 +1408,7 @@ export class GameEngine {
       } else this.playerMoving=false;
     }
 
-    if (this.chaserActive && this.frame%10===0) this.moveChaser();
+    if (this.chaserActive && this.frame%15===0) this.moveChaser();
     if (this.pinkieChaseActive && this.frame%7===0) this.movePinkieChaser();
     if (this.bossActive && this.frame%12===0) this.moveBoss();
     this.updateFog();
@@ -1481,7 +1481,7 @@ export class GameEngine {
     const distance = Math.sqrt(dx*dx + dy*dy);
     
     // Fluttershy ability: enemies detect at reduced range
-    const detectThreshold = 3 * this.enemyDetectRange;
+    const detectThreshold = 5 * this.enemyDetectRange;
     
     if (distance > detectThreshold) {
       // Wander randomly if player is far
@@ -1509,7 +1509,7 @@ export class GameEngine {
       // Applejack ability: get pushed back less
       const pushBack = Math.floor(4 / this.chaseResistance);
       this.playerX=Math.max(1,this.playerX-pushBack); this.playerY=Math.max(1,this.playerY-pushBack);
-      this.chaserX=18; this.chaserY=14;
+      this.chaserX=5; this.chaserY=5;
     }
   }
 
