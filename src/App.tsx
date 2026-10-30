@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { GameEngine, CHARACTERS, CANVAS_WIDTH, CANVAS_HEIGHT, GameState, InventoryItem } from './game/engine';
-import { resumeAudio, playMenuSelect, playVictory, playLaugh, playMusic, stopMusic } from './game/audio';
+import { resumeAudio, playMenuSelect, playVictory, playLaugh, playMusic, stopMusic, setMusicEnabled } from './game/audio';
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('menu');
@@ -161,16 +161,14 @@ function App() {
   }, []);
 
   const toggleMusic = useCallback(() => {
-    if (musicEnabled) {
-      stopMusic();
-      setMusicEnabled(false);
-    } else {
+    const newState = !musicEnabled;
+    setMusicEnabled(newState);
+    if (newState) {
       resumeAudio();
       if (gameState === 'menu') playMusic('menu');
       else if (gameState === 'playing' && engineRef.current) {
         playMusic(engineRef.current.currentLevel.musicTrack);
       }
-      setMusicEnabled(true);
     }
   }, [musicEnabled, gameState]);
 
