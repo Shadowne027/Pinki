@@ -1,7 +1,7 @@
 // Game Engine - Pixel Art Horror Game
-import { playStep, playPickup, playDoor, playScare, playLaugh, playMusic, stopMusic, playHeartbeat } from './audio';
+import { playStep, playPickup, playDoor, playScare, playLaugh, playMusic, stopMusic, playHeartbeat, playGemPickup, playCelebration, playMagicReveal } from './audio';
 
-export type GameState = 'menu' | 'characterSelect' | 'playing' | 'inventory' | 'ending' | 'gameover';
+export type GameState = 'menu' | 'characterSelect' | 'playing' | 'inventory' | 'ending' | 'secretEnding' | 'gameover';
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
 export interface Entity { x: number; y: number; type: string; active: boolean; data?: any; }
@@ -90,7 +90,7 @@ function createLevel1(): Level {
       { x: 14, y: 4, type: 'scare', active: true, data: { triggered: false } },
       { x: 5, y: 12, type: 'scare', active: true, data: { triggered: false } },
       { x: 15, y: 3, type: 'item', active: true, data: { itemId: 'map', name: 'Mapa de Ponyville', icon: '🗺️' } },
-      { x: 17, y: 14, type: 'item', active: true, data: { itemId: 'secret_gem', name: 'Gema Secreta', icon: '💎', secret: true } },
+      { x: 17, y: 14, type: 'item', active: true, data: { itemId: 'gem_1', name: 'Gema Rosa', icon: '💎', gem: true, color: '#FF69B4' } },
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 2, targetX: 1, targetY: 7 },
@@ -132,6 +132,7 @@ function createLevel2(): Level {
       { x: 9, y: 3, type: 'scare', active: true, data: { triggered: false } },
       { x: 5, y: 7, type: 'scare', active: true, data: { triggered: false } },
       { x: 7, y: 6, type: 'note', active: true, data: { text: 'Las cupcakes tienen... ¿dientes?' } },
+      { x: 16, y: 12, type: 'item', active: true, data: { itemId: 'gem_2', name: 'Gema Azul', icon: '💎', gem: true, color: '#4169E1' } },
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 3, targetX: 1, targetY: 9 },
@@ -188,6 +189,7 @@ function createLevel3(): Level {
       { x: 15, y: 5, type: 'scare', active: true, data: { triggered: false } },
       { x: 10, y: 9, type: 'note', active: true, data: { text: 'No mires atrás. Ella está justo detrás de ti.' } },
       { x: 17, y: 13, type: 'note', active: true, data: { text: 'La cabaña está al sur... corre hacia allí.' } },
+      { x: 5, y: 16, type: 'item', active: true, data: { itemId: 'gem_3', name: 'Gema Verde', icon: '💎', gem: true, color: '#2ECC71' } },
     ],
     exits: [
       { x: 20, y: 1, targetLevel: 4, targetX: 1, targetY: 1 },
@@ -229,6 +231,7 @@ function createLevel4(): Level {
       { x: 7, y: 14, type: 'hide', active: true },
       { x: 13, y: 6, type: 'scare', active: true, data: { triggered: false } },
       { x: 5, y: 11, type: 'scare', active: true, data: { triggered: false } },
+      { x: 18, y: 14, type: 'item', active: true, data: { itemId: 'gem_4', name: 'Gema Violeta', icon: '💎', gem: true, color: '#9B59B6' } },
     ],
     exits: [
       { x: w-1, y: h-2, targetLevel: 5, targetX: 1, targetY: 1 },
@@ -277,6 +280,7 @@ function createLevel5(): Level {
       { x: 6, y: 15, type: 'scare', active: true, data: { triggered: false } },
       { x: 18, y: 7, type: 'scare', active: true, data: { triggered: false } },
       { x: 3, y: 11, type: 'note', active: true, data: { text: 'Las máquinas crean la fiesta eterna.' } },
+      { x: 22, y: 16, type: 'item', active: true, data: { itemId: 'gem_5', name: 'Gema Amarilla', icon: '💎', gem: true, color: '#F1C40F' } },
     ],
     exits: [
       { x: w-2, y: 1, targetLevel: 6, targetX: 1, targetY: 1 },
@@ -316,6 +320,7 @@ function createLevel6(): Level {
       { x: 2, y: 14, type: 'hide', active: true },
       { x: 7, y: 6, type: 'scare', active: true, data: { triggered: false } },
       { x: 13, y: 11, type: 'scare', active: true, data: { triggered: false } },
+      { x: 2, y: 2, type: 'item', active: true, data: { itemId: 'gem_6', name: 'Gema Roja', icon: '💎', gem: true, color: '#E74C3C' } },
     ],
     exits: [
       { x: w-2, y: h-2, targetLevel: 7, targetX: 1, targetY: 1 },
@@ -840,6 +845,153 @@ export function drawBossPony(ctx: CanvasRenderingContext2D, x: number, y: number
   ctx.restore();
 }
 
+// ============ REY SOMBRA SPRITE ============
+export function drawKingSombra(ctx: CanvasRenderingContext2D, x: number, y: number, dir: Direction, frame: number) {
+  const s = 2;
+  ctx.save();
+  ctx.translate(x, y);
+  
+  const wf = frame % 4;
+  const lo = [0, 1, 2, 1][wf];
+  const lo2 = [2, 1, 0, 1][wf];
+  const bob = [0, -1, 0, -1][wf];
+
+  // Outline (más oscuro)
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(5*s, (9+bob)*s, 12*s, 8*s);
+  ctx.fillRect(6*s, (2+bob)*s, 10*s, 8*s);
+
+  // Body (negro/gris oscuro)
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(6*s, (10+bob)*s, 10*s, 6*s);
+  ctx.fillRect(7*s, (9+bob)*s, 8*s, 8*s);
+  ctx.fillRect(13*s, (10+bob)*s, 3*s, 5*s);
+
+  // Tail (oscura con brillo púrpura)
+  ctx.fillStyle = '#0a000a';
+  ctx.fillRect(14*s, (8+bob)*s, 3*s, 3*s);
+  ctx.fillRect(15*s, (7+bob)*s, 3*s, 2*s);
+  ctx.fillRect(16*s, (9+bob)*s, 2*s, 4*s);
+  ctx.fillStyle = '#4B0082';
+  ctx.fillRect(15*s, (10+bob)*s, 1*s, 2*s);
+
+  // Head
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(7*s, (3+bob)*s, 8*s, 7*s);
+  ctx.fillRect(6*s, (4+bob)*s, 10*s, 5*s);
+  ctx.fillRect(8*s, (2+bob)*s, 6*s, 2*s);
+  ctx.fillRect(5*s, (6+bob)*s, 3*s, 3*s);
+
+  // Ears
+  ctx.fillRect(8*s, (1+bob)*s, 2*s, 3*s);
+  ctx.fillRect(12*s, (1+bob)*s, 2*s, 3*s);
+
+  // Cuerno retorcido
+  ctx.fillStyle = '#2a0a2a';
+  ctx.fillRect(9*s, (-1+bob)*s, 2*s, 4*s);
+  ctx.fillRect(10*s, (-2+bob)*s, 1*s, 2*s);
+  ctx.fillStyle = '#4B0082';
+  ctx.fillRect(10*s, (0+bob)*s, 1*s, 1*s);
+
+  // Mane (oscura con mechones púrpura)
+  ctx.fillStyle = '#0a000a';
+  ctx.fillRect(6*s, (0+bob)*s, 10*s, 4*s);
+  ctx.fillRect(5*s, (1+bob)*s, 2*s, 6*s);
+  ctx.fillRect(14*s, (1+bob)*s, 2*s, 4*s);
+  ctx.fillStyle = '#4B0082';
+  ctx.fillRect(7*s, (1+bob)*s, 2*s, 2*s);
+  ctx.fillRect(12*s, (1+bob)*s, 2*s, 2*s);
+  ctx.fillRect(5*s, (3+bob)*s, 1*s, 2*s);
+
+  // Ojos rojos intensos
+  ctx.fillStyle = '#FF0000';
+  ctx.fillRect(6*s, (4+bob)*s, 4*s, 4*s);
+  ctx.fillRect(11*s, (4+bob)*s, 4*s, 4*s);
+  
+  // Eye glow
+  ctx.fillStyle = 'rgba(255, 0, 0, 0.4)';
+  ctx.fillRect(5*s, (3+bob)*s, 6*s, 6*s);
+  ctx.fillRect(10*s, (3+bob)*s, 6*s, 6*s);
+
+  // Pupils
+  ctx.fillStyle = '#000000';
+  if (dir === 'left') {
+    ctx.fillRect(6*s, (5+bob)*s, 2*s, 2*s);
+    ctx.fillRect(11*s, (5+bob)*s, 2*s, 2*s);
+  } else if (dir === 'right') {
+    ctx.fillRect(8*s, (5+bob)*s, 2*s, 2*s);
+    ctx.fillRect(13*s, (5+bob)*s, 2*s, 2*s);
+  } else {
+    ctx.fillRect(7*s, (5+bob)*s, 2*s, 2*s);
+    ctx.fillRect(12*s, (5+bob)*s, 2*s, 2*s);
+  }
+
+  // Expresión seria
+  ctx.fillStyle = '#0a000a';
+  ctx.fillRect(8*s, (8+bob)*s, 4*s, 1*s);
+
+  // Legs
+  ctx.fillStyle = '#1a0a1a';
+  ctx.fillRect(6*s, (16+bob)*s, 2*s, (3+lo)*s);
+  ctx.fillRect(8*s, (16+bob)*s, 2*s, (3+lo2)*s);
+  ctx.fillRect(12*s, (16+bob)*s, 2*s, (3+lo2)*s);
+  ctx.fillRect(14*s, (16+bob)*s, 2*s, (3+lo)*s);
+
+  // Hooves
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(6*s, (19+bob+lo)*s, 2*s, 1*s);
+  ctx.fillRect(8*s, (19+bob+lo2)*s, 2*s, 1*s);
+  ctx.fillRect(12*s, (19+bob+lo2)*s, 2*s, 1*s);
+  ctx.fillRect(14*s, (19+bob+lo)*s, 2*s, 1*s);
+
+  // Aura púrpura sutil
+  if (frame % 12 < 6) {
+    ctx.fillStyle = 'rgba(75, 0, 130, 0.15)';
+    ctx.fillRect(4*s, (1+bob)*s, 14*s, 18*s);
+  }
+
+  ctx.restore();
+}
+
+// ============ GEMA SPRITE ============
+export function drawGem(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, frame: number) {
+  const s = 2;
+  ctx.save();
+  ctx.translate(x, y);
+  
+  // Brillo animado
+  const glow = Math.sin(frame * 0.2) * 0.3 + 0.7;
+  
+  // Outline
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(10*s, 8*s, 12*s, 16*s);
+  
+  // Gema principal
+  ctx.fillStyle = color;
+  ctx.fillRect(11*s, 9*s, 10*s, 14*s);
+  
+  // Facetas
+  ctx.fillStyle = '#FFFFFF';
+  ctx.globalAlpha = glow * 0.6;
+  ctx.fillRect(12*s, 10*s, 3*s, 3*s);
+  ctx.fillRect(16*s, 12*s, 2*s, 2*s);
+  ctx.globalAlpha = 1;
+  
+  // Brillo superior
+  ctx.fillStyle = '#FFFFFF';
+  ctx.globalAlpha = glow;
+  ctx.fillRect(13*s, 11*s, 2*s, 2*s);
+  ctx.globalAlpha = 1;
+  
+  // Sombra inferior
+  ctx.fillStyle = '#000000';
+  ctx.globalAlpha = 0.3;
+  ctx.fillRect(11*s, 20*s, 10*s, 3*s);
+  ctx.globalAlpha = 1;
+  
+  ctx.restore();
+}
+
 export function drawTile(ctx: CanvasRenderingContext2D, tileType: number, x: number, y: number, frame: number) {
   const s = TILE_SIZE;
   switch (tileType) {
@@ -984,6 +1136,8 @@ export class GameEngine {
   pinkieChaseActive = false; pinkieChaseX = 0; pinkieChaseY = 0;
   bossActive = false; bossX = 0; bossY = 0; bossPhase = 1;
   switchesActivated = 0; photosFound = 0;
+  gemsCollected: Set<string> = new Set();
+  secretEndingUnlocked = false;
   gameComplete = false; stepCounter = 0;
   onStateChange?: (state: GameState) => void;
   onDialog?: (text: string) => void;
@@ -1072,15 +1226,32 @@ export class GameEngine {
         if (entity.data) {
           this.inventory.push({ id: entity.data.itemId, name: entity.data.name, icon: entity.data.icon });
           if (entity.data.itemId?.startsWith('photo_')) this.photosFound++;
+          
+          // Manejo especial de gemas
+          if (entity.data.gem) {
+            this.gemsCollected.add(entity.data.itemId);
+            playGemPickup();
+            this.screenShake = 8;
+            this.flashTimer = 15;
+            this.flashColor = `rgba(${entity.data.color === '#FF69B4' ? '255,105,180' : entity.data.color === '#4169E1' ? '65,105,225' : entity.data.color === '#2ECC71' ? '46,204,113' : entity.data.color === '#9B59B6' ? '155,89,182' : entity.data.color === '#F1C40F' ? '241,196,15' : '231,76,60'},0.5)`;
+            this.addMessage(`💎 ¡Gema obtenida: ${entity.data.name}! (${this.gemsCollected.size}/6)`);
+            if (this.gemsCollected.size === 6) {
+              setTimeout(() => this.addMessage('✨ ¡Has reunido las 6 gemas! El final secreto se ha desbloqueado...'), 3000);
+              this.secretEndingUnlocked = true;
+            }
+          } else {
+            playPickup();
+            this.addMessage(`¡Obtuviste: ${entity.data.name}!`);
+          }
+          
           entity.active = false;
-          playPickup();
-          this.addMessage(`¡Obtuviste: ${entity.data.name}!`);
           if (entity.data.itemId === 'diary') setTimeout(() => this.addMessage('Las otras ponis... fueron absorbidas.'), 2000);
           if (entity.data.itemId === 'truth') {
             setTimeout(() => this.addMessage('Pinkie quería amigos para siempre. Literalmente.'), 2000);
             this.bossPhase = 2; this.dangerLevel = 3;
           }
           this.onInventoryChange?.(this.inventory);
+          this.saveGame(); // Guardar inmediatamente al obtener gema
         }
         break;
       case 'note':
@@ -1149,8 +1320,17 @@ export class GameEngine {
 
   transitionToLevel(levelId: number, tx: number, ty: number) {
     if (levelId === 7) {
-      this.state = 'ending'; this.gameComplete = true;
-      this.onStateChange?.('ending');
+      // Verificar si tiene las 6 gemas para el final secreto
+      if (this.gemsCollected.size >= 6) {
+        this.secretEndingUnlocked = true;
+        this.state = 'secretEnding';
+        this.gameComplete = true;
+        this.onStateChange?.('secretEnding');
+      } else {
+        this.state = 'ending';
+        this.gameComplete = true;
+        this.onStateChange?.('ending');
+      }
       stopMusic(); this.saveGame();
       return;
     }
@@ -1555,6 +1735,8 @@ export class GameEngine {
       playerX: this.playerX, playerY: this.playerY,
       inventory: this.inventory, switchesActivated: this.switchesActivated,
       photosFound: this.photosFound,
+      gemsCollected: Array.from(this.gemsCollected),
+      secretEndingUnlocked: this.secretEndingUnlocked,
     }));
   }
 
@@ -1569,6 +1751,8 @@ export class GameEngine {
         this.inventory = s.inventory || [];
         this.switchesActivated = s.switchesActivated || 0;
         this.photosFound = s.photosFound || 0;
+        this.gemsCollected = new Set(s.gemsCollected || []);
+        this.secretEndingUnlocked = s.secretEndingUnlocked || false;
         this.currentMusicTrack = this.currentLevel.musicTrack;
         this.initFog();
         return true;

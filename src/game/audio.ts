@@ -99,6 +99,36 @@ export function playHeartbeat() {
   setTimeout(() => playNote(35, 0.12, 'sine', 0.1), 150);
 }
 
+// Efecto especial para recoger gemas
+export function playGemPickup() {
+  if (!musicEnabled) return;
+  const notes = [784, 988, 1175, 1319, 1568];
+  notes.forEach((n, i) => {
+    setTimeout(() => playNote(n, 0.3, 'sine', 0.08), i * 80);
+  });
+}
+
+// Efecto de celebración
+export function playCelebration() {
+  if (!musicEnabled) return;
+  const melody = [523, 659, 784, 1047, 784, 1047, 1319];
+  melody.forEach((n, i) => {
+    setTimeout(() => playNote(n, 0.4, 'triangle', 0.1), i * 200);
+  });
+}
+
+// Efecto mágico para revelación
+export function playMagicReveal() {
+  if (!musicEnabled) return;
+  playNote(220, 1.5, 'sine', 0.06);
+  playNote(330, 1.5, 'sine', 0.05);
+  playNote(440, 1.5, 'sine', 0.04);
+  setTimeout(() => {
+    playNote(523, 1.0, 'triangle', 0.07);
+    playNote(659, 1.0, 'triangle', 0.06);
+  }, 800);
+}
+
 // ============ MUSIC SYSTEM ============
 const MUSIC: Record<string, { notes: number[]; tempo: number; wave: OscillatorType; vol: number; bass?: number[]; bassVol?: number }> = {
   menu: {
@@ -149,6 +179,30 @@ const MUSIC: Record<string, { notes: number[]; tempo: number; wave: OscillatorTy
     notes: [110,0,0,0,110,0,0,0,116,0,0,0,110,0,0,0],
     tempo: 800, wave: 'sine', vol: 0.02,
     bass: [55,0,65,0,55,0,0,0], bassVol: 0.015,
+  },
+  // Nueva música para gemas
+  gem: {
+    notes: [784,880,988,1047,988,880,784,0,784,880,988,1047,1175,1047,988,880],
+    tempo: 200, wave: 'sine', vol: 0.06,
+    bass: [392,0,440,0,494,0,523,0], bassVol: 0.04,
+  },
+  // Música de revelación
+  reveal: {
+    notes: [220,0,247,0,262,0,294,0,330,0,294,0,262,0,247,0],
+    tempo: 600, wave: 'triangle', vol: 0.04,
+    bass: [110,0,123,0,131,0,147,0], bassVol: 0.03,
+  },
+  // Música de fiesta alegre
+  party: {
+    notes: [523,587,659,698,784,698,659,587,523,587,659,784,880,784,659,587],
+    tempo: 250, wave: 'square', vol: 0.05,
+    bass: [262,262,330,330,392,392,330,330], bassVol: 0.04,
+  },
+  // Música romántica para los 10 meses
+  romantic: {
+    notes: [523,0,659,0,784,0,880,0,784,0,659,0,523,0,659,0],
+    tempo: 500, wave: 'sine', vol: 0.06,
+    bass: [262,0,330,0,392,0,440,0], bassVol: 0.04,
   },
 };
 

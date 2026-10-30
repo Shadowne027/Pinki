@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { GameEngine, CHARACTERS, CANVAS_WIDTH, CANVAS_HEIGHT, GameState, InventoryItem } from './game/engine';
-import { resumeAudio, playMenuSelect, playVictory, playLaugh, playMusic, stopMusic, setMusicEnabled } from './game/audio';
+import { resumeAudio, playMenuSelect, playVictory, playLaugh, playMusic, stopMusic, setMusicEnabled, playMagicReveal, playCelebration } from './game/audio';
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('menu');
@@ -94,6 +94,18 @@ function App() {
         setTimeout(() => { playLaugh(); setEndingPhase(4); }, 10500),
         setTimeout(() => setEndingPhase(5), 14000),
         setTimeout(() => setEndingPhase(6), 17000),
+      ];
+      return () => timers.forEach(clearTimeout);
+    } else if (gameState === 'secretEnding') {
+      playMagicReveal();
+      const timers = [
+        setTimeout(() => setEndingPhase(0), 500),
+        setTimeout(() => { playMagicReveal(); setEndingPhase(1); }, 3000),
+        setTimeout(() => setEndingPhase(2), 7000),
+        setTimeout(() => { playCelebration(); setEndingPhase(3); }, 11000),
+        setTimeout(() => setEndingPhase(4), 15000),
+        setTimeout(() => { playCelebration(); setEndingPhase(5); }, 19000),
+        setTimeout(() => setEndingPhase(6), 25000),
       ];
       return () => timers.forEach(clearTimeout);
     }
@@ -621,7 +633,152 @@ function App() {
         </div>
       )}
 
-      {/* ===== ENDING ===== */}
+      {/* ===== SECRET ENDING - CELEBRACIÓN 10 MESES ===== */}
+      {gameState === 'secretEnding' && (
+        <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden" style={{ 
+          background: 'linear-gradient(180deg, #1a0030 0%, #2a0050 30%, #ff69b4 70%, #ffb6c1 100%)' 
+        }}>
+          {/* Animación de gemas brillando */}
+          <div className="absolute inset-0 pointer-events-none">
+            {Array.from({ length: 30 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: 4 + (i % 3) * 2,
+                  height: 4 + (i % 3) * 2,
+                  left: `${(i * 37) % 100}%`,
+                  top: `${(i * 23) % 100}%`,
+                  backgroundColor: ['#FF69B4', '#4169E1', '#2ECC71', '#9B59B6', '#F1C40F', '#E74C3C'][i % 6],
+                  opacity: 0.6 + Math.sin(Date.now() * 0.001 + i) * 0.4,
+                  animation: `twinkle ${1 + (i % 3)}s infinite alternate`,
+                  boxShadow: `0 0 10px ${['#FF69B4', '#4169E1', '#2ECC71', '#9B59B6', '#F1C40F', '#E74C3C'][i % 6]}`,
+                }}
+              />
+            ))}
+          </div>
+
+          {endingPhase === 0 && (
+            <div className="text-center z-10">
+              <p className="text-white text-lg mb-4">Las seis gemas brillan intensamente...</p>
+              <p className="text-pink-300 text-sm animate-pulse">Una puerta secreta se abre...</p>
+            </div>
+          )}
+
+          {endingPhase === 1 && (
+            <div className="text-center z-10">
+              <p className="text-white text-lg mb-4">Una sombra aparece en la habitación...</p>
+              <div className="mb-6">
+                <svg width="120" height="100" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                  {/* Rey Sombra */}
+                  <rect x="5" y="9" width="12" height="8" fill="#000000" />
+                  <rect x="6" y="2" width="10" height="8" fill="#000000" />
+                  <rect x="6" y="10" width="10" height="6" fill="#1a0a1a" />
+                  <rect x="7" y="3" width="8" height="7" fill="#1a0a1a" />
+                  <rect x="9" y="-1" width="2" height="4" fill="#2a0a2a" />
+                  <rect x="6" y="0" width="10" height="4" fill="#0a000a" />
+                  <rect x="6" y="4" width="4" height="4" fill="#FF0000" />
+                  <rect x="11" y="4" width="4" height="4" fill="#FF0000" />
+                </svg>
+              </div>
+              <p className="text-purple-300 text-sm italic">"Yo soy el Rey Sombra... y yo orchestré todo esto."</p>
+            </div>
+          )}
+
+          {endingPhase === 2 && (
+            <div className="text-center z-10">
+              <p className="text-white text-lg mb-4">"Quería crear la fiesta perfecta..."</p>
+              <p className="text-pink-300 text-sm">"Una fiesta que nunca terminara. Pero necesitaba a alguien especial."</p>
+              <p className="text-purple-300 text-sm mt-4 italic">"Alguien que entendiera el verdadero significado de la celebración."</p>
+            </div>
+          )}
+
+          {endingPhase === 3 && (
+            <div className="text-center z-10">
+              <p className="text-white text-lg mb-6">La habitación comienza a transformarse...</p>
+              <div className="flex justify-center gap-2 mb-4">
+                {['🎈', '🎁', '🎂', '🎊', '✨'].map((emoji, i) => (
+                  <span key={i} className="text-4xl animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}>
+                    {emoji}
+                  </span>
+                ))}
+              </div>
+              <p className="text-pink-400 text-sm animate-pulse">¡Luces, globos y decoración aparecen por todas partes!</p>
+            </div>
+          )}
+
+          {endingPhase === 4 && (
+            <div className="text-center z-10">
+              <p className="text-white text-lg mb-6">Los personajes entran uno por uno...</p>
+              <div className="flex flex-wrap justify-center gap-3 mb-4">
+                {CHARACTERS.map((char, i) => (
+                  <div key={char.id} className="animate-bounce" style={{ animationDelay: `${i * 0.2}s` }}>
+                    <svg width="40" height="40" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                      <rect x="5" y="9" width="12" height="8" fill="#000000" />
+                      <rect x="6" y="2" width="10" height="8" fill="#000000" />
+                      <rect x="6" y="10" width="10" height="6" fill={char.color} />
+                      <rect x="7" y="3" width="8" height="7" fill={char.color} />
+                      <rect x="6" y="0" width="10" height="4" fill={char.maneColor} />
+                      <rect x="6" y="4" width="4" height="4" fill="white" />
+                      <rect x="11" y="4" width="4" height="4" fill="white" />
+                      <rect x="7" y="5" width="2" height="2" fill={char.eyeColor} />
+                      <rect x="12" y="5" width="2" height="2" fill={char.eyeColor} />
+                    </svg>
+                  </div>
+                ))}
+              </div>
+              <p className="text-pink-300 text-sm">Pinkie Pie, Twilight, Rainbow Dash, Fluttershy, Rarity y Applejack...</p>
+              <p className="text-purple-300 text-sm">...y el Rey Sombra, todos reunidos para una celebración especial.</p>
+            </div>
+          )}
+
+          {endingPhase === 5 && (
+            <div className="text-center z-10 bg-black/60 p-8 rounded-lg border-4 border-pink-500">
+              <div className="mb-6">
+                <span className="text-6xl">💖</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-pink-400 mb-4 animate-pulse" style={{ textShadow: '0 0 20px #ff69b4, 0 0 40px #ff1493' }}>
+                ¡FELICES 10 MESES!
+              </h2>
+              <p className="text-xl text-white mb-4">¡10 MESES DE AVENTURAS, ALEGRÍA Y AMOR!</p>
+              <p className="text-lg text-pink-300">¡QUE SIGAN MUCHAS MÁS AVENTURAS JUNTOS!</p>
+              <div className="mt-6 flex justify-center gap-2">
+                {['💎', '💎', '💎', '💎', '💎', '💎'].map((gem, i) => (
+                  <span key={i} className="text-3xl animate-bounce" style={{ 
+                    animationDelay: `${i * 0.1}s`,
+                    color: ['#FF69B4', '#4169E1', '#2ECC71', '#9B59B6', '#F1C40F', '#E74C3C'][i]
+                  }}>
+                    {gem}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {endingPhase >= 6 && (
+            <div className="text-center z-10">
+              <p className="text-pink-400 text-lg mb-4">¡GRACIAS POR COMPARTIR ESTA AVENTURA!</p>
+              <p className="text-white text-sm mb-6">Una sorpresa especial para ti, con todo mi amor 💕</p>
+              <button
+                onClick={handleBackToMenu}
+                className="px-10 py-4 bg-gradient-to-b from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white font-bold text-lg tracking-widest transition-all hover:scale-105 border-2 border-pink-400"
+                style={{ boxShadow: '0 4px 0 #4a0020, 0 0 20px rgba(255,105,180,0.3)' }}
+              >
+                ← VOLVER AL MENÚ
+              </button>
+            </div>
+          )}
+
+          <style>{`
+            @keyframes float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-15px); }
+            }
+          `}</style>
+        </div>
+      )}
+
+      {/* ===== ENDING NORMAL ===== */}
       {gameState === 'ending' && (
         <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden" style={{
           background: endingPhase >= 1
