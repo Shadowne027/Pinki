@@ -94,6 +94,7 @@ function createLevel1(): Level {
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 2, targetX: 1, targetY: 7 },
+      { x: 0, y: 7, targetLevel: 6, targetX: 18, targetY: 7 }, // puerta condicional
     ],
     objectives: ['Encontrar la llave de Sugarcube Corner'],
     bgColor: '#0d0520', darkLevel: 0.75, musicTrack: 'exploration',
@@ -1342,6 +1343,28 @@ export class GameEngine {
     }
     if (this.currentLevel.id === 5 && this.switchesActivated < 3) {
       this.addMessage('Activa los 3 interruptores primero.'); return;
+    }
+
+    // Puerta condicional: Nivel 1 → Nivel 6 (verificar gemas)
+    if (levelId === 6 && this.currentLevel.id === 1) {
+      if (this.gemsCollected.size >= 6) {
+        // Tiene todas las gemas → final secreto directo
+        this.secretEndingUnlocked = true;
+        this.state = 'secretEnding';
+        this.gameComplete = true;
+        this.onStateChange?.('secretEnding');
+        stopMusic();
+        this.saveGame();
+        return;
+      } else {
+        // No tiene todas las gemas → final normal directo
+        this.state = 'ending';
+        this.gameComplete = true;
+        this.onStateChange?.('ending');
+        stopMusic();
+        this.saveGame();
+        return;
+      }
     }
 
     playDoor();
