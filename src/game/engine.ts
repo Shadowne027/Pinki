@@ -118,11 +118,12 @@ function createLevel1(): Level {
   return {
     id: 1, name: 'PONYVILLE ABANDONADO', width: w, height: h, tiles: t,
     entities: [
-      // KEY - inside house 1, accessible through door at (3,5)
-      { x: 3, y: 3, type: 'item', active: true, data: { itemId: 'key_sugarcube', name: 'Llave Sugarcube', icon: '🔑' } },
+      // KEY - right outside house 1, very visible and accessible at (3,6)
+      { x: 3, y: 6, type: 'item', active: true, data: { itemId: 'key_sugarcube', name: 'Llave Sugarcube', icon: '🔑' } },
       // Notes
       { x: 14, y: 12, type: 'note', active: true, data: { text: 'LA FIESTA TODAVÍA NO HA TERMINADO' } },
       { x: 4, y: 11, type: 'note', active: true, data: { text: 'Escuché risas... pero no había nadie.' } },
+      { x: 10, y: 3, type: 'note', active: true, data: { text: 'La llave está cerca de la casa rosa...' } },
       // Hiding spots
       { x: 7, y: 3, type: 'hide', active: true },
       { x: 12, y: 12, type: 'hide', active: true },
@@ -223,8 +224,8 @@ function createLevel3(): Level {
   return {
     id: 3, name: 'BOSQUE EVERFREE', width: w, height: h, tiles: t,
     entities: [
-      // Key inside cabin, accessible through door at (16,16)
-      { x: 16, y: 14, type: 'item', active: true, data: { itemId: 'key_castle', name: 'Llave del Castillo', icon: '🗝️' } },
+      // Key just inside cabin entrance, very visible
+      { x: 16, y: 15, type: 'item', active: true, data: { itemId: 'key_castle', name: 'Llave del Castillo', icon: '🗝️' } },
       // Hiding spots
       { x: 8, y: 5, type: 'hide', active: true },
       { x: 14, y: 11, type: 'hide', active: true },
@@ -236,8 +237,9 @@ function createLevel3(): Level {
       // Scares
       { x: 7, y: 13, type: 'scare', active: true, data: { triggered: false } },
       { x: 15, y: 5, type: 'scare', active: true, data: { triggered: false } },
-      // Note
+      // Notes
       { x: 10, y: 9, type: 'note', active: true, data: { text: 'No mires atrás. Ella está justo detrás de ti.' } },
+      { x: 17, y: 13, type: 'note', active: true, data: { text: 'La cabaña está al sur... la llave debe estar dentro.' } },
     ],
     exits: [{ x: 19, y: 1, targetLevel: 4, targetX: 1, targetY: 1 }],
     objectives: ['Encontrar la cabaña y conseguir la llave', '¡Escapar de la criatura!'],
@@ -1180,7 +1182,9 @@ export class GameEngine {
     this.currentMusicTrack = 'exploration';
     playMusic('exploration');
     setTimeout(() => this.addMessage('Pinkie recibe una invitación misteriosa...'), 500);
-    setTimeout(() => this.addMessage('Ponyville está vacío... Busca la llave en las casas.'), 4000);
+    setTimeout(() => this.addMessage('Ponyville está vacío...'), 3500);
+    setTimeout(() => this.addMessage('💡 Camina sobre los objetos brillantes para recogerlos.'), 6000);
+    setTimeout(() => this.addMessage('🔑 Busca la llave cerca de la casa rosa (arriba a la izquierda).'), 9000);
   }
 
   continueGame() {
