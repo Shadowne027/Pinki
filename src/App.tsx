@@ -259,24 +259,41 @@ function App() {
           {/* Pixel pony silhouette - scary version */}
           <div className="mb-6 relative">
             <div className={menuFlicker ? 'opacity-60' : 'opacity-100'} style={{ transition: 'opacity 0.5s' }}>
-              <svg width="140" height="120" viewBox="0 0 70 60" style={{ imageRendering: 'pixelated' }}>
-                <rect x="20" y="15" width="30" height="22" fill="#FFB6C1" opacity="0.7" />
-                <rect x="15" y="18" width="40" height="16" fill="#FFB6C1" opacity="0.5" />
-                <rect x="22" y="5" width="26" height="16" fill="#FFB6C1" opacity="0.6" />
-                <rect x="18" y="2" width="34" height="6" fill="#FF1493" opacity="0.8" />
-                <rect x="14" y="5" width="8" height="14" fill="#FF1493" opacity="0.6" />
-                <rect x="48" y="5" width="8" height="14" fill="#FF1493" opacity="0.6" />
-                <rect x="26" y="10" width="5" height="5" fill="#FF0000" opacity="0.9" />
-                <rect x="39" y="10" width="5" height="5" fill="#FF0000" opacity="0.9" />
-                <rect x="27" y="11" width="3" height="3" fill="#FF4444" />
-                <rect x="40" y="11" width="3" height="3" fill="#FF4444" />
-                <rect x="28" y="17" width="14" height="2" fill="#8B0000" opacity="0.8" />
-                <rect x="26" y="17" width="2" height="2" fill="#8B0000" opacity="0.6" />
-                <rect x="42" y="17" width="2" height="2" fill="#8B0000" opacity="0.6" />
-                <rect x="22" y="37" width="6" height="14" fill="#FFB6C1" opacity="0.5" />
-                <rect x="42" y="37" width="6" height="14" fill="#FFB6C1" opacity="0.5" />
-                <rect x="28" y="37" width="6" height="12" fill="#FFB6C1" opacity="0.5" />
-                <rect x="36" y="37" width="6" height="12" fill="#FFB6C1" opacity="0.5" />
+              <svg width="160" height="140" viewBox="0 0 22 22" style={{ imageRendering: 'pixelated' }}>
+                {/* Body */}
+                <rect x="5" y="8" width="10" height="8" fill="#FFB6C1" opacity="0.7" />
+                <rect x="4" y="9" width="12" height="6" fill="#FFB6C1" opacity="0.5" />
+                {/* Neck */}
+                <rect x="7" y="6" width="6" height="3" fill="#FFB6C1" opacity="0.6" />
+                {/* Head */}
+                <rect x="6" y="2" width="8" height="6" fill="#FFB6C1" opacity="0.6" />
+                <rect x="5" y="3" width="10" height="4" fill="#FFB6C1" opacity="0.6" />
+                {/* Ears */}
+                <rect x="6" y="0" width="2" height="3" fill="#FFB6C1" opacity="0.6" />
+                <rect x="12" y="0" width="2" height="3" fill="#FFB6C1" opacity="0.6" />
+                {/* Mane (Pinkie's curly mane) */}
+                <rect x="4" y="0" width="12" height="4" fill="#FF1493" opacity="0.8" />
+                <rect x="3" y="1" width="2" height="6" fill="#FF1493" opacity="0.6" />
+                <rect x="14" y="1" width="2" height="5" fill="#FF1493" opacity="0.6" />
+                <rect x="2" y="2" width="2" height="4" fill="#FF1493" opacity="0.5" />
+                {/* Glowing red eyes */}
+                <rect x="7" y="3" width="3" height="3" fill="#FF0000" opacity="0.9" />
+                <rect x="11" y="3" width="3" height="3" fill="#FF0000" opacity="0.9" />
+                <rect x="8" y="4" width="1" height="1" fill="#FF4444" />
+                <rect x="12" y="4" width="1" height="1" fill="#FF4444" />
+                {/* Creepy smile */}
+                <rect x="7" y="6" width="8" height="2" fill="#8B0000" opacity="0.8" />
+                <rect x="8" y="6" width="1" height="1" fill="#FFFFFF" opacity="0.9" />
+                <rect x="10" y="6" width="1" height="1" fill="#FFFFFF" opacity="0.9" />
+                <rect x="12" y="6" width="1" height="1" fill="#FFFFFF" opacity="0.9" />
+                {/* Legs */}
+                <rect x="5" y="16" width="3" height="5" fill="#FFB6C1" opacity="0.5" />
+                <rect x="12" y="16" width="3" height="5" fill="#FFB6C1" opacity="0.5" />
+                <rect x="7" y="16" width="3" height="4" fill="#FFB6C1" opacity="0.5" />
+                <rect x="10" y="16" width="3" height="4" fill="#FFB6C1" opacity="0.5" />
+                {/* Tail */}
+                <rect x="14" y="10" width="2" height="5" fill="#FF1493" opacity="0.6" />
+                <rect x="15" y="11" width="2" height="4" fill="#FF1493" opacity="0.5" />
               </svg>
             </div>
           </div>
@@ -375,18 +392,37 @@ function App() {
                   </div>
                 )}
                 <div className="w-14 h-14 md:w-16 md:h-16 mb-2 relative" style={{ imageRendering: 'pixelated' }}>
-                  <svg width="100%" height="100%" viewBox="0 0 16 16">
-                    <rect x="4" y="1" width="8" height="3" fill={char.maneColor} />
-                    <rect x="3" y="2" width="3" height="5" fill={char.maneColor} />
-                    <rect x="3" y="4" width="10" height="7" fill={char.color} />
-                    <rect x="5" y="3" width="6" height="4" fill={char.color} />
-                    <rect x="3" y="11" width="3" height="4" fill={char.color} />
-                    <rect x="10" y="11" width="3" height="4" fill={char.color} />
-                    <rect x="5" y="5" width="2" height="2" fill="white" />
-                    <rect x="9" y="5" width="2" height="2" fill="white" />
-                    <rect x="6" y="5" width="1" height="2" fill="#4B0082" />
-                    <rect x="10" y="5" width="1" height="2" fill="#4B0082" />
-                    <rect x="12" y="7" width="2" height="4" fill={char.maneColor} />
+                  <svg width="100%" height="100%" viewBox="0 0 22 22">
+                    {/* Body */}
+                    <rect x="5" y="8" width="10" height="8" fill={char.color} />
+                    <rect x="4" y="9" width="12" height="6" fill={char.color} />
+                    {/* Neck */}
+                    <rect x="7" y="6" width="6" height="3" fill={char.color} />
+                    {/* Head */}
+                    <rect x="6" y="2" width="8" height="6" fill={char.color} />
+                    <rect x="5" y="3" width="10" height="4" fill={char.color} />
+                    {/* Ears */}
+                    <rect x="6" y="0" width="2" height="3" fill={char.color} />
+                    <rect x="12" y="0" width="2" height="3" fill={char.color} />
+                    {/* Mane */}
+                    <rect x="4" y="0" width="12" height="3" fill={char.maneColor} />
+                    <rect x="3" y="1" width="2" height="6" fill={char.maneColor} />
+                    <rect x="14" y="1" width="2" height="5" fill={char.maneColor} />
+                    {/* Eyes */}
+                    <rect x="7" y="3" width="3" height="3" fill="white" />
+                    <rect x="11" y="3" width="3" height="3" fill="white" />
+                    <rect x="8" y="4" width="2" height="2" fill={char.eyeColor} />
+                    <rect x="12" y="4" width="2" height="2" fill={char.eyeColor} />
+                    <rect x="8" y="5" width="1" height="1" fill="#000" />
+                    <rect x="12" y="5" width="1" height="1" fill="#000" />
+                    {/* Legs */}
+                    <rect x="5" y="16" width="3" height="4" fill={char.color} />
+                    <rect x="12" y="16" width="3" height="4" fill={char.color} />
+                    <rect x="7" y="16" width="3" height="3" fill={char.color} />
+                    <rect x="10" y="16" width="3" height="3" fill={char.color} />
+                    {/* Tail */}
+                    <rect x="14" y="10" width="2" height="5" fill={char.maneColor} />
+                    <rect x="15" y="11" width="2" height="4" fill={char.maneColor} />
                   </svg>
                 </div>
                 <span className="text-xs md:text-sm font-bold text-white">{char.name}</span>
