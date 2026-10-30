@@ -414,12 +414,12 @@ function App() {
 
           {/* Title */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-5xl font-bold text-pink-400 mb-2 tracking-widest" style={{ textShadow: '0 0 10px #ff69b4, 0 0 30px #ff1493, 0 0 60px #ff0066' }}>
+            <h1 className="text-4xl md:text-5xl font-bold text-pink-400 mb-3 tracking-widest" style={{ textShadow: '0 0 10px #ff69b4, 0 0 30px #ff1493, 0 0 60px #ff0066' }}>
               PINKIE PIE
             </h1>
-            <div className="flex items-center justify-center gap-2 mb-2">
+            <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-pink-600">━━━</span>
-              <h2 className="text-lg md:text-2xl text-purple-300 tracking-wider" style={{ textShadow: '0 0 8px #9b59b6' }}>
+              <h2 className="text-xl md:text-2xl text-purple-300 tracking-wider" style={{ textShadow: '0 0 8px #9b59b6' }}>
                 LA ÚLTIMA FIESTA
               </h2>
               <span className="text-pink-600">━━━</span>
@@ -428,10 +428,10 @@ function App() {
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-col gap-3 items-center z-10">
+          <div className="flex flex-col gap-4 items-center z-10 px-4">
             <button
               onClick={handleStartGame}
-              className="group px-10 py-4 bg-gradient-to-b from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white font-bold text-lg tracking-widest transition-all hover:scale-105 border-2 border-pink-400 relative overflow-hidden"
+              className="group px-12 py-5 bg-gradient-to-b from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white font-bold text-xl tracking-widest transition-all hover:scale-105 border-2 border-pink-400 relative overflow-hidden w-full max-w-sm"
               style={{ boxShadow: '0 4px 0 #4a0020, 0 0 20px rgba(255,105,180,0.3)' }}
             >
               <span className="relative z-10">▶ NUEVA PARTIDA</span>
@@ -440,7 +440,7 @@ function App() {
             {hasSave && (
               <button
                 onClick={handleContinue}
-                className="px-10 py-3 bg-gradient-to-b from-purple-700 to-purple-900 hover:from-purple-600 hover:to-purple-800 text-white font-bold tracking-wider transition-all hover:scale-105 border-2 border-purple-400"
+                className="px-12 py-4 bg-gradient-to-b from-purple-700 to-purple-900 hover:from-purple-600 hover:to-purple-800 text-white font-bold text-lg tracking-wider transition-all hover:scale-105 border-2 border-purple-400 w-full max-w-sm"
                 style={{ boxShadow: '0 4px 0 #2a0040' }}
               >
                 ↻ CONTINUAR
@@ -449,7 +449,7 @@ function App() {
             {hasSave && (
               <button
                 onClick={handleNewSave}
-                className="px-6 py-2 text-gray-500 hover:text-red-400 text-xs transition-colors"
+                className="px-8 py-3 text-gray-500 hover:text-red-400 text-sm transition-colors"
               >
                 ✕ Borrar partida guardada
               </button>
@@ -482,17 +482,17 @@ function App() {
       {/* ===== CHARACTER SELECT ===== */}
       {gameState === 'characterSelect' && (
         <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-auto" style={{ background: 'linear-gradient(180deg, #050010 0%, #120025 50%, #050010 100%)' }}>
-          <h2 className="text-xl md:text-3xl font-bold text-pink-400 mb-2 tracking-wider" style={{ textShadow: '0 0 10px #ff69b4' }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-pink-400 mb-3 tracking-wider" style={{ textShadow: '0 0 10px #ff69b4' }}>
             SELECCIONA TU PERSONAJE
           </h2>
-          <p className="text-xs text-gray-500 mb-6">Cada pony tiene habilidades únicas</p>
+          <p className="text-sm text-gray-500 mb-8">Cada pony tiene habilidades únicas</p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 max-w-2xl mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 max-w-3xl mb-8 px-2">
             {CHARACTERS.map((char, i) => (
               <button
                 key={char.id}
                 onClick={() => handleSelectCharacter(i)}
-                className={`p-3 md:p-4 border-2 transition-all flex flex-col items-center relative ${
+                className={`p-4 md:p-5 border-2 transition-all flex flex-col items-center relative ${
                   selectedChar === i
                     ? 'border-pink-400 bg-pink-900/40 scale-105 shadow-lg shadow-pink-500/20'
                     : 'border-gray-700 bg-gray-900/40 hover:border-purple-500 hover:bg-purple-900/20'
@@ -503,7 +503,7 @@ function App() {
                     <span className="text-[8px]">✓</span>
                   </div>
                 )}
-                <div className="w-14 h-14 md:w-16 md:h-16 mb-2 relative" style={{ imageRendering: 'pixelated' }}>
+                <div className="w-20 h-20 md:w-24 md:h-24 mb-3 relative" style={{ imageRendering: 'pixelated' }}>
                   <svg width="100%" height="100%" viewBox="0 0 20 20">
                     {/* Body outline */}
                     <rect x="5" y="9" width="12" height="8" fill={char.outline} />
@@ -565,8 +565,8 @@ function App() {
                     <rect x="14" y="19" width="2" height="1" fill={char.outline} />
                   </svg>
                 </div>
-                <span className="text-xs md:text-sm font-bold text-white">{char.name}</span>
-                <span className="text-[9px] md:text-[10px] text-gray-400 text-center mt-1 leading-tight hidden md:block">{char.description}</span>
+                <span className="text-sm md:text-base font-bold text-white">{char.name}</span>
+                <span className="text-xs md:text-sm text-gray-400 text-center mt-2 leading-tight">{char.description}</span>
               </button>
             ))}
           </div>
@@ -590,7 +590,7 @@ function App() {
 
           <button
             onClick={handlePlay}
-            className="px-12 py-4 bg-gradient-to-b from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white font-bold text-xl tracking-widest transition-all hover:scale-105 border-2 border-pink-400"
+            className="px-14 py-5 bg-gradient-to-b from-pink-600 to-pink-800 hover:from-pink-500 hover:to-pink-700 text-white font-bold text-2xl tracking-widest transition-all hover:scale-105 border-2 border-pink-400"
             style={{ boxShadow: '0 4px 0 #4a0020, 0 0 20px rgba(255,105,180,0.2)' }}
           >
             ▶ JUGAR
@@ -598,7 +598,7 @@ function App() {
 
           <button
             onClick={() => setGameState('menu')}
-            className="mt-4 px-6 py-2 text-gray-400 hover:text-white text-sm transition-colors"
+            className="mt-5 px-8 py-3 text-gray-400 hover:text-white text-base transition-colors"
           >
             ← VOLVER AL MENÚ
           </button>
@@ -612,55 +612,56 @@ function App() {
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="border-2 border-purple-900/50"
+            className="border-2 border-purple-900/50 md:border-purple-900/50"
             style={{
               imageRendering: 'pixelated',
               maxWidth: '100%',
-              maxHeight: 'calc(100vh - 160px)',
+              maxHeight: 'calc(100vh - 200px)',
+              minHeight: '60vh',
               aspectRatio: `${CANVAS_WIDTH}/${CANVAS_HEIGHT}`,
             }}
           />
 
           {/* Mobile Controls */}
-          <div className="md:hidden absolute bottom-0 left-0 right-0 p-3 flex justify-between items-end pointer-events-none">
+          <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 flex justify-between items-end pointer-events-none">
             <div
-              className="w-28 h-28 rounded-full bg-gray-800/70 border-2 border-gray-600/50 flex items-center justify-center touch-none pointer-events-auto relative"
+              className="w-40 h-40 rounded-full bg-gray-800/70 border-2 border-gray-600/50 flex items-center justify-center touch-none pointer-events-auto relative"
               onTouchStart={handleJoystickStart}
               onTouchMove={handleJoystickMove}
               onTouchEnd={handleJoystickEnd}
             >
-              <div className="w-10 h-10 rounded-full bg-pink-500/40 border border-pink-400/60" />
-              <span className="absolute top-1 text-gray-500/60 text-[10px]">▲</span>
-              <span className="absolute bottom-1 text-gray-500/60 text-[10px]">▼</span>
-              <span className="absolute left-1 text-gray-500/60 text-[10px]">◄</span>
-              <span className="absolute right-1 text-gray-500/60 text-[10px]">►</span>
+              <div className="w-14 h-14 rounded-full bg-pink-500/40 border-2 border-pink-400/60" />
+              <span className="absolute top-2 text-gray-400/80 text-sm">▲</span>
+              <span className="absolute bottom-2 text-gray-400/80 text-sm">▼</span>
+              <span className="absolute left-2 text-gray-400/80 text-sm">◄</span>
+              <span className="absolute right-2 text-gray-400/80 text-sm">►</span>
             </div>
 
-            <div className="flex flex-col gap-2 items-center pointer-events-auto">
-              <div className="flex gap-2">
+            <div className="flex flex-col gap-3 items-center pointer-events-auto">
+              <div className="flex gap-3">
                 <button
                   onTouchStart={() => handleRun(true)}
                   onTouchEnd={() => handleRun(false)}
-                  className="w-11 h-11 rounded-full bg-yellow-800/70 border-2 border-yellow-500/70 text-white text-sm flex items-center justify-center active:bg-yellow-600"
+                  className="w-16 h-16 rounded-full bg-yellow-800/70 border-2 border-yellow-500/70 text-white text-2xl flex items-center justify-center active:bg-yellow-600 active:scale-95 transition-transform"
                 >
                   🏃
                 </button>
                 <button
                   onTouchStart={handleHide}
-                  className="w-11 h-11 rounded-full bg-blue-800/70 border-2 border-blue-500/70 text-white text-sm flex items-center justify-center active:bg-blue-600"
+                  className="w-16 h-16 rounded-full bg-blue-800/70 border-2 border-blue-500/70 text-white text-2xl flex items-center justify-center active:bg-blue-600 active:scale-95 transition-transform"
                 >
                   🫣
                 </button>
                 <button
                   onTouchStart={handleInventoryToggle}
-                  className="w-11 h-11 rounded-full bg-purple-800/70 border-2 border-purple-500/70 text-white text-sm flex items-center justify-center active:bg-purple-600"
+                  className="w-16 h-16 rounded-full bg-purple-800/70 border-2 border-purple-500/70 text-white text-2xl flex items-center justify-center active:bg-purple-600 active:scale-95 transition-transform"
                 >
                   🎒
                 </button>
               </div>
               <button
                 onTouchStart={handleInteract}
-                className="w-14 h-14 rounded-full bg-pink-700/80 border-2 border-pink-400/80 text-white font-bold flex items-center justify-center text-base active:bg-pink-500"
+                className="w-20 h-20 rounded-full bg-pink-700/80 border-2 border-pink-400/80 text-white font-bold flex items-center justify-center text-2xl active:bg-pink-500 active:scale-95 transition-transform shadow-lg shadow-pink-500/30"
               >
                 E
               </button>
@@ -694,14 +695,14 @@ function App() {
       {showInventory && !selectedItem && (
         <div className="absolute inset-0 bg-black/90 flex items-center justify-center z-50" onClick={handleInventoryToggle}>
           <div className="bg-gray-900 border-2 border-purple-500 p-4 md:p-6 max-w-sm w-full mx-4 shadow-lg shadow-purple-500/20" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-bold text-pink-400 mb-4 text-center tracking-wider">🎒 INVENTARIO</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-pink-400 mb-5 text-center tracking-wider">🎒 INVENTARIO</h3>
             {inventory.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-gray-500 text-sm">No tienes objetos todavía.</p>
-                <p className="text-gray-600 text-xs mt-2">Explora para encontrar objetos útiles.</p>
+              <div className="text-center py-10">
+                <p className="text-gray-500 text-base">No tienes objetos todavía.</p>
+                <p className="text-gray-600 text-sm mt-3">Explora para encontrar objetos útiles.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-3">
                 {inventory.map((item, i) => (
                   <button 
                     key={i} 
@@ -710,12 +711,12 @@ function App() {
                         setSelectedItem(item);
                       }
                     }}
-                    className="bg-gray-800 border border-gray-600 p-3 flex flex-col items-center hover:border-pink-500 transition-colors cursor-pointer active:scale-95"
+                    className="bg-gray-800 border border-gray-600 p-4 flex flex-col items-center hover:border-pink-500 transition-colors cursor-pointer active:scale-95"
                   >
-                    <span className="text-2xl mb-1">{item.icon}</span>
-                    <span className="text-[9px] text-gray-300 text-center leading-tight">{item.name}</span>
+                    <span className="text-4xl mb-2">{item.icon}</span>
+                    <span className="text-xs text-gray-300 text-center leading-tight">{item.name}</span>
                     {(item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) && (
-                      <span className="text-[8px] text-pink-400 mt-1">Ver</span>
+                      <span className="text-xs text-pink-400 mt-2 font-bold">Ver</span>
                     )}
                   </button>
                 ))}
@@ -723,7 +724,7 @@ function App() {
             )}
             <button
               onClick={handleInventoryToggle}
-              className="mt-4 w-full py-2.5 bg-purple-700 hover:bg-purple-600 text-white text-sm font-bold tracking-wider transition-colors"
+              className="mt-5 w-full py-3 bg-purple-700 hover:bg-purple-600 text-white text-base font-bold tracking-wider transition-colors"
             >
               CERRAR [I]
             </button>
