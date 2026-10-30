@@ -607,61 +607,62 @@ function App() {
 
       {/* ===== PLAYING ===== */}
       {(gameState === 'playing' || gameState === 'inventory') && (
-        <div className="relative w-full h-full flex flex-col items-center justify-center bg-black">
+        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="border-2 border-purple-900/50 md:border-purple-900/50"
+            className="border-2 border-purple-900/50 md:border-purple-900/50 md:max-w-full md:max-h-full"
             style={{
               imageRendering: 'pixelated',
-              maxWidth: '100%',
-              maxHeight: 'calc(100vh - 200px)',
-              minHeight: '60vh',
-              aspectRatio: `${CANVAS_WIDTH}/${CANVAS_HEIGHT}`,
+              width: '100vw',
+              height: '100vh',
+              maxWidth: '100vw',
+              maxHeight: '100vh',
+              objectFit: 'cover',
             }}
           />
 
-          {/* Mobile Controls */}
-          <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 flex justify-between items-end pointer-events-none">
+          {/* Mobile Controls - Overlay on canvas */}
+          <div className="md:hidden absolute bottom-6 left-0 right-0 px-6 flex justify-between items-end pointer-events-none z-20">
             <div
-              className="w-40 h-40 rounded-full bg-gray-800/70 border-2 border-gray-600/50 flex items-center justify-center touch-none pointer-events-auto relative"
+              className="w-32 h-32 rounded-full bg-black/40 backdrop-blur-sm border-2 border-gray-600/40 flex items-center justify-center touch-none pointer-events-auto relative"
               onTouchStart={handleJoystickStart}
               onTouchMove={handleJoystickMove}
               onTouchEnd={handleJoystickEnd}
             >
-              <div className="w-14 h-14 rounded-full bg-pink-500/40 border-2 border-pink-400/60" />
-              <span className="absolute top-2 text-gray-400/80 text-sm">▲</span>
-              <span className="absolute bottom-2 text-gray-400/80 text-sm">▼</span>
-              <span className="absolute left-2 text-gray-400/80 text-sm">◄</span>
-              <span className="absolute right-2 text-gray-400/80 text-sm">►</span>
+              <div className="w-10 h-10 rounded-full bg-pink-500/60 border-2 border-pink-400/70" />
+              <span className="absolute top-1 text-gray-300/90 text-xs">▲</span>
+              <span className="absolute bottom-1 text-gray-300/90 text-xs">▼</span>
+              <span className="absolute left-1 text-gray-300/90 text-xs">◄</span>
+              <span className="absolute right-1 text-gray-300/90 text-xs">►</span>
             </div>
 
-            <div className="flex flex-col gap-3 items-center pointer-events-auto">
-              <div className="flex gap-3">
+            <div className="flex flex-col gap-2 items-center pointer-events-auto">
+              <div className="flex gap-2">
                 <button
                   onTouchStart={() => handleRun(true)}
                   onTouchEnd={() => handleRun(false)}
-                  className="w-16 h-16 rounded-full bg-yellow-800/70 border-2 border-yellow-500/70 text-white text-2xl flex items-center justify-center active:bg-yellow-600 active:scale-95 transition-transform"
+                  className="w-12 h-12 rounded-full bg-yellow-800/70 backdrop-blur-sm border-2 border-yellow-500/70 text-white text-lg flex items-center justify-center active:bg-yellow-600 active:scale-95 transition-transform"
                 >
                   🏃
                 </button>
                 <button
                   onTouchStart={handleHide}
-                  className="w-16 h-16 rounded-full bg-blue-800/70 border-2 border-blue-500/70 text-white text-2xl flex items-center justify-center active:bg-blue-600 active:scale-95 transition-transform"
+                  className="w-12 h-12 rounded-full bg-blue-800/70 backdrop-blur-sm border-2 border-blue-500/70 text-white text-lg flex items-center justify-center active:bg-blue-600 active:scale-95 transition-transform"
                 >
                   🫣
                 </button>
                 <button
                   onTouchStart={handleInventoryToggle}
-                  className="w-16 h-16 rounded-full bg-purple-800/70 border-2 border-purple-500/70 text-white text-2xl flex items-center justify-center active:bg-purple-600 active:scale-95 transition-transform"
+                  className="w-12 h-12 rounded-full bg-purple-800/70 backdrop-blur-sm border-2 border-purple-500/70 text-white text-lg flex items-center justify-center active:bg-purple-600 active:scale-95 transition-transform"
                 >
                   🎒
                 </button>
               </div>
               <button
                 onTouchStart={handleInteract}
-                className="w-20 h-20 rounded-full bg-pink-700/80 border-2 border-pink-400/80 text-white font-bold flex items-center justify-center text-2xl active:bg-pink-500 active:scale-95 transition-transform shadow-lg shadow-pink-500/30"
+                className="w-14 h-14 rounded-full bg-pink-700/80 backdrop-blur-sm border-2 border-pink-400/80 text-white font-bold flex items-center justify-center text-lg active:bg-pink-500 active:scale-95 transition-transform shadow-lg shadow-pink-500/40"
               >
                 E
               </button>
