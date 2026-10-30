@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { GameEngine, CHARACTERS, CANVAS_WIDTH, CANVAS_HEIGHT, GameState, InventoryItem } from './game/engine';
-import { resumeAudio, playMenuSelect, playVictory, playLaugh } from './game/audio';
+import { resumeAudio, playMenuSelect, playVictory, playLaugh, playMusic, stopMusic } from './game/audio';
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('menu');
@@ -12,6 +12,7 @@ function App() {
   const [endingPhase, setEndingPhase] = useState(0);
   const [menuFlicker, setMenuFlicker] = useState(false);
   const [pendingAction, setPendingAction] = useState<{ type: 'start'; charId: string } | { type: 'continue' } | null>(null);
+  const [musicEnabled, setMusicEnabled] = useState(true);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<GameEngine | null>(null);
@@ -101,8 +102,9 @@ function App() {
   const handleStartGame = useCallback(() => {
     resumeAudio();
     playMenuSelect();
+    if (musicEnabled) playMusic('menu');
     setGameState('characterSelect');
-  }, []);
+  }, [musicEnabled]);
 
   const handleContinue = useCallback(() => {
     resumeAudio();
@@ -150,12 +152,27 @@ function App() {
     setShowInventory(false);
     const save = localStorage.getItem('pinkie_horror_save');
     setHasSave(!!save);
-  }, []);
+    if (musicEnabled) playMusic('menu');
+  }, [musicEnabled]);
 
   const handleNewSave = useCallback(() => {
     localStorage.removeItem('pinkie_horror_save');
     setHasSave(false);
   }, []);
+
+  const toggleMusic = useCallback(() => {
+    if (musicEnabled) {
+      stopMusic();
+      setMusicEnabled(false);
+    } else {
+      resumeAudio();
+      if (gameState === 'menu') playMusic('menu');
+      else if (gameState === 'playing' && engineRef.current) {
+        playMusic(engineRef.current.currentLevel.musicTrack);
+      }
+      setMusicEnabled(true);
+    }
+  }, [musicEnabled, gameState]);
 
   // Touch controls
   const handleJoystickStart = useCallback((e: React.TouchEvent) => {
@@ -322,7 +339,14 @@ function App() {
             </p>
           </div>
 
-          <div className="absolute top-2 right-3">
+          <div className="absolute top-2 right-3 flex items-center gap-2">
+            <button
+              onClick={toggleMusic}
+              className="text-gray-500 hover:text-pink-400 text-sm transition-colors p-1"
+              title={musicEnabled ? 'Silenciar música' : 'Activar música'}
+            >
+              {musicEnabled ? '🔊' : '🔇'}
+            </button>
             <span className="text-[8px] text-gray-700">v1.0</span>
           </div>
         </div>
@@ -453,6 +477,13 @@ function App() {
 
           {/* Desktop controls overlay */}
           <div className="hidden md:flex absolute top-2 right-2 gap-2 z-10">
+            <button
+              onClick={toggleMusic}
+              className="px-2 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
+              title={musicEnabled ? 'Silenciar' : 'Activar música'}
+            >
+              {musicEnabled ? '🔊' : '🔇'}
+            </button>
             <button
               onClick={handleInventoryToggle}
               className="px-3 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
