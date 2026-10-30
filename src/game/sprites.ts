@@ -81,16 +81,20 @@ export function drawPonySpriteDetailed(ctx: CanvasRenderingContext2D, x: number,
 
   // === HEAD (cabeza grande - vista lateral) ===
   ctx.fillStyle = char.outline;
-  ctx.fillRect(2*s, (3+bob)*s, 8*s, 7*s); // contorno
+  ctx.fillRect(2*s, (3+bob)*s, 8*s, 6*s); // contorno
   
   ctx.fillStyle = char.color;
-  ctx.fillRect(3*s, (4+bob)*s, 6*s, 5*s); // cabeza principal
+  ctx.fillRect(3*s, (4+bob)*s, 6*s, 4*s); // cabeza principal
   ctx.fillRect(4*s, (3+bob)*s, 5*s, 2*s); // parte superior
-  ctx.fillRect(2*s, (6+bob)*s, 3*s, 3*s); // hocico
+  
+  // Hocico integrado (pequeño y redondeado)
+  ctx.fillRect(2*s, (5+bob)*s, 2*s, 2*s);
+  ctx.fillStyle = char.colorLight;
+  ctx.fillRect(2*s, (5+bob)*s, 1*s, 1*s); // brillo del hocico
   
   // Sombra de la cabeza
   ctx.fillStyle = char.colorShadow;
-  ctx.fillRect(3*s, (8+bob)*s, 6*s, 1*s);
+  ctx.fillRect(3*s, (7+bob)*s, 6*s, 1*s);
 
   // === EARS (orejas) ===
   ctx.fillStyle = char.color;
@@ -125,7 +129,7 @@ export function drawPonySpriteDetailed(ctx: CanvasRenderingContext2D, x: number,
 
   // === MOUTH (boca) ===
   ctx.fillStyle = char.outline;
-  ctx.fillRect(2*s, (8+bob)*s, 2*s, 1*s);
+  ctx.fillRect(2*s, (7+bob)*s, 1*s, 1*s);
 
   // === CUTIE MARK (en el costado del cuerpo) ===
   drawCutieMark(ctx, char.id, 11*s, (12+bob)*s, s);
@@ -205,12 +209,12 @@ function drawManeSide(ctx: CanvasRenderingContext2D, charId: string, bob: number
   if (charId === 'pinkie') {
     // Melena muy voluminosa y rizada - vista lateral
     ctx.fillRect(3*s, (1+bob)*s, 6*s, 4*s);
-    ctx.fillRect(2*s, (2+bob)*s, 2*s, 5*s);
-    ctx.fillRect(8*s, (2+bob)*s, 2*s, 4*s);
+    ctx.fillRect(2*s, (2+bob)*s, 2*s, 4*s);
+    ctx.fillRect(8*s, (2+bob)*s, 2*s, 3*s);
     // Copete frontal
     ctx.fillRect(3*s, (0+bob)*s, 4*s, 2*s);
-    // Mechones del cuello
-    ctx.fillRect(4*s, (6+bob)*s, 3*s, 3*s);
+    // Mechones del cuello (más cortos, no llegan a la barbilla)
+    ctx.fillRect(5*s, (7+bob)*s, 2*s, 2*s);
     // Detalles de rulos
     ctx.fillStyle = char.maneLight;
     ctx.fillRect(4*s, (1+bob)*s, 2*s, 1*s);
@@ -218,8 +222,8 @@ function drawManeSide(ctx: CanvasRenderingContext2D, charId: string, bob: number
   } else if (charId === 'twilight') {
     // Melena lisa y ordenada con franjas - vista lateral
     ctx.fillRect(3*s, (1+bob)*s, 6*s, 3*s);
-    ctx.fillRect(2*s, (2+bob)*s, 2*s, 6*s);
-    ctx.fillRect(8*s, (2+bob)*s, 2*s, 5*s);
+    ctx.fillRect(2*s, (2+bob)*s, 2*s, 5*s);
+    ctx.fillRect(8*s, (2+bob)*s, 2*s, 4*s);
     // Copete lateral
     ctx.fillRect(3*s, (2+bob)*s, 3*s, 2*s);
     // Franja rosa
@@ -231,8 +235,8 @@ function drawManeSide(ctx: CanvasRenderingContext2D, charId: string, bob: number
   } else if (charId === 'rainbow') {
     // Melena despeinada y puntiaguda - vista lateral
     ctx.fillRect(3*s, (1+bob)*s, 6*s, 3*s);
-    ctx.fillRect(2*s, (2+bob)*s, 2*s, 4*s);
-    ctx.fillRect(8*s, (2+bob)*s, 2*s, 3*s);
+    ctx.fillRect(2*s, (2+bob)*s, 2*s, 3*s);
+    ctx.fillRect(8*s, (2+bob)*s, 2*s, 2*s);
     // Púas dinámicas
     ctx.fillRect(4*s, (0+bob)*s, 2*s, 2*s);
     ctx.fillRect(6*s, (0+bob)*s, 2*s, 2*s);
@@ -245,27 +249,27 @@ function drawManeSide(ctx: CanvasRenderingContext2D, charId: string, bob: number
   } else if (charId === 'fluttershy') {
     // Melena larga, suave y ondulada - vista lateral
     ctx.fillRect(3*s, (2+bob)*s, 6*s, 2*s);
-    ctx.fillRect(2*s, (3+bob)*s, 2*s, 7*s);
-    ctx.fillRect(8*s, (3+bob)*s, 2*s, 5*s);
+    ctx.fillRect(2*s, (3+bob)*s, 2*s, 5*s);
+    ctx.fillRect(8*s, (3+bob)*s, 2*s, 4*s);
     // Copete largo
     ctx.fillRect(3*s, (1+bob)*s, 3*s, 2*s);
-    // Melena del cuello
-    ctx.fillRect(4*s, (7+bob)*s, 2*s, 2*s);
+    // Melena del cuello (más corta)
+    ctx.fillRect(5*s, (7+bob)*s, 2*s, 1*s);
   } else if (charId === 'rarity') {
     // Melena voluminosa y elegante con rizos - vista lateral
     ctx.fillRect(3*s, (1+bob)*s, 6*s, 3*s);
-    ctx.fillRect(2*s, (2+bob)*s, 2*s, 6*s);
-    ctx.fillRect(8*s, (2+bob)*s, 2*s, 5*s);
+    ctx.fillRect(2*s, (2+bob)*s, 2*s, 5*s);
+    ctx.fillRect(8*s, (2+bob)*s, 2*s, 4*s);
     // Copete cuidadosamente peinado
     ctx.fillRect(4*s, (0+bob)*s, 4*s, 2*s);
-    // Rizos
-    ctx.fillRect(2*s, (7+bob)*s, 1*s, 2*s);
-    ctx.fillRect(9*s, (6+bob)*s, 1*s, 2*s);
+    // Rizos (más arriba, no en la barbilla)
+    ctx.fillRect(2*s, (6+bob)*s, 1*s, 2*s);
+    ctx.fillRect(9*s, (5+bob)*s, 1*s, 2*s);
   } else if (charId === 'applejack') {
     // Melena rubia formada por mechones gruesos - vista lateral
     ctx.fillRect(3*s, (2+bob)*s, 6*s, 2*s);
-    ctx.fillRect(2*s, (3+bob)*s, 2*s, 3*s);
-    ctx.fillRect(8*s, (3+bob)*s, 2*s, 3*s);
+    ctx.fillRect(2*s, (3+bob)*s, 2*s, 2*s);
+    ctx.fillRect(8*s, (3+bob)*s, 2*s, 2*s);
     // Copete curvado
     ctx.fillRect(4*s, (1+bob)*s, 3*s, 2*s);
     // Sombrero de vaquero
