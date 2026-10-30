@@ -475,6 +475,18 @@ function App() {
           <div className="text-center mb-4 p-3 bg-gray-900/50 border border-gray-700 max-w-xs">
             <p className="text-sm text-pink-300 font-bold">{CHARACTERS[selectedChar].name}</p>
             <p className="text-xs text-gray-400 mt-1">{CHARACTERS[selectedChar].description}</p>
+            <div className="mt-2 pt-2 border-t border-gray-700">
+              <p className="text-[10px] text-purple-400">
+                Habilidad: {
+                  CHARACTERS[selectedChar].ability === 'detect' ? '🔍 Detectar objetos ocultos' :
+                  CHARACTERS[selectedChar].ability === 'puzzle' ? '🧩 Resolver acertijos rápido' :
+                  CHARACTERS[selectedChar].ability === 'speed' ? '⚡ Velocidad mejorada' :
+                  CHARACTERS[selectedChar].ability === 'stealth' ? '👻 Sigilo aumentado' :
+                  CHARACTERS[selectedChar].ability === 'find' ? '💎 Encontrar secretos' :
+                  '🛡️ Resistencia a persecuciones'
+                }
+              </p>
+            </div>
           </div>
 
           <button

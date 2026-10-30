@@ -11,7 +11,15 @@ export interface Level {
   exits: { x: number; y: number; targetLevel: number; targetX: number; targetY: number }[];
   objectives: string[]; bgColor: string; darkLevel: number; musicTrack: string;
 }
-export interface Character { id: string; name: string; color: string; maneColor: string; eyeColor: string; description: string; }
+export interface Character { 
+  id: string; 
+  name: string; 
+  color: string; 
+  maneColor: string; 
+  eyeColor: string; 
+  description: string;
+  ability: 'detect' | 'puzzle' | 'speed' | 'stealth' | 'find' | 'resist';
+}
 export interface InventoryItem { id: string; name: string; icon: string; }
 
 export const TILE_SIZE = 32;
@@ -27,12 +35,12 @@ export const TILE = {
 };
 
 export const CHARACTERS: Character[] = [
-  { id: 'pinkie', name: 'Pinkie Pie', color: '#FFB6C1', maneColor: '#FF1493', eyeColor: '#4169E1', description: 'Fiesta y diversión. Conoce cada rincón de Ponyville.' },
-  { id: 'twilight', name: 'Twilight Sparkle', color: '#DDA0DD', maneColor: '#4B0082', eyeColor: '#9B59B6', description: 'Inteligente y lógica. Resuelve acertijos con facilidad.' },
-  { id: 'rainbow', name: 'Rainbow Dash', color: '#87CEEB', maneColor: '#FF0000', eyeColor: '#E74C3C', description: 'Rápida y valiente. Puede esquivar el peligro.' },
-  { id: 'fluttershy', name: 'Fluttershy', color: '#FFFACD', maneColor: '#FFB6C1', eyeColor: '#2ECC71', description: 'Amable y sigilosa. Los enemigos la detectan menos.' },
-  { id: 'rarity', name: 'Rarity', color: '#F5F5F5', maneColor: '#4B0082', eyeColor: '#3498DB', description: 'Elegante y observadora. Encuentra objetos ocultos.' },
-  { id: 'applejack', name: 'Applejack', color: '#FFA500', maneColor: '#DAA520', eyeColor: '#27AE60', description: 'Fuerte y resistente. Soporta más persecuciones.' },
+  { id: 'pinkie', name: 'Pinkie Pie', color: '#FFB6C1', maneColor: '#FF1493', eyeColor: '#4169E1', description: '🎈 Detecta objetos ocultos a mayor distancia', ability: 'detect' },
+  { id: 'twilight', name: 'Twilight Sparkle', color: '#DDA0DD', maneColor: '#4B0082', eyeColor: '#9B59B6', description: '⭐ Resuelve acertijos más rápido', ability: 'puzzle' },
+  { id: 'rainbow', name: 'Rainbow Dash', color: '#87CEEB', maneColor: '#FF0000', eyeColor: '#E74C3C', description: '🌈 Corre 20% más rápido', ability: 'speed' },
+  { id: 'fluttershy', name: 'Fluttershy', color: '#FFFACD', maneColor: '#FFB6C1', eyeColor: '#2ECC71', description: '🦋 Los enemigos te detectan menos', ability: 'stealth' },
+  { id: 'rarity', name: 'Rarity', color: '#F5F5F5', maneColor: '#4B0082', eyeColor: '#3498DB', description: '💎 Encuentra objetos secretos adicionales', ability: 'find' },
+  { id: 'applejack', name: 'Applejack', color: '#FFA500', maneColor: '#DAA520', eyeColor: '#27AE60', description: '🍎 Resiste más persecuciones', ability: 'resist' },
 ];
 
 // ============ LEVEL HELPERS ============
@@ -82,6 +90,7 @@ function createLevel1(): Level {
       { x: 14, y: 4, type: 'scare', active: true, data: { triggered: false } },
       { x: 5, y: 12, type: 'scare', active: true, data: { triggered: false } },
       { x: 15, y: 3, type: 'item', active: true, data: { itemId: 'map', name: 'Mapa de Ponyville', icon: '🗺️' } },
+      { x: 17, y: 14, type: 'item', active: true, data: { itemId: 'secret_gem', name: 'Gema Secreta', icon: '💎', secret: true } },
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 2, targetX: 1, targetY: 7 },
@@ -984,6 +993,12 @@ export class GameEngine {
   ambientTimer = 0; heartbeatTimer = 0; dangerLevel = 0;
   currentMusicTrack = '';
   chaserDelay = 0;
+  // Character abilities
+  detectRange = 3; // Pinkie: detect hidden objects from further
+  moveSpeed = 150; // Rainbow: faster movement
+  enemyDetectRange = 1; // Fluttershy: enemies detect less
+  secretFindChance = 0; // Rarity: find secret items
+  chaseResistance = 1; // Applejack: resist chases better
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -1199,8 +1214,8 @@ export class GameEngine {
     }
 
     const now = Date.now();
-    const delay = this.isRunning ? 80 : this.moveDelay;
-    if (now - this.lastMove > delay) {
+    const baseDelay = this.isRunning ? Math.floor(this.moveSpeed * 0.5) : this.moveSpeed;
+    if (now - this.lastMove > baseDelay) {
       let dx=0, dy=0;
       if (this.keys.has('w')||this.keys.has('arrowup')) { dy=-1; this.playerDir='up'; }
       else if (this.keys.has('s')||this.keys.has('arrowdown')) { dy=1; this.playerDir='down'; }
@@ -1251,7 +1266,32 @@ export class GameEngine {
   checkAutoPickup() {
     for (const e of this.currentLevel.entities) {
       if (!e.active) continue;
-      if (e.x===this.playerX && e.y===this.playerY && (e.type==='item'||e.type==='note')) this.handleEntity(e);
+      
+      // Normal pickup: walk over item
+      if (e.x===this.playerX && e.y===this.playerY && (e.type==='item'||e.type==='note')) {
+        this.handleEntity(e);
+        continue;
+      }
+      
+      // Pinkie ability: detect items from distance
+      if (this.detectRange > 3 && e.type === 'item') {
+        const distance = Math.abs(e.x - this.playerX) + Math.abs(e.y - this.playerY);
+        if (distance <= this.detectRange && distance > 1) {
+          // Show indicator that item is nearby
+          if (this.frame % 60 === 0) {
+            this.addMessage(`🎈 Sientes algo cerca... (${distance} tiles)`);
+          }
+        }
+      }
+      
+      // Rarity ability: chance to find secret items
+      if (this.secretFindChance > 0 && e.type === 'item' && e.data?.secret) {
+        const distance = Math.abs(e.x - this.playerX) + Math.abs(e.y - this.playerY);
+        if (distance <= 2 && Math.random() < this.secretFindChance * 0.01) {
+          this.addMessage('💎 ¡Has encontrado un objeto secreto!');
+          e.active = true; // Make it collectible
+        }
+      }
     }
   }
 
@@ -1264,12 +1304,37 @@ export class GameEngine {
   moveChaser() {
     if (this.isHiding) return;
     const dx=this.playerX-this.chaserX, dy=this.playerY-this.chaserY;
+    const distance = Math.sqrt(dx*dx + dy*dy);
+    
+    // Fluttershy ability: enemies detect at reduced range
+    const detectThreshold = 3 * this.enemyDetectRange;
+    
+    if (distance > detectThreshold) {
+      // Wander randomly if player is far
+      if (Math.random() < 0.3) {
+        const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+        const dir = dirs[Math.floor(Math.random() * 4)];
+        const nx = this.chaserX + dir[0];
+        const ny = this.chaserY + dir[1];
+        if (this.canMoveTo(nx, ny)) {
+          this.chaserX = nx;
+          this.chaserY = ny;
+        }
+      }
+      return;
+    }
+    
+    // Chase player
     if (Math.abs(dx)>Math.abs(dy)) { const nx=this.chaserX+Math.sign(dx); if (this.canMoveTo(nx,this.chaserY)) this.chaserX=nx; }
     else { const ny=this.chaserY+Math.sign(dy); if (this.canMoveTo(this.chaserX,ny)) this.chaserY=ny; }
-    if (Math.abs(this.playerX-this.chaserX)<=1 && Math.abs(this.playerY-this.chaserY)<=1) {
+    
+    const catchDistance = 1 * this.chaseResistance;
+    if (Math.abs(this.playerX-this.chaserX)<=catchDistance && Math.abs(this.playerY-this.chaserY)<=catchDistance) {
       playScare(); this.screenShake=15; this.flashTimer=15;
       this.addMessage('¡La criatura te alcanza! Escapas por poco...');
-      this.playerX=Math.max(1,this.playerX-4); this.playerY=Math.max(1,this.playerY-4);
+      // Applejack ability: get pushed back less
+      const pushBack = Math.floor(4 / this.chaseResistance);
+      this.playerX=Math.max(1,this.playerX-pushBack); this.playerY=Math.max(1,this.playerY-pushBack);
       this.chaserX=18; this.chaserY=14;
     }
   }
@@ -1277,12 +1342,37 @@ export class GameEngine {
   movePinkieChaser() {
     if (this.isHiding) return;
     const dx=this.playerX-this.pinkieChaseX, dy=this.playerY-this.pinkieChaseY;
+    const distance = Math.sqrt(dx*dx + dy*dy);
+    
+    // Fluttershy ability: enemies detect at reduced range
+    const detectThreshold = 4 * this.enemyDetectRange;
+    
+    if (distance > detectThreshold) {
+      // Wander randomly if player is far
+      if (Math.random() < 0.3) {
+        const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+        const dir = dirs[Math.floor(Math.random() * 4)];
+        const nx = this.pinkieChaseX + dir[0];
+        const ny = this.pinkieChaseY + dir[1];
+        if (this.canMoveTo(nx, ny)) {
+          this.pinkieChaseX = nx;
+          this.pinkieChaseY = ny;
+        }
+      }
+      return;
+    }
+    
+    // Chase player
     if (Math.abs(dx)>Math.abs(dy)) { const nx=this.pinkieChaseX+Math.sign(dx); if (this.canMoveTo(nx,this.pinkieChaseY)) this.pinkieChaseX=nx; }
     else { const ny=this.pinkieChaseY+Math.sign(dy); if (this.canMoveTo(this.pinkieChaseX,ny)) this.pinkieChaseY=ny; }
-    if (Math.abs(this.playerX-this.pinkieChaseX)<=1 && Math.abs(this.playerY-this.pinkieChaseY)<=1) {
+    
+    const catchDistance = 1 * this.chaseResistance;
+    if (Math.abs(this.playerX-this.pinkieChaseX)<=catchDistance && Math.abs(this.playerY-this.pinkieChaseY)<=catchDistance) {
       playScare(); this.screenShake=20; this.flashTimer=20;
       this.addMessage('¡Pinkie te alcanza! ¡Pero te zafas!');
-      this.playerX=Math.max(1,this.playerX-5); this.playerY=Math.max(1,this.playerY-5);
+      // Applejack ability: get pushed back less
+      const pushBack = Math.floor(5 / this.chaseResistance);
+      this.playerX=Math.max(1,this.playerX-pushBack); this.playerY=Math.max(1,this.playerY-pushBack);
       this.pinkieChaseX=1; this.pinkieChaseY=1;
     }
   }
@@ -1410,6 +1500,18 @@ export class GameEngine {
     ctx.fillStyle='rgba(0,0,0,0.8)'; ctx.fillRect(0,0,CANVAS_WIDTH,22);
     ctx.fillStyle='#FFB6C1'; ctx.font='bold 10px monospace';
     ctx.fillText(`📍 ${this.currentLevel.name}`, 6, 14);
+    
+    // Character ability indicator
+    const char = CHARACTERS.find(c => c.id === this.characterId);
+    if (char) {
+      const abilityIcon = char.ability === 'detect' ? '🔍' :
+                          char.ability === 'puzzle' ? '🧩' :
+                          char.ability === 'speed' ? '⚡' :
+                          char.ability === 'stealth' ? '👻' :
+                          char.ability === 'find' ? '💎' : '🛡️';
+      ctx.fillText(abilityIcon, 140, 14);
+    }
+    
     ctx.fillStyle='rgba(0,0,0,0.7)'; ctx.fillRect(CANVAS_WIDTH-55,2,52,18);
     ctx.fillStyle='#FFD700'; ctx.font='9px monospace';
     ctx.fillText(`🎒 ${this.inventory.length}`, CANVAS_WIDTH-50, 14);
@@ -1484,11 +1586,39 @@ export class GameEngine {
     this.chaserActive = false; this.pinkieChaseActive = false;
     this.bossActive = false; this.isHiding = false; this.dangerLevel = 0;
     this.chaserDelay = 0;
+    
+    // Apply character abilities
+    const char = CHARACTERS.find(c => c.id === characterId);
+    if (char) {
+      switch (char.ability) {
+        case 'detect':
+          this.detectRange = 5; // Pinkie: detect from 5 tiles away
+          break;
+        case 'puzzle':
+          // Twilight: puzzles auto-solve faster (handled in puzzle logic)
+          break;
+        case 'speed':
+          this.moveSpeed = 120; // Rainbow: 20% faster
+          break;
+        case 'stealth':
+          this.enemyDetectRange = 0.5; // Fluttershy: enemies detect at half range
+          break;
+        case 'find':
+          this.secretFindChance = 0.3; // Rarity: 30% chance to find secrets
+          break;
+        case 'resist':
+          this.chaseResistance = 2; // Applejack: resist 2x longer
+          break;
+      }
+    }
+    
     this.initFog();
     this.onStateChange?.('playing');
     this.currentMusicTrack = 'exploration';
     playMusic('exploration');
-    setTimeout(() => this.addMessage('Pinkie recibe una invitación misteriosa...'), 500);
+    
+    const charName = char?.name || 'Pinkie';
+    setTimeout(() => this.addMessage(`${charName} recibe una invitación misteriosa...`), 500);
     setTimeout(() => this.addMessage('💡 Camina sobre los objetos para recogerlos.'), 3500);
     setTimeout(() => this.addMessage('🔑 La llave está cerca de la casa rosa.'), 6000);
   }
