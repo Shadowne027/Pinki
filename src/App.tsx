@@ -13,6 +13,7 @@ function App() {
   const [menuFlicker, setMenuFlicker] = useState(false);
   const [pendingAction, setPendingAction] = useState<{ type: 'start'; charId: string } | { type: 'continue' } | null>(null);
   const [musicEnabled, setMusicEnabled] = useState(true);
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<GameEngine | null>(null);
@@ -231,6 +232,7 @@ function App() {
       if (showInventory) {
         engineRef.current.state = 'playing';
         setShowInventory(false);
+        setSelectedItem(null);
       } else {
         engineRef.current.toggleInventory();
         setShowInventory(true);
@@ -562,6 +564,12 @@ function App() {
                 >
                   🫣
                 </button>
+                <button
+                  onTouchStart={handleInventoryToggle}
+                  className="w-11 h-11 rounded-full bg-purple-800/70 border-2 border-purple-500/70 text-white text-sm flex items-center justify-center active:bg-purple-600"
+                >
+                  🎒
+                </button>
               </div>
               <button
                 onTouchStart={handleInteract}
@@ -572,20 +580,14 @@ function App() {
             </div>
           </div>
 
-          {/* Desktop controls overlay */}
-          <div className="hidden md:flex absolute top-2 right-2 gap-2 z-10">
+          {/* Top controls overlay */}
+          <div className="absolute top-2 right-2 gap-2 z-10 flex">
             <button
               onClick={toggleMusic}
               className="px-2 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
               title={musicEnabled ? 'Silenciar' : 'Activar música'}
             >
               {musicEnabled ? '🔊' : '🔇'}
-            </button>
-            <button
-              onClick={handleInventoryToggle}
-              className="px-3 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
-            >
-              [I] 🎒 Inventario
             </button>
             <button
               onClick={handleBackToMenu}
@@ -602,7 +604,7 @@ function App() {
       )}
 
       {/* ===== INVENTORY OVERLAY ===== */}
-      {showInventory && (
+      {showInventory && !selectedItem && (
         <div className="absolute inset-0 bg-black/90 flex items-center justify-center z-50" onClick={handleInventoryToggle}>
           <div className="bg-gray-900 border-2 border-purple-500 p-4 md:p-6 max-w-sm w-full mx-4 shadow-lg shadow-purple-500/20" onClick={e => e.stopPropagation()}>
             <h3 className="text-lg font-bold text-pink-400 mb-4 text-center tracking-wider">🎒 INVENTARIO</h3>
@@ -614,10 +616,21 @@ function App() {
             ) : (
               <div className="grid grid-cols-3 gap-2">
                 {inventory.map((item, i) => (
-                  <div key={i} className="bg-gray-800 border border-gray-600 p-3 flex flex-col items-center hover:border-pink-500 transition-colors">
+                  <button 
+                    key={i} 
+                    onClick={() => {
+                      if (item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) {
+                        setSelectedItem(item);
+                      }
+                    }}
+                    className="bg-gray-800 border border-gray-600 p-3 flex flex-col items-center hover:border-pink-500 transition-colors cursor-pointer active:scale-95"
+                  >
                     <span className="text-2xl mb-1">{item.icon}</span>
                     <span className="text-[9px] text-gray-300 text-center leading-tight">{item.name}</span>
-                  </div>
+                    {(item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) && (
+                      <span className="text-[8px] text-pink-400 mt-1">Ver</span>
+                    )}
+                  </button>
                 ))}
               </div>
             )}
@@ -626,6 +639,161 @@ function App() {
               className="mt-4 w-full py-2.5 bg-purple-700 hover:bg-purple-600 text-white text-sm font-bold tracking-wider transition-colors"
             >
               CERRAR [I]
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ===== ITEM VIEWER ===== */}
+      {showInventory && selectedItem && (
+        <div className="absolute inset-0 bg-black/95 flex items-center justify-center z-50 p-4" onClick={() => setSelectedItem(null)}>
+          <div className="bg-gray-900 border-2 border-pink-500 p-6 max-w-md w-full shadow-lg shadow-pink-500/30" onClick={e => e.stopPropagation()}>
+            <h3 className="text-xl font-bold text-pink-400 mb-4 text-center">{selectedItem.icon} {selectedItem.name}</h3>
+            
+            {/* Photo Viewer */}
+            {selectedItem.id.startsWith('photo_') && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-pink-900/50 to-purple-900/50 flex items-center justify-center mb-3">
+                  <svg width="200" height="200" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Fragmento de foto pixelado */}
+                    <rect x="2" y="2" width="16" height="16" fill="#2a1a3a" />
+                    <rect x="3" y="3" width="14" height="14" fill="#3a2a4a" />
+                    {/* Siluetas de ponis */}
+                    <rect x="5" y="8" width="3" height="4" fill="#FFB6C1" opacity="0.7" />
+                    <rect x="9" y="7" width="3" height="5" fill="#DDA0DD" opacity="0.7" />
+                    <rect x="13" y="8" width="3" height="4" fill="#87CEEB" opacity="0.7" />
+                    {/* Texto misterioso */}
+                    <rect x="4" y="14" width="12" height="1" fill="#666" />
+                    <rect x="6" y="16" width="8" height="1" fill="#666" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.id === 'photo_1' && 'Un fragmento de foto muestra a las ponis reunidas. Sus expresiones parecen... forzadas.'}
+                  {selectedItem.id === 'photo_2' && 'Otro fragmento. Las ponis están en Sugarcube Corner, pero algo está mal con sus sombras.'}
+                  {selectedItem.id === 'photo_3' && 'El último fragmento muestra una fiesta vacía. Solo queda una sombra rosa en el centro.'}
+                </p>
+              </div>
+            )}
+
+            {/* Diary Viewer */}
+            {selectedItem.id === 'diary' && (
+              <div className="bg-amber-900/30 p-4 border border-amber-700">
+                <div className="bg-amber-50 p-3 mb-3 text-gray-800 font-serif text-sm leading-relaxed" style={{ fontFamily: 'serif' }}>
+                  <p className="mb-2 italic">"Día 1: La fiesta fue un éxito... al principio."</p>
+                  <p className="mb-2">"Pinkie Pie quería que todas nos quedáramos para siempre. Pensé que era solo su entusiasmo habitual."</p>
+                  <p className="mb-2 italic">"Día 3: Algo cambió. Las máquinas de la fábrica... están haciendo algo con nosotras."</p>
+                  <p className="mb-2">"No podemos irnos. Pinkie no nos deja. Su sonrisa... ya no es natural."</p>
+                  <p className="italic text-red-700">"Si encuentras esto, activa las máquinas. Es la única forma de detenerla. Pero ten cuidado... ella siempre está observando."</p>
+                </div>
+                <p className="text-amber-300 text-xs text-center">- Diario de Twilight Sparkle</p>
+              </div>
+            )}
+
+            {/* Map Viewer */}
+            {selectedItem.id === 'map' && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-green-900/30 to-blue-900/30 flex items-center justify-center mb-3 relative">
+                  <svg width="200" height="200" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Mapa de Ponyville */}
+                    <rect x="1" y="1" width="18" height="18" fill="#2a4a2a" />
+                    {/* Caminos */}
+                    <rect x="9" y="2" width="2" height="16" fill="#8B7355" />
+                    <rect x="2" y="9" width="16" height="2" fill="#8B7355" />
+                    {/* Edificios */}
+                    <rect x="3" y="3" width="3" height="3" fill="#654321" />
+                    <rect x="14" y="3" width="3" height="3" fill="#FFB6C1" />
+                    <rect x="3" y="14" width="3" height="3" fill="#654321" />
+                    <rect x="14" y="14" width="3" height="3" fill="#DDA0DD" />
+                    {/* Bosque */}
+                    <rect x="16" y="8" width="3" height="4" fill="#0a3a0a" />
+                    {/* Castillo */}
+                    <rect x="1" y="1" width="4" height="4" fill="#4B0082" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  Un mapa de Ponyville. Puedes ver las casas abandonadas, el bosque Everfree al este, y el castillo de Twilight al noroeste.
+                </p>
+              </div>
+            )}
+
+            {/* Crystal Viewer */}
+            {selectedItem.id === 'crystal' && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-purple-900/50 to-blue-900/50 flex items-center justify-center mb-3">
+                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Cristal mágico */}
+                    <rect x="8" y="4" width="4" height="12" fill="#9B59B6" />
+                    <rect x="7" y="6" width="6" height="8" fill="#8E44AD" />
+                    <rect x="9" y="3" width="2" height="2" fill="#D2B4DE" />
+                    <rect x="9" y="15" width="2" height="2" fill="#D2B4DE" />
+                    {/* Brillo */}
+                    <rect x="10" y="5" width="1" height="2" fill="#FFFFFF" opacity="0.8" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  Un cristal mágico que pulsa con energía. Parece reaccionar a la presencia de las gemas coleccionables.
+                </p>
+              </div>
+            )}
+
+            {/* Truth Viewer */}
+            {selectedItem.id === 'truth' && (
+              <div className="bg-gray-800 p-4 border border-pink-600">
+                <div className="aspect-square bg-gradient-to-br from-pink-900/50 to-red-900/50 flex items-center justify-center mb-3">
+                  <div className="text-6xl animate-pulse">💫</div>
+                </div>
+                <p className="text-pink-300 text-sm text-center font-bold mb-2">
+                  LA VERDAD
+                </p>
+                <p className="text-gray-300 text-sm text-center">
+                  Pinkie Pie no quería una fiesta normal. Quería una fiesta ETERNA. Usó las máquinas de la fábrica para atrapar a sus amigas en un ciclo infinito de celebración. Solo reuniendo las seis gemas puedes liberarlas y revelar al verdadero responsable: el Rey Sombra, quien manipuló a Pinkie desde las sombras.
+                </p>
+              </div>
+            )}
+
+            {/* Gem Viewer */}
+            {selectedItem.id.startsWith('gem_') && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-gray-900 to-black flex items-center justify-center mb-3">
+                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Gema */}
+                    <rect x="7" y="5" width="6" height="10" fill={
+                      selectedItem.id === 'gem_1' ? '#FF69B4' :
+                      selectedItem.id === 'gem_2' ? '#4169E1' :
+                      selectedItem.id === 'gem_3' ? '#2ECC71' :
+                      selectedItem.id === 'gem_4' ? '#9B59B6' :
+                      selectedItem.id === 'gem_5' ? '#F1C40F' : '#E74C3C'
+                    } />
+                    <rect x="6" y="7" width="8" height="6" fill={
+                      selectedItem.id === 'gem_1' ? '#FF1493' :
+                      selectedItem.id === 'gem_2' ? '#0000CD' :
+                      selectedItem.id === 'gem_3' ? '#27AE60' :
+                      selectedItem.id === 'gem_4' ? '#8E44AD' :
+                      selectedItem.id === 'gem_5' ? '#F39C12' : '#C0392B'
+                    } />
+                    {/* Brillo */}
+                    <rect x="8" y="6" width="2" height="2" fill="#FFFFFF" opacity="0.7" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.id === 'gem_1' && 'Gema Rosa - Encontrada en Ponyville Abandonado. Representa la amistad.'}
+                  {selectedItem.id === 'gem_2' && 'Gema Azul - Encontrada en Sugarcube Corner. Representa la alegría.'}
+                  {selectedItem.id === 'gem_3' && 'Gema Verde - Encontrada en el Bosque Everfree. Representa la bondad.'}
+                  {selectedItem.id === 'gem_4' && 'Gema Violeta - Encontrada en el Castillo de Twilight. Representa la magia.'}
+                  {selectedItem.id === 'gem_5' && 'Gema Amarilla - Encontrada en la Fábrica de Fiestas. Representa la honestidad.'}
+                  {selectedItem.id === 'gem_6' && 'Gema Roja - Encontrada en La Última Fiesta. Representa la lealtad.'}
+                </p>
+                <p className="text-pink-400 text-xs text-center mt-2">
+                  Una de las seis gemas necesarias para desbloquear el final secreto.
+                </p>
+              </div>
+            )}
+
+            <button
+              onClick={() => setSelectedItem(null)}
+              className="mt-4 w-full py-2.5 bg-pink-700 hover:bg-pink-600 text-white text-sm font-bold tracking-wider transition-colors"
+            >
+              CERRAR
             </button>
           </div>
         </div>
