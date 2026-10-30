@@ -75,8 +75,6 @@ function createLevel1(): Level {
   t[7][4] = TILE.CANDLES; t[7][15] = TILE.CANDLES;
   // Exit to Level 2 (right side)
   t[7][w-1] = TILE.DOOR;
-  // Return exit from Level 2 (left side)
-  t[7][0] = TILE.DOOR;
 
   return {
     id: 1, name: 'PONYVILLE ABANDONADO', width: w, height: h, tiles: t,
@@ -94,7 +92,6 @@ function createLevel1(): Level {
     ],
     exits: [
       { x: w-1, y: 7, targetLevel: 2, targetX: 1, targetY: 7 },
-      { x: 0, y: 7, targetLevel: 6, targetX: 18, targetY: 7 }, // puerta condicional
     ],
     objectives: ['Encontrar la llave de Sugarcube Corner'],
     bgColor: '#0d0520', darkLevel: 0.75, musicTrack: 'exploration',
@@ -308,8 +305,6 @@ function createLevel6(): Level {
   t[14][7] = TILE.BALLOON; t[14][12] = TILE.CANDLES;
   // Exit to ending (bottom-right)
   t[h-2][w-2] = TILE.DOOR;
-  // Return to Level 1 (left)
-  t[7][0] = TILE.DOOR;
 
   return {
     id: 6, name: 'LA ÚLTIMA FIESTA', width: w, height: h, tiles: t,
@@ -324,7 +319,6 @@ function createLevel6(): Level {
     ],
     exits: [
       { x: w-2, y: h-2, targetLevel: 7, targetX: 1, targetY: 1 },
-      { x: 0, y: 7, targetLevel: 1, targetX: 1, targetY: 7 },
     ],
     objectives: ['Descubrir la verdad', 'Escapar de la fiesta'],
     bgColor: '#100020', darkLevel: 0.5, musicTrack: 'finalBoss',
@@ -1343,28 +1337,6 @@ export class GameEngine {
     }
     if (this.currentLevel.id === 5 && this.switchesActivated < 3) {
       this.addMessage('Activa los 3 interruptores primero.'); return;
-    }
-
-    // Puerta condicional: Nivel 1 → Nivel 6 (verificar gemas)
-    if (levelId === 6 && this.currentLevel.id === 1) {
-      if (this.gemsCollected.size >= 6) {
-        // Tiene todas las gemas → final secreto directo
-        this.secretEndingUnlocked = true;
-        this.state = 'secretEnding';
-        this.gameComplete = true;
-        this.onStateChange?.('secretEnding');
-        stopMusic();
-        this.saveGame();
-        return;
-      } else {
-        // No tiene todas las gemas → final normal directo
-        this.state = 'ending';
-        this.gameComplete = true;
-        this.onStateChange?.('ending');
-        stopMusic();
-        this.saveGame();
-        return;
-      }
     }
 
     playDoor();
