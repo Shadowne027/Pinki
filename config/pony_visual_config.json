@@ -1,0 +1,437 @@
+{
+  "project": {
+    "name": "PINKIE PIE: LA ÚLTIMA FIESTA",
+    "type": "2D Psychological Horror RPG",
+    "style": "Pixel Art inspired by Pony Town",
+    "resolution": "32x32 pixels per sprite",
+    "scaling": "nearest-neighbor"
+  },
+  "visualReference": {
+    "masterReference": "Pinkie Pie pixel art with compact proportions",
+    "keyCharacteristics": [
+      "Compact body proportions",
+      "Relatively large head compared to body",
+      "Four short legs",
+      "Small rounded snout",
+      "Pointed ears",
+      "Large expressive eyes",
+      "Voluminous mane made of pixelated strands",
+      "Large curly tail",
+      "Dark defined outlines",
+      "Flat color shadows",
+      "Visible pixels and stepped edges",
+      "Recognizable silhouettes at reduced sizes"
+    ]
+  },
+  "globalStyle": {
+    "artStyle": "2D Pixel Art",
+    "inspiration": ["Pony Town", "Classic Horror RPGs"],
+    "mandatoryFeatures": [
+      "Sprites drawn with defined pixels",
+      "Stepped and consistent outlines",
+      "Flat colors with discrete shadows",
+      "Pastel palettes for normal versions",
+      "Darker colors for horror scenes",
+      "Large heads and stylized bodies",
+      "Short clearly differentiated legs",
+      "Manes built with pixelated strands",
+      "Large expressive eyes",
+      "Recognizable cutie marks",
+      "Identifying accessories when appropriate",
+      "Easy to recognize silhouettes",
+      "Coherent pixel density between characters",
+      "Animations respecting original pony shapes"
+    ],
+    "forbidden": [
+      "3D models",
+      "Photorealistic graphics",
+      "Vector drawings",
+      "Smooth gradients eliminating pixelated aspect",
+      "Blur",
+      "Antialiasing",
+      "Filters that blur pixels",
+      "Emojis as character substitutes",
+      "Provisional geometric shapes presented as finished sprites",
+      "Sprites of different artistic styles mixed together"
+    ]
+  },
+  "anatomy": {
+    "sharedStructure": {
+      "legs": 4,
+      "bodyOrientation": "horizontal",
+      "headSize": "relatively large",
+      "snout": "small and rounded",
+      "ears": 2,
+      "earShape": "pointed",
+      "eyes": 2,
+      "eyeSize": "large",
+      "mane": "characteristic silhouette",
+      "tail": 1,
+      "cutieMark": "on body side"
+    },
+    "proportions": {
+      "headToBodyRatio": "0.6:1",
+      "legLength": "short",
+      "eyeSize": "large relative to head",
+      "outlineThickness": "uniform apparent thickness"
+    }
+  },
+  "characters": {
+    "pinkie_pie": {
+      "body": {
+        "baseColor": "#F6A8CF",
+        "shadow": "#E878AF",
+        "light": "#FFD0E5",
+        "outline": "#C94387"
+      },
+      "mane": {
+        "baseColor": "#E82F91",
+        "shadow": "#B91C70",
+        "light": "#FF65B4",
+        "shape": "very voluminous and curly",
+        "frontBangs": "wavy",
+        "strands": "large and rounded",
+        "neckMane": "thick strands",
+        "tail": "large, curly with characteristic silhouette"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "blue",
+        "pupils": "dark",
+        "size": "large",
+        "expression": "very visible"
+      },
+      "cutieMark": {
+        "description": "Three characteristic balloons",
+        "colors": ["pink", "yellow", "blue"]
+      },
+      "visualIdentity": "Pinkie Pie must maintain a cheerful and recognizable appearance, with a rounded silhouette and abundant mane",
+      "horrorVariant": {
+        "bodyColor": "maintain",
+        "silhouette": "recognizable",
+        "shadows": "magenta and purple",
+        "gaze": "fixed and unsettling",
+        "maneMovement": "subtle",
+        "facialExpression": "altered without abandoning pixel art"
+      }
+    },
+    "twilight_sparkle": {
+      "body": {
+        "baseColor": "#C9A2E8",
+        "shadow": "#9870C6",
+        "light": "#E8D5FA",
+        "outline": "#7547A3"
+      },
+      "mane": {
+        "baseIndigo": "#493078",
+        "secondaryDark": "#29213F",
+        "pinkStripe": "#E85A9B",
+        "violetStripe": "#8C55C7",
+        "shape": "smooth and orderly",
+        "sideBang": "present",
+        "stripes": "clearly differentiated",
+        "tail": "long and orderly"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "violet",
+        "pupils": "dark",
+        "expression": "concentrated and intelligent"
+      },
+      "cutieMark": {
+        "description": "Six-pointed pink star",
+        "details": "small white stars around"
+      },
+      "accessory": {
+        "type": "horn",
+        "position": "center of forehead",
+        "size": "small"
+      },
+      "visualIdentity": "Twilight Sparkle must be recognized by her lavender body, indigo mane with pink and violet stripes, and her horn",
+      "horrorVariant": {
+        "shadows": "deep violets",
+        "lighting": "bluish",
+        "expression": "concern",
+        "gaze": "concentrated",
+        "mustMaintain": ["horn", "mane stripes"]
+      }
+    },
+    "rainbow_dash": {
+      "body": {
+        "baseColor": "#66C9F2",
+        "shadow": "#369ACF",
+        "light": "#B4EBFF",
+        "outline": "#2674AD"
+      },
+      "mane": {
+        "red": "#E84A70",
+        "orange": "#F5A64A",
+        "yellow": "#F6E65B",
+        "green": "#4DCC7B",
+        "blue": "#38BCE8",
+        "violet": "#7658C9",
+        "shape": "messy and spiky",
+        "dynamicBang": "present",
+        "stripes": "multicolored clearly separated",
+        "tail": "long and multicolored"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "violet",
+        "pupils": "dark",
+        "expression": "decided and confident"
+      },
+      "cutieMark": {
+        "description": "White cloud with multicolored lightning bolt",
+        "colors": "vivid and differentiated"
+      },
+      "visualIdentity": "Rainbow Dash must be recognized by her sky blue body and her spiky rainbow mane",
+      "horrorVariant": {
+        "shadows": "blue and violet",
+        "expression": "alert",
+        "maneMovement": "during chases",
+        "mustMaintain": "all color stripes"
+      }
+    },
+    "fluttershy": {
+      "body": {
+        "baseColor": "#F6E68A",
+        "shadow": "#D5BE5B",
+        "light": "#FFF4BF",
+        "outline": "#B89B46"
+      },
+      "mane": {
+        "basePink": "#F3A0C9",
+        "darkPink": "#D978A8",
+        "lightPink": "#FFD1E7",
+        "shape": "long, soft and slightly wavy",
+        "longBang": "falls to one side",
+        "neckMane": "partially covers neck",
+        "tail": "long and fluid"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "green-blue",
+        "pupils": "dark",
+        "expression": "sweet and shy"
+      },
+      "cutieMark": {
+        "description": "Three pink butterflies"
+      },
+      "visualIdentity": "Fluttershy must be recognized by her light yellow body, long pink mane, and delicate appearance",
+      "horrorVariant": {
+        "colors": "slightly muted",
+        "shadows": "greenish and grayish",
+        "gaze": "fearful",
+        "maneMovement": "subtle",
+        "mustMaintain": ["soft silhouette", "long mane"]
+      }
+    },
+    "rarity": {
+      "body": {
+        "baseColor": "#F4F1F5",
+        "shadow": "#CFC4D8",
+        "light": "#FFFFFF",
+        "outline": "#9683A7"
+      },
+      "mane": {
+        "baseViolet": "#8250BC",
+        "lightViolet": "#A875D8",
+        "darkViolet": "#63399A",
+        "shape": "voluminous and elegant",
+        "carefulBang": "carefully styled",
+        "curvedStrands": "present",
+        "largeCurls": "defined",
+        "tail": "long and curly"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "blue",
+        "pupils": "dark",
+        "expression": "elegant and expressive"
+      },
+      "cutieMark": {
+        "description": "Three blue diamonds"
+      },
+      "visualIdentity": "Rarity must be recognized by her white body, violet mane, and voluminous curls",
+      "horrorVariant": {
+        "shadows": "pronounced violets",
+        "lighting": "bluish",
+        "expression": "bewilderment",
+        "silhouette": "curls clearly visible",
+        "mustMaintain": "curly mane shape"
+      }
+    },
+    "applejack": {
+      "body": {
+        "baseColor": "#F5A34A",
+        "shadow": "#CF742C",
+        "light": "#FFD09A",
+        "outline": "#A94F25"
+      },
+      "mane": {
+        "baseBlonde": "#F4CB57",
+        "darkYellow": "#DDA43A",
+        "lightYellow": "#FFE68D",
+        "shape": "blonde made of thick strands",
+        "curvedBang": "present",
+        "partiallyTied": "yes",
+        "tail": "blonde with volume"
+      },
+      "eyes": {
+        "sclera": "white",
+        "iris": "green",
+        "pupils": "dark",
+        "expression": "firm and friendly"
+      },
+      "cutieMark": {
+        "description": "Three red apples",
+        "details": "green leaves"
+      },
+      "mandatoryAccessory": {
+        "type": "cowboy hat",
+        "baseColor": "#A96A35",
+        "shadow": "#754522",
+        "light": "#D99A58",
+        "features": ["crown", "brim clearly recognizable"]
+      },
+      "visualIdentity": "Applejack must be recognized by her orange body, blonde mane, and cowboy hat",
+      "horrorVariant": {
+        "shadows": "brown and reddish",
+        "yellow": "slightly muted",
+        "expression": "alert",
+        "mustMaintain": ["hat", "blonde mane"]
+      }
+    }
+  },
+  "animation": {
+    "directions": {
+      "required": ["down", "up", "left", "right"],
+      "optional": ["up-left", "up-right", "down-left", "down-right"]
+    },
+    "requiredAnimations": [
+      {
+        "name": "IDLE",
+        "description": "breathing or minimal body movement",
+        "frames": 4
+      },
+      {
+        "name": "WALK",
+        "description": "coordinated movement of four legs",
+        "frames": 4
+      },
+      {
+        "name": "RUN",
+        "description": "faster displacement and more dynamic animation",
+        "frames": 4
+      },
+      {
+        "name": "INTERACT",
+        "description": "small body movement when using an object",
+        "frames": 2
+      },
+      {
+        "name": "SCARED",
+        "description": "body and facial reaction to danger",
+        "frames": 2
+      },
+      {
+        "name": "HIDE",
+        "description": "compact posture adapted to hiding",
+        "frames": 1
+      },
+      {
+        "name": "SPECIAL",
+        "description": "particular movement of each character",
+        "frames": 4
+      }
+    ],
+    "requirements": {
+      "transitions": "coherent",
+      "proportions": "maintain character proportions",
+      "maneAndTail": "can move slightly between frames but maintain consistent silhouette",
+      "size": "do not arbitrarily change character size between frames"
+    }
+  },
+  "perspective": {
+    "camera": "2D RPG, preferably top-down",
+    "reference": "Pinkie Pie image shows three-quarter lateral perspective",
+    "usage": "use as reference for anatomy, proportions and finish, not as substitute for all directional sprites",
+    "requirements": {
+      "directions": "each character must maintain identifying features when looking up, down, left or right",
+      "movement": {
+        "sprites": "must orient according to character direction",
+        "legs": "must animate coherently",
+        "maneAndTail": "must maintain silhouette",
+        "accessories": "must remain correctly placed",
+        "cutieMarks": "must appear when perspective allows seeing them",
+        "lighting": "must not erase main colors"
+      },
+      "collision": {
+        "boxes": "define independent of visual sprite size",
+        "allow": "player to move through rooms, cross doors and use hiding spots without being blocked by mane or tail"
+      }
+    }
+  },
+  "horrorIntegration": {
+    "progression": "game must start with relatively colorful and friendly appearance, visual system must allow changes in lighting, shadows, expressions and animations as story progresses",
+    "horrorVersions": {
+      "maintain": "character identity",
+      "doNotChange": "completely into generic creatures",
+      "resources": [
+        "Fixed gazes",
+        "Fear expressions",
+        "Subtle posture changes",
+        "Pronounced shadows",
+        "Red, bluish or violet lighting",
+        "Unexpected mane movements",
+        "Partially hidden silhouettes",
+        "Special animations during chases"
+      ],
+      "darkness": "must generate tension without preventing player from recognizing characters or understanding what happens on screen"
+    },
+    "consistency": "maintain same pixel art style during menu, exploration, chases, cinematics and credits"
+  },
+  "technicalSpecifications": {
+    "spriteSize": "32x32 pixels",
+    "format": "PNG with real transparency",
+    "scaling": "nearest-neighbor",
+    "pixelDensity": "coherent between characters",
+    "layers": [
+      "Shadow",
+      "Tail",
+      "Body",
+      "Legs",
+      "Head",
+      "Mane",
+      "Eyes",
+      "Facial details",
+      "Cutie mark",
+      "Accessories",
+      "Lighting effects"
+    ]
+  },
+  "export": {
+    "format": "PNG",
+    "transparency": "real alpha channel",
+    "noCheckerboard": "do not include checkerboard pattern",
+    "scaling": "nearest-neighbor to avoid pixel blur"
+  },
+  "qualityControl": {
+    "checks": [
+      "Six characters have differentiated visual identity",
+      "All respect reference proportions",
+      "Sprites maintain coherent pixel density",
+      "Cutie marks have adequate shapes and colors",
+      "Accessories remain correctly placed",
+      "Animations do not produce accidental deformations",
+      "PNGs have real transparency",
+      "Scaling preserves pixels",
+      "Directions work correctly",
+      "Characters can be selected and used within game",
+      "Controls work on computer and mobile",
+      "Dark scenes allow distinguishing silhouettes",
+      "Resources have not been substituted with provisional images"
+    ]
+  }
+}

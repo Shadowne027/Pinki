@@ -427,25 +427,30 @@ function App() {
                 <div className="w-14 h-14 md:w-16 md:h-16 mb-2 relative" style={{ imageRendering: 'pixelated' }}>
                   <svg width="100%" height="100%" viewBox="0 0 20 20">
                     {/* Body outline */}
-                    <rect x="5" y="9" width="12" height="8" fill="#1a0a20" />
+                    <rect x="5" y="9" width="12" height="8" fill={char.outline} />
                     {/* Head outline */}
-                    <rect x="6" y="2" width="10" height="8" fill="#1a0a20" />
+                    <rect x="6" y="2" width="10" height="8" fill={char.outline} />
                     
                     {/* Body (bean shape) */}
                     <rect x="6" y="10" width="10" height="6" fill={char.color} />
                     <rect x="7" y="9" width="8" height="8" fill={char.color} />
                     <rect x="13" y="10" width="3" height="5" fill={char.color} />
+                    {/* Body shadow */}
+                    <rect x="6" y="14" width="10" height="2" fill={char.colorShadow} />
                     
                     {/* Tail */}
                     <rect x="14" y="8" width="3" height="3" fill={char.maneColor} />
                     <rect x="15" y="7" width="3" height="2" fill={char.maneColor} />
                     <rect x="16" y="9" width="2" height="4" fill={char.maneColor} />
+                    <rect x="15" y="8" width="1" height="1" fill={char.maneLight} />
                     
                     {/* Head */}
                     <rect x="7" y="3" width="8" height="7" fill={char.color} />
                     <rect x="6" y="4" width="10" height="5" fill={char.color} />
                     <rect x="8" y="2" width="6" height="2" fill={char.color} />
                     <rect x="5" y="6" width="3" height="3" fill={char.color} />
+                    {/* Head shadow */}
+                    <rect x="7" y="8" width="8" height="2" fill={char.colorShadow} />
                     
                     {/* Ears */}
                     <rect x="8" y="1" width="2" height="3" fill={char.color} />
@@ -457,6 +462,8 @@ function App() {
                     <rect x="6" y="0" width="10" height="4" fill={char.maneColor} />
                     <rect x="5" y="1" width="2" height="6" fill={char.maneColor} />
                     <rect x="14" y="1" width="2" height="4" fill={char.maneColor} />
+                    <rect x="7" y="0" width="2" height="1" fill={char.maneLight} />
+                    <rect x="11" y="0" width="2" height="1" fill={char.maneLight} />
                     
                     {/* Eyes (HUGE - Pony Town style) */}
                     <rect x="6" y="4" width="4" height="4" fill="white" />
@@ -473,10 +480,10 @@ function App() {
                     <rect x="8" y="16" width="2" height="3" fill={char.color} />
                     <rect x="12" y="16" width="2" height="3" fill={char.color} />
                     <rect x="14" y="16" width="2" height="3" fill={char.color} />
-                    <rect x="6" y="19" width="2" height="1" fill="#2a1a30" />
-                    <rect x="8" y="19" width="2" height="1" fill="#2a1a30" />
-                    <rect x="12" y="19" width="2" height="1" fill="#2a1a30" />
-                    <rect x="14" y="19" width="2" height="1" fill="#2a1a30" />
+                    <rect x="6" y="19" width="2" height="1" fill={char.outline} />
+                    <rect x="8" y="19" width="2" height="1" fill={char.outline} />
+                    <rect x="12" y="19" width="2" height="1" fill={char.outline} />
+                    <rect x="14" y="19" width="2" height="1" fill={char.outline} />
                   </svg>
                 </div>
                 <span className="text-xs md:text-sm font-bold text-white">{char.name}</span>

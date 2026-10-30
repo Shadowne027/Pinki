@@ -1,5 +1,6 @@
 // Game Engine - Pixel Art Horror Game
 import { playStep, playPickup, playDoor, playScare, playLaugh, playMusic, stopMusic, playHeartbeat, playGemPickup, playCelebration, playMagicReveal } from './audio';
+import { drawPonySpriteDetailed } from './sprites';
 
 export type GameState = 'menu' | 'characterSelect' | 'playing' | 'inventory' | 'ending' | 'secretEnding' | 'gameover';
 export type Direction = 'up' | 'down' | 'left' | 'right';
@@ -15,7 +16,12 @@ export interface Character {
   id: string; 
   name: string; 
   color: string; 
+  colorShadow: string;
+  colorLight: string;
+  outline: string;
   maneColor: string; 
+  maneShadow: string;
+  maneLight: string;
   eyeColor: string; 
   description: string;
   ability: 'detect' | 'puzzle' | 'speed' | 'stealth' | 'find' | 'resist';
@@ -35,12 +41,48 @@ export const TILE = {
 };
 
 export const CHARACTERS: Character[] = [
-  { id: 'pinkie', name: 'Pinkie Pie', color: '#FFB6C1', maneColor: '#FF1493', eyeColor: '#4169E1', description: '🎈 Detecta objetos ocultos a mayor distancia', ability: 'detect' },
-  { id: 'twilight', name: 'Twilight Sparkle', color: '#DDA0DD', maneColor: '#4B0082', eyeColor: '#9B59B6', description: '⭐ Resuelve acertijos más rápido', ability: 'puzzle' },
-  { id: 'rainbow', name: 'Rainbow Dash', color: '#87CEEB', maneColor: '#FF0000', eyeColor: '#E74C3C', description: '🌈 Corre 20% más rápido', ability: 'speed' },
-  { id: 'fluttershy', name: 'Fluttershy', color: '#FFFACD', maneColor: '#FFB6C1', eyeColor: '#2ECC71', description: '🦋 Los enemigos te detectan menos', ability: 'stealth' },
-  { id: 'rarity', name: 'Rarity', color: '#F5F5F5', maneColor: '#4B0082', eyeColor: '#3498DB', description: '💎 Encuentra objetos secretos adicionales', ability: 'find' },
-  { id: 'applejack', name: 'Applejack', color: '#FFA500', maneColor: '#DAA520', eyeColor: '#27AE60', description: '🍎 Resiste más persecuciones', ability: 'resist' },
+  { 
+    id: 'pinkie', name: 'Pinkie Pie', 
+    color: '#F6A8CF', colorShadow: '#E878AF', colorLight: '#FFD0E5', outline: '#C94387',
+    maneColor: '#E82F91', maneShadow: '#B91C70', maneLight: '#FF65B4',
+    eyeColor: '#4169E1', 
+    description: '🎈 Detecta objetos ocultos a mayor distancia', ability: 'detect' 
+  },
+  { 
+    id: 'twilight', name: 'Twilight Sparkle', 
+    color: '#C9A2E8', colorShadow: '#9870C6', colorLight: '#E8D5FA', outline: '#7547A3',
+    maneColor: '#493078', maneShadow: '#29213F', maneLight: '#8C55C7',
+    eyeColor: '#9B59B6', 
+    description: '⭐ Resuelve acertijos más rápido', ability: 'puzzle' 
+  },
+  { 
+    id: 'rainbow', name: 'Rainbow Dash', 
+    color: '#66C9F2', colorShadow: '#369ACF', colorLight: '#B4EBFF', outline: '#2674AD',
+    maneColor: '#E84A70', maneShadow: '#38BCE8', maneLight: '#F6E65B',
+    eyeColor: '#E74C3C', 
+    description: '🌈 Corre 20% más rápido', ability: 'speed' 
+  },
+  { 
+    id: 'fluttershy', name: 'Fluttershy', 
+    color: '#F6E68A', colorShadow: '#D5BE5B', colorLight: '#FFF4BF', outline: '#B89B46',
+    maneColor: '#F3A0C9', maneShadow: '#D978A8', maneLight: '#FFD1E7',
+    eyeColor: '#2ECC71', 
+    description: '🦋 Los enemigos te detectan menos', ability: 'stealth' 
+  },
+  { 
+    id: 'rarity', name: 'Rarity', 
+    color: '#F4F1F5', colorShadow: '#CFC4D8', colorLight: '#FFFFFF', outline: '#9683A7',
+    maneColor: '#8250BC', maneShadow: '#63399A', maneLight: '#A875D8',
+    eyeColor: '#3498DB', 
+    description: '💎 Encuentra objetos secretos adicionales', ability: 'find' 
+  },
+  { 
+    id: 'applejack', name: 'Applejack', 
+    color: '#F5A34A', colorShadow: '#CF742C', colorLight: '#FFD09A', outline: '#A94F25',
+    maneColor: '#F4CB57', maneShadow: '#DDA43A', maneLight: '#FFE68D',
+    eyeColor: '#27AE60', 
+    description: '🍎 Resiste más persecuciones', ability: 'resist' 
+  },
 ];
 
 // ============ LEVEL HELPERS ============
@@ -341,6 +383,12 @@ export function getLevel(id: number): Level {
 // Cuerpo tipo "bean" ovalado, cabeza redondeada grande, ojos enormes,
 // melenas voluminosas, patas cortas y delgadas. Colores planos con outline.
 export function drawPonySprite(ctx: CanvasRenderingContext2D, x: number, y: number, char: Character, dir: Direction, frame: number) {
+  // Usar la nueva función detallada
+  drawPonySpriteDetailed(ctx, x, y, char, dir, frame);
+}
+
+// Función antigua mantenida para compatibilidad - ahora usa la nueva implementación
+export function drawPonySpriteLegacy(ctx: CanvasRenderingContext2D, x: number, y: number, char: Character, dir: Direction, frame: number) {
   const s = 2;
   ctx.save();
   ctx.translate(x, y);
