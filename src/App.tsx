@@ -342,9 +342,7 @@ function App() {
               </h2>
               <span className="text-pink-600">━━━</span>
             </div>
-            <p className="text-[10px] md:text-xs text-gray-600 tracking-widest uppercase">
-              Terror psicológico en Pixel Art
-            </p>
+
           </div>
 
           {/* Buttons */}
