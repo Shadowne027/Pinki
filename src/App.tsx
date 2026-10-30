@@ -14,6 +14,7 @@ function App() {
   const [pendingAction, setPendingAction] = useState<{ type: 'start'; charId: string } | { type: 'continue' } | null>(null);
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<GameEngine | null>(null);
@@ -173,6 +174,47 @@ function App() {
     setHasSave(false);
   }, []);
 
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      // Entrar a pantalla completa
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if ((elem as any).webkitRequestFullscreen) {
+        (elem as any).webkitRequestFullscreen();
+      } else if ((elem as any).msRequestFullscreen) {
+        (elem as any).msRequestFullscreen();
+      }
+      setIsFullscreen(true);
+    } else {
+      // Salir de pantalla completa
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   const toggleMusic = useCallback(() => {
     const newState = !musicEnabled;
     setMusicEnabled(newState);
@@ -245,6 +287,43 @@ function App() {
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center overflow-hidden select-none" style={{ fontFamily: "'Courier New', monospace" }}>
       
+      {/* Botón de pantalla completa - Flotante */}
+      <button
+        onClick={toggleFullscreen}
+        className="fixed top-3 left-3 z-[9999] bg-gradient-to-br from-purple-900/90 to-pink-900/90 hover:from-purple-800 hover:to-pink-800 text-white px-4 py-2.5 rounded-xl border-2 border-pink-400/60 transition-all hover:scale-110 active:scale-95 text-sm font-bold flex items-center gap-2 shadow-xl shadow-pink-500/30 backdrop-blur-sm"
+        title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
+        style={{
+          animation: 'pulse-glow 2s ease-in-out infinite',
+        }}
+      >
+        {isFullscreen ? (
+          <>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+            </svg>
+            <span className="hidden md:inline">Salir</span>
+          </>
+        ) : (
+          <>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+            <span className="hidden md:inline">Pantalla Completa</span>
+          </>
+        )}
+      </button>
+
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.3), 0 0 40px rgba(168, 85, 247, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5), 0 0 60px rgba(168, 85, 247, 0.3);
+          }
+        }
+      `}</style>
+
       {/* ===== MENU ===== */}
       {gameState === 'menu' && (
         <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(180deg, #050010 0%, #0f0020 30%, #1a0035 60%, #0a0015 100%)' }}>
