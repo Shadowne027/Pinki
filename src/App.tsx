@@ -231,6 +231,7 @@ function App() {
     if (engineRef.current) {
       if (showInventory) {
         engineRef.current.state = 'playing';
+        setGameState('playing');
         setShowInventory(false);
         setSelectedItem(null);
       } else {
