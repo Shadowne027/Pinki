@@ -1740,9 +1740,9 @@ export class GameEngine {
   }
 
   renderHUD(ctx: CanvasRenderingContext2D) {
-    ctx.fillStyle='rgba(0,0,0,0.8)'; ctx.fillRect(0,0,CANVAS_WIDTH,22);
-    ctx.fillStyle='#FFB6C1'; ctx.font='bold 10px monospace';
-    ctx.fillText(`📍 ${this.currentLevel.name}`, 6, 14);
+    ctx.fillStyle='rgba(0,0,0,0.85)'; ctx.fillRect(0,0,CANVAS_WIDTH,28);
+    ctx.fillStyle='#FFB6C1'; ctx.font='bold 13px monospace';
+    ctx.fillText(`📍 ${this.currentLevel.name}`, 8, 18);
     
     // Character ability indicator
     const char = CHARACTERS.find(c => c.id === this.characterId);
@@ -1755,53 +1755,53 @@ export class GameEngine {
       ctx.fillText(abilityIcon, 140, 14);
     }
     
-    ctx.fillStyle='rgba(0,0,0,0.7)'; ctx.fillRect(CANVAS_WIDTH-55,2,52,18);
-    ctx.fillStyle='#FFD700'; ctx.font='9px monospace';
-    ctx.fillText(`🎒 ${this.inventory.length}`, CANVAS_WIDTH-50, 14);
-    ctx.fillStyle='rgba(0,0,0,0.7)'; ctx.fillRect(0,CANVAS_HEIGHT-18,CANVAS_WIDTH,18);
-    ctx.fillStyle='#999'; ctx.font='9px monospace';
-    if (this.currentLevel.objectives[0]) ctx.fillText(`🎯 ${this.currentLevel.objectives[0]}`, 6, CANVAS_HEIGHT-5);
+    ctx.fillStyle='rgba(0,0,0,0.75)'; ctx.fillRect(CANVAS_WIDTH-70,2,68,24);
+    ctx.fillStyle='#FFD700'; ctx.font='bold 13px monospace';
+    ctx.fillText(`🎒 ${this.inventory.length}`, CANVAS_WIDTH-62, 18);
+    ctx.fillStyle='rgba(0,0,0,0.75)'; ctx.fillRect(0,CANVAS_HEIGHT-24,CANVAS_WIDTH,24);
+    ctx.fillStyle='#AAA'; ctx.font='bold 12px monospace';
+    if (this.currentLevel.objectives[0]) ctx.fillText(`🎯 ${this.currentLevel.objectives[0]}`, 8, CANVAS_HEIGHT-7);
 
     if (this.isHiding) {
       ctx.fillStyle='rgba(0,0,50,0.6)'; ctx.fillRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-      ctx.fillStyle='#FFF'; ctx.font='bold 14px monospace'; ctx.textAlign='center';
-      ctx.fillText('🫣 ESCONDIDO', CANVAS_WIDTH/2, CANVAS_HEIGHT/2-5);
-      ctx.font='9px monospace'; ctx.fillStyle='#AAA';
-      ctx.fillText('Presiona H para salir', CANVAS_WIDTH/2, CANVAS_HEIGHT/2+12);
+      ctx.fillStyle='#FFF'; ctx.font='bold 18px monospace'; ctx.textAlign='center';
+      ctx.fillText('🫣 ESCONDIDO', CANVAS_WIDTH/2, CANVAS_HEIGHT/2-8);
+      ctx.font='bold 12px monospace'; ctx.fillStyle='#AAA';
+      ctx.fillText('Presiona H para salir', CANVAS_WIDTH/2, CANVAS_HEIGHT/2+15);
       ctx.textAlign='left';
     }
 
     // Dibujar foto de nota si está activa
     if (this.showNotePhoto && this.currentNotePhoto) {
-      const photoW = 120, photoH = 80;
+      const photoW = 160, photoH = 110;
       const photoX = (CANVAS_WIDTH - photoW) / 2;
-      const photoY = 30;
+      const photoY = 35;
       
       // Fondo oscuro detrás de la foto
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-      ctx.fillRect(photoX - 10, photoY - 10, photoW + 20, photoH + 60);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.fillRect(photoX - 15, photoY - 15, photoW + 30, photoH + 80);
       
       // Dibujar la foto
       drawNotePhoto(ctx, this.currentNotePhoto, photoX, photoY, photoW, photoH);
       
       // Texto debajo de la foto
-      const bH = 40, bY = photoY + photoH + 10;
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
-      ctx.fillRect(15, bY, CANVAS_WIDTH - 30, bH);
+      const bH = 50, bY = photoY + photoH + 15;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
+      ctx.fillRect(20, bY, CANVAS_WIDTH - 40, bH);
       ctx.strokeStyle = '#FF69B4';
       ctx.lineWidth = 2;
-      ctx.strokeRect(15, bY, CANVAS_WIDTH - 30, bH);
+      ctx.strokeRect(20, bY, CANVAS_WIDTH - 40, bH);
       ctx.fillStyle = '#FFF';
-      ctx.font = '10px monospace';
+      ctx.font = 'bold 12px monospace';
       ctx.textAlign = 'center';
       const words = this.currentNotePhoto.split(' ');
-      let line = '', lineY = bY + 18;
+      let line = '', lineY = bY + 20;
       for (const w of words) {
         const tl = line + w + ' ';
-        if (ctx.measureText(tl).width > CANVAS_WIDTH - 50) {
+        if (ctx.measureText(tl).width > CANVAS_WIDTH - 60) {
           ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
           line = w + ' ';
-          lineY += 13;
+          lineY += 15;
         } else {
           line = tl;
         }
@@ -1809,14 +1809,14 @@ export class GameEngine {
       ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
       ctx.textAlign = 'left';
     } else if (this.showDialog && this.dialogText) {
-      const bH=50, bY=CANVAS_HEIGHT-70;
-      ctx.fillStyle='rgba(0,0,0,0.9)'; ctx.fillRect(15,bY,CANVAS_WIDTH-30,bH);
-      ctx.strokeStyle='#FF69B4'; ctx.lineWidth=2; ctx.strokeRect(15,bY,CANVAS_WIDTH-30,bH);
-      ctx.fillStyle='#FFF'; ctx.font='10px monospace'; ctx.textAlign='center';
-      const words=this.dialogText.split(' '); let line='', lineY=bY+18;
+      const bH=60, bY=CANVAS_HEIGHT-85;
+      ctx.fillStyle='rgba(0,0,0,0.95)'; ctx.fillRect(20,bY,CANVAS_WIDTH-40,bH);
+      ctx.strokeStyle='#FF69B4'; ctx.lineWidth=2; ctx.strokeRect(20,bY,CANVAS_WIDTH-40,bH);
+      ctx.fillStyle='#FFF'; ctx.font='bold 12px monospace'; ctx.textAlign='center';
+      const words=this.dialogText.split(' '); let line='', lineY=bY+22;
       for (const w of words) {
         const tl=line+w+' ';
-        if (ctx.measureText(tl).width>CANVAS_WIDTH-50) { ctx.fillText(line.trim(),CANVAS_WIDTH/2,lineY); line=w+' '; lineY+=13; }
+        if (ctx.measureText(tl).width>CANVAS_WIDTH-60) { ctx.fillText(line.trim(),CANVAS_WIDTH/2,lineY); line=w+' '; lineY+=16; }
         else line=tl;
       }
       ctx.fillText(line.trim(), CANVAS_WIDTH/2, lineY);
@@ -1824,8 +1824,8 @@ export class GameEngine {
     }
 
     if (this.dangerLevel>0 && (this.chaserActive||this.pinkieChaseActive||this.bossActive)) {
-      ctx.fillStyle=this.frame%20<10?'rgba(255,0,0,0.3)':'rgba(255,0,0,0.1)';
-      ctx.fillRect(0,0,4,CANVAS_HEIGHT); ctx.fillRect(CANVAS_WIDTH-4,0,4,CANVAS_HEIGHT);
+      ctx.fillStyle=this.frame%20<10?'rgba(255,0,0,0.4)':'rgba(255,0,0,0.15)';
+      ctx.fillRect(0,0,6,CANVAS_HEIGHT); ctx.fillRect(CANVAS_WIDTH-6,0,6,CANVAS_HEIGHT);
     }
   }
 
