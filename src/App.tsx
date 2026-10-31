@@ -625,7 +625,7 @@ function App() {
           />
 
           {/* Mobile Controls - Overlay on canvas */}
-          <div className="md:hidden absolute bottom-[0.4cm] left-[0.4cm] right-[0.4cm] flex justify-between items-end pointer-events-none z-20">
+          <div className="lg:hidden absolute bottom-[0.4cm] left-[0.4cm] right-[0.4cm] flex justify-between items-end pointer-events-none z-20">
             <div
               className="w-32 h-32 rounded-full bg-black/40 backdrop-blur-sm border-2 border-gray-600/40 flex items-center justify-center touch-none pointer-events-auto relative"
               onTouchStart={handleJoystickStart}
@@ -687,7 +687,7 @@ function App() {
             </button>
           </div>
 
-          <div className="hidden md:block absolute bottom-[0.4cm] left-[0.4cm]">
+          <div className="hidden lg:block absolute bottom-[0.4cm] left-[0.4cm]">
             <p className="text-[9px] text-gray-600">WASD: Mover | E: Interactuar | Shift: Correr | H: Esconder | I: Inventario</p>
           </div>
         </div>
