@@ -290,7 +290,7 @@ function App() {
       {/* Botón de pantalla completa - Flotante */}
       <button
         onClick={toggleFullscreen}
-        className="fixed top-3 left-3 z-[9999] bg-gradient-to-br from-purple-900/90 to-pink-900/90 hover:from-purple-800 hover:to-pink-800 text-white px-4 py-2.5 rounded-xl border-2 border-pink-400/60 transition-all hover:scale-110 active:scale-95 text-sm font-bold flex items-center gap-2 shadow-xl shadow-pink-500/30 backdrop-blur-sm"
+        className="fixed top-[1cm] left-[1cm] z-[9999] bg-gradient-to-br from-purple-900/90 to-pink-900/90 hover:from-purple-800 hover:to-pink-800 text-white px-4 py-2.5 rounded-xl border-2 border-pink-400/60 transition-all hover:scale-110 active:scale-95 text-sm font-bold flex items-center gap-2 shadow-xl shadow-pink-500/30 backdrop-blur-sm"
         title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
         style={{
           animation: 'pulse-glow 2s ease-in-out infinite',
@@ -607,7 +607,7 @@ function App() {
 
       {/* ===== PLAYING ===== */}
       {(gameState === 'playing' || gameState === 'inventory') && (
-        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden">
+        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden p-[1cm]">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
@@ -615,16 +615,16 @@ function App() {
             className="border-2 border-purple-900/50 md:border-purple-900/50 md:max-w-full md:max-h-full"
             style={{
               imageRendering: 'pixelated',
-              width: '100vw',
-              height: '100vh',
-              maxWidth: '100vw',
-              maxHeight: '100vh',
-              objectFit: 'cover',
+              width: 'calc(100vw - 2cm)',
+              height: 'calc(100vh - 2cm)',
+              maxWidth: 'calc(100vw - 2cm)',
+              maxHeight: 'calc(100vh - 2cm)',
+              objectFit: 'contain',
             }}
           />
 
           {/* Mobile Controls - Overlay on canvas */}
-          <div className="md:hidden absolute bottom-6 left-0 right-0 px-6 flex justify-between items-end pointer-events-none z-20">
+          <div className="md:hidden absolute bottom-[1cm] left-[1cm] right-[1cm] flex justify-between items-end pointer-events-none z-20">
             <div
               className="w-32 h-32 rounded-full bg-black/40 backdrop-blur-sm border-2 border-gray-600/40 flex items-center justify-center touch-none pointer-events-auto relative"
               onTouchStart={handleJoystickStart}
@@ -670,7 +670,7 @@ function App() {
           </div>
 
           {/* Top controls overlay */}
-          <div className="absolute top-2 right-2 gap-2 z-10 flex">
+          <div className="absolute top-[1cm] right-[1cm] gap-2 z-10 flex">
             <button
               onClick={toggleMusic}
               className="px-2 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
@@ -686,7 +686,7 @@ function App() {
             </button>
           </div>
 
-          <div className="hidden md:block absolute bottom-2 left-2">
+          <div className="hidden md:block absolute bottom-[1cm] left-[1cm]">
             <p className="text-[9px] text-gray-600">WASD: Mover | E: Interactuar | Shift: Correr | H: Esconder | I: Inventario</p>
           </div>
         </div>
