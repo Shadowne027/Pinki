@@ -1173,7 +1173,7 @@ export class GameEngine {
   inventory: InventoryItem[] = [];
   dialogText = ''; showDialog = false; dialogTimer = 0;
   currentNotePhoto: string | null = null; showNotePhoto = false; notePhotoTimer = 0;
-  currentPickupItem: { id: string; name: string; icon: string } | null = null; showPickupNotification = false; pickupNotificationTimer = 0;
+  currentPickupItem: { id: string; name: string; icon: string; color?: string } | null = null; showPickupNotification = false; pickupNotificationTimer = 0;
   frame = 0;
   keys = new Set<string>();
   lastMove = 0; moveDelay = 150;
@@ -1274,7 +1274,7 @@ export class GameEngine {
           if (entity.data.itemId?.startsWith('photo_')) this.photosFound++;
           
           // Mostrar notificación de pickup en el centro
-          this.showPickupItemNotification({ id: entity.data.itemId, name: entity.data.name, icon: entity.data.icon });
+          this.showPickupItemNotification({ id: entity.data.itemId, name: entity.data.name, icon: entity.data.icon, color: entity.data.color });
           
           // Manejo especial de gemas
           if (entity.data.gem) {
@@ -1365,7 +1365,7 @@ export class GameEngine {
     playPickup();
   }
 
-  showPickupItemNotification(item: { id: string; name: string; icon: string }) {
+  showPickupItemNotification(item: { id: string; name: string; icon: string; color?: string }) {
     this.currentPickupItem = item;
     this.showPickupNotification = true;
     this.pickupNotificationTimer = 180; // 3 segundos a 60fps
@@ -1804,15 +1804,20 @@ export class GameEngine {
       const itemX = (CANVAS_WIDTH - itemSize) / 2;
       const itemY = (CANVAS_HEIGHT - itemSize) / 2 - 30;
       
+      // Determinar el color del borde según el tipo de item
+      const borderColor = this.currentPickupItem.color || '#FFD700';
+      
       // Fondo oscuro con borde brillante
       ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
       ctx.fillRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
       
-      // Borde brillante animado
+      // Borde brillante animado con el color del item
       const glowIntensity = Math.sin(this.frame * 0.1) * 0.3 + 0.7;
-      ctx.strokeStyle = `rgba(255, 215, 0, ${glowIntensity})`;
+      ctx.strokeStyle = borderColor;
+      ctx.globalAlpha = glowIntensity;
       ctx.lineWidth = 4;
       ctx.strokeRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
+      ctx.globalAlpha = 1;
       
       // Dibujar el icono del item (grande y centrado)
       ctx.font = `${itemSize}px serif`;
@@ -1820,8 +1825,8 @@ export class GameEngine {
       ctx.textBaseline = 'middle';
       ctx.fillText(this.currentPickupItem.icon, CANVAS_WIDTH / 2, itemY + itemSize / 2);
       
-      // Nombre del item debajo
-      ctx.fillStyle = '#FFD700';
+      // Nombre del item debajo con el color del item
+      ctx.fillStyle = borderColor;
       ctx.font = 'bold 22px monospace';
       ctx.fillText(this.currentPickupItem.name, CANVAS_WIDTH / 2, itemY + itemSize + 20);
       

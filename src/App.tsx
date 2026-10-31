@@ -802,20 +802,49 @@ function App() {
 
             {/* Crystal Viewer */}
             {selectedItem.id === 'crystal' && (
-              <div className="bg-gray-800 p-4 border border-gray-600">
-                <div className="aspect-square bg-gradient-to-br from-purple-900/50 to-blue-900/50 flex items-center justify-center mb-3">
-                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
-                    {/* Cristal mágico */}
-                    <rect x="8" y="4" width="4" height="12" fill="#9B59B6" />
-                    <rect x="7" y="6" width="6" height="8" fill="#8E44AD" />
-                    <rect x="9" y="3" width="2" height="2" fill="#D2B4DE" />
-                    <rect x="9" y="15" width="2" height="2" fill="#D2B4DE" />
-                    {/* Brillo */}
-                    <rect x="10" y="5" width="1" height="2" fill="#FFFFFF" opacity="0.8" />
+              <div className="bg-gray-800 p-4 border border-purple-500/50 shadow-lg shadow-purple-500/20">
+                <div className="aspect-square bg-gradient-to-br from-purple-900/30 via-pink-900/30 to-blue-900/30 flex items-center justify-center mb-3 relative overflow-hidden">
+                  {/* Efecto de brillo de fondo */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-pink-500 rounded-full blur-xl animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-8 h-8 bg-blue-500 rounded-full blur-xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  </div>
+                  
+                  <svg width="180" height="180" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Cristal mágico con los 6 colores de las gemas */}
+                    {/* Base del cristal - forma de diamante */}
+                    <rect x="7" y="3" width="6" height="14" fill="#9B59B6" />
+                    <rect x="6" y="5" width="8" height="10" fill="#8E44AD" />
+                    
+                    {/* Facetas con los 6 colores de las gemas */}
+                    {/* Gema Rosa - Amistad */}
+                    <rect x="7" y="4" width="2" height="2" fill="#FF69B4" opacity="0.9" />
+                    {/* Gema Azul - Alegría */}
+                    <rect x="11" y="4" width="2" height="2" fill="#4169E1" opacity="0.9" />
+                    {/* Gema Verde - Bondad */}
+                    <rect x="6" y="7" width="2" height="2" fill="#2ECC71" opacity="0.9" />
+                    {/* Gema Violeta - Magia */}
+                    <rect x="12" y="7" width="2" height="2" fill="#9B59B6" opacity="0.9" />
+                    {/* Gema Amarilla - Honestidad */}
+                    <rect x="7" y="12" width="2" height="2" fill="#F1C40F" opacity="0.9" />
+                    {/* Gema Roja - Lealtad */}
+                    <rect x="11" y="12" width="2" height="2" fill="#E74C3C" opacity="0.9" />
+                    
+                    {/* Brillos y reflejos */}
+                    <rect x="9" y="3" width="2" height="2" fill="#FFFFFF" opacity="0.7" />
+                    <rect x="8" y="6" width="1" height="1" fill="#FFFFFF" opacity="0.5" />
+                    <rect x="11" y="9" width="1" height="1" fill="#FFFFFF" opacity="0.5" />
+                    <rect x="9" y="14" width="2" height="2" fill="#FFFFFF" opacity="0.6" />
+                    
+                    {/* Centro brillante */}
+                    <rect x="9" y="8" width="2" height="4" fill="#FFFFFF" opacity="0.4" />
                   </svg>
                 </div>
-                <p className="text-gray-300 text-sm text-center">
-                  Un cristal mágico que pulsa con energía. Parece reaccionar a la presencia de las gemas coleccionables.
+                <p className="text-purple-300 text-sm text-center font-light">
+                  ✨ Cristal Mágico ✨
+                </p>
+                <p className="text-gray-300 text-xs text-center mt-2">
+                  Un cristal que contiene la esencia de las seis gemas. Pulsa con energía mágica, reaccionando a la presencia de cada elemento.
                 </p>
               </div>
             )}
@@ -830,7 +859,7 @@ function App() {
                   LA VERDAD
                 </p>
                 <p className="text-gray-300 text-sm text-center">
-                  Pinkie Pie no quería una fiesta normal. Quería una fiesta ETERNA. Usó las máquinas de la fábrica para atrapar a sus amigas en un ciclo infinito de celebración. Solo reuniendo las seis gemas puedes liberarlas y revelar al verdadero responsable: Milo, quien manipuló a Pinkie desde las sombras.
+                  Pinkie Pie no quería una fiesta normal. Quería una fiesta ETERNA. Usó las máquinas de la fábrica para atrapar a sus amigas en un ciclo infinito de celebración. Solo reuniendo las seis gemas puedes liberarlas y revelar al verdadero responsable: el Rey Sombra, quien manipuló a Pinkie desde las sombras.
                 </p>
               </div>
             )}
