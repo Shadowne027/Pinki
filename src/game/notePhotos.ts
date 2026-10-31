@@ -49,348 +49,393 @@ export function drawNotePhoto(ctx: CanvasRenderingContext2D, noteText: string, x
 
 // Foto de fiesta abandonada
 function drawPartyPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo oscuro
   ctx.fillStyle = '#1a0a2e';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Globos flotando
+  // Globos flotando (centrados)
   ctx.fillStyle = '#FF69B4';
-  ctx.fillRect(12, 8, 6, 8);
+  ctx.fillRect(centerX - 40, centerY - 30, 12, 16);
   ctx.fillStyle = '#FFD700';
-  ctx.fillRect(24, 12, 6, 8);
+  ctx.fillRect(centerX - 6, centerY - 25, 12, 16);
   ctx.fillStyle = '#4169E1';
-  ctx.fillRect(36, 10, 6, 8);
+  ctx.fillRect(centerX + 28, centerY - 28, 12, 16);
   
   // Hilos de globos
   ctx.strokeStyle = '#888';
   ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(15, 16);
-  ctx.lineTo(15, 30);
-  ctx.moveTo(27, 20);
-  ctx.lineTo(27, 30);
-  ctx.moveTo(39, 18);
-  ctx.lineTo(39, 30);
+  ctx.moveTo(centerX - 34, centerY - 14);
+  ctx.lineTo(centerX - 34, centerY + 10);
+  ctx.moveTo(centerX, centerY - 9);
+  ctx.lineTo(centerX, centerY + 10);
+  ctx.moveTo(centerX + 34, centerY - 12);
+  ctx.lineTo(centerX + 34, centerY + 10);
   ctx.stroke();
   
-  // Mesa volcada
+  // Mesa volcada (centrada)
   ctx.fillStyle = '#8B4513';
-  ctx.fillRect(10, 32, 30, 4);
-  ctx.fillRect(12, 36, 4, 8);
-  ctx.fillRect(34, 36, 4, 8);
+  ctx.fillRect(centerX - 35, centerY + 15, 70, 8);
+  ctx.fillRect(centerX - 30, centerY + 23, 8, 16);
+  ctx.fillRect(centerX + 22, centerY + 23, 8, 16);
   
-  // Texto "LA FIESTA" en el suelo
+  // Texto "LA FIESTA" en el suelo (centrado)
   ctx.fillStyle = '#FF69B4';
-  ctx.font = '8px monospace';
-  ctx.fillText('LA FIESTA', 14, 50);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('LA FIESTA', centerX, centerY + 50);
+  ctx.textAlign = 'left';
 }
 
 // Foto de risas fantasmales
 function drawGhostLaughPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo oscuro
   ctx.fillStyle = '#0a0a1e';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Siluetas de ponis fantasmales
+  // Siluetas de ponis fantasmales (centradas)
   ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-  ctx.fillRect(10, 20, 8, 12);
-  ctx.fillRect(24, 18, 8, 14);
-  ctx.fillRect(38, 22, 8, 10);
+  ctx.fillRect(centerX - 45, centerY - 15, 16, 24);
+  ctx.fillRect(centerX - 8, centerY - 20, 16, 28);
+  ctx.fillRect(centerX + 29, centerY - 10, 16, 20);
   
   // Ojos rojos brillantes
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(12, 22, 2, 2);
-  ctx.fillRect(26, 20, 2, 2);
-  ctx.fillRect(40, 24, 2, 2);
+  ctx.fillRect(centerX - 41, centerY - 11, 4, 4);
+  ctx.fillRect(centerX - 4, centerY - 16, 4, 4);
+  ctx.fillRect(centerX + 33, centerY - 6, 4, 4);
   
-  // Ondas de sonido (risas)
+  // Ondas de sonido (risas) - centradas
   ctx.strokeStyle = '#FF69B4';
   ctx.lineWidth = 1;
   for (let i = 0; i < 3; i++) {
     ctx.beginPath();
-    ctx.arc(25, 35, 8 + i * 4, 0, Math.PI, false);
+    ctx.arc(centerX, centerY + 20, 16 + i * 8, 0, Math.PI, false);
     ctx.stroke();
   }
   
-  // Texto "JEJEJE"
+  // Texto "JEJEJE" (centrado)
   ctx.fillStyle = '#FF69B4';
-  ctx.font = 'bold 10px monospace';
-  ctx.fillText('JEJEJE', 15, 52);
+  ctx.font = 'bold 16px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('JEJEJE', centerX, centerY + 50);
+  ctx.textAlign = 'left';
 }
 
 // Foto de cupcakes con dientes
 function drawCupcakePhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo de pastelería
   ctx.fillStyle = '#FFE4E1';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Cupcake grande
+  // Cupcake grande (centrado)
   ctx.fillStyle = '#FF69B4';
-  ctx.fillRect(18, 20, 14, 10); // frosting
+  ctx.fillRect(centerX - 18, centerY - 20, 36, 20); // frosting
   ctx.fillStyle = '#D2691E';
-  ctx.fillRect(16, 30, 18, 12); // base
+  ctx.fillRect(centerX - 22, centerY, 44, 24); // base
   
   // Dientes en el cupcake
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(20, 28, 2, 3);
-  ctx.fillRect(24, 28, 2, 3);
-  ctx.fillRect(28, 28, 2, 3);
+  ctx.fillRect(centerX - 14, centerY - 4, 4, 6);
+  ctx.fillRect(centerX - 4, centerY - 4, 4, 6);
+  ctx.fillRect(centerX + 6, centerY - 4, 4, 6);
   
   // Ojos malvados
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(22, 24, 2, 2);
-  ctx.fillRect(26, 24, 2, 2);
+  ctx.fillRect(centerX - 10, centerY - 12, 4, 4);
+  ctx.fillRect(centerX + 6, centerY - 12, 4, 4);
   
-  // Texto "¿DIENTES?"
+  // Texto "¿DIENTES?" (centrado)
   ctx.fillStyle = '#8B0000';
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('¿DIENTES?', 14, 52);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('¿DIENTES?', centerX, centerY + 40);
+  ctx.textAlign = 'left';
 }
 
 // Foto de sombra detrás
 function drawShadowPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo de pasillo oscuro
   ctx.fillStyle = '#0a0a1e';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Silueta del jugador (vista de espaldas)
+  // Silueta del jugador (vista de espaldas) - centrada
   ctx.fillStyle = '#FFB6C1';
-  ctx.fillRect(20, 25, 10, 15);
-  ctx.fillRect(22, 20, 6, 8);
+  ctx.fillRect(centerX - 12, centerY - 5, 24, 30);
+  ctx.fillRect(centerX - 8, centerY - 20, 16, 16);
   
   // Sombra oscura detrás
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(18, 15, 14, 20);
-  ctx.fillRect(16, 20, 18, 10);
+  ctx.fillRect(centerX - 16, centerY - 30, 32, 40);
+  ctx.fillRect(centerX - 20, centerY - 20, 40, 20);
   
   // Ojos rojos en la sombra
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(22, 18, 2, 2);
-  ctx.fillRect(26, 18, 2, 2);
+  ctx.fillRect(centerX - 8, centerY - 24, 4, 4);
+  ctx.fillRect(centerX + 4, centerY - 24, 4, 4);
   
   // Flecha apuntando atrás
   ctx.strokeStyle = '#FF0000';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(25, 40);
-  ctx.lineTo(25, 48);
-  ctx.moveTo(22, 45);
-  ctx.lineTo(25, 48);
-  ctx.lineTo(28, 45);
+  ctx.moveTo(centerX, centerY + 30);
+  ctx.lineTo(centerX, centerY + 45);
+  ctx.moveTo(centerX - 6, centerY + 39);
+  ctx.lineTo(centerX, centerY + 45);
+  ctx.lineTo(centerX + 6, centerY + 39);
   ctx.stroke();
   
-  // Texto "NO MIRES"
+  // Texto "NO MIRES" (centrado)
   ctx.fillStyle = '#FF0000';
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('NO MIRES', 13, 56);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('NO MIRES', centerX, centerY + 60);
+  ctx.textAlign = 'left';
 }
 
 // Foto de cabaña en el bosque
 function drawCabinPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo de bosque
   ctx.fillStyle = '#0a2a0a';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Árboles
+  // Árboles (a los lados)
   ctx.fillStyle = '#1a4a1a';
-  ctx.fillRect(8, 15, 6, 20);
-  ctx.fillRect(36, 18, 6, 17);
+  ctx.fillRect(centerX - 60, centerY - 20, 12, 40);
+  ctx.fillRect(centerX + 48, centerY - 15, 12, 34);
   
-  // Cabaña
+  // Cabaña (centrada)
   ctx.fillStyle = '#8B4513';
-  ctx.fillRect(18, 25, 14, 15);
+  ctx.fillRect(centerX - 20, centerY - 10, 40, 30);
   // Techo
   ctx.fillStyle = '#654321';
   ctx.beginPath();
-  ctx.moveTo(16, 25);
-  ctx.lineTo(25, 18);
-  ctx.lineTo(34, 25);
+  ctx.moveTo(centerX - 24, centerY - 10);
+  ctx.lineTo(centerX, centerY - 30);
+  ctx.lineTo(centerX + 24, centerY - 10);
   ctx.closePath();
   ctx.fill();
   
   // Puerta
   ctx.fillStyle = '#654321';
-  ctx.fillRect(23, 32, 4, 8);
+  ctx.fillRect(centerX - 6, centerY + 5, 12, 16);
   
   // Flecha apuntando al sur
   ctx.strokeStyle = '#FFD700';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(25, 42);
-  ctx.lineTo(25, 50);
-  ctx.moveTo(22, 47);
-  ctx.lineTo(25, 50);
-  ctx.lineTo(28, 47);
+  ctx.moveTo(centerX, centerY + 25);
+  ctx.lineTo(centerX, centerY + 45);
+  ctx.moveTo(centerX - 8, centerY + 37);
+  ctx.lineTo(centerX, centerY + 45);
+  ctx.lineTo(centerX + 8, centerY + 37);
   ctx.stroke();
   
-  // Texto "SUR ↓"
+  // Texto "SUR ↓" (centrado)
   ctx.fillStyle = '#FFD700';
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('SUR ↓', 18, 58);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('SUR ↓', centerX, centerY + 60);
+  ctx.textAlign = 'left';
 }
 
 // Foto de transformación
 function drawTransformationPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo mágico
   ctx.fillStyle = '#2a0a4a';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Pony normal (izquierda)
+  // Pony normal (izquierda) - centrado
   ctx.fillStyle = '#DDA0DD';
-  ctx.fillRect(8, 20, 8, 10);
-  ctx.fillRect(10, 15, 6, 8);
+  ctx.fillRect(centerX - 50, centerY - 10, 16, 20);
+  ctx.fillRect(centerX - 46, centerY - 25, 12, 16);
   
   // Flecha de transformación
   ctx.strokeStyle = '#FF69B4';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(20, 25);
-  ctx.lineTo(28, 25);
-  ctx.moveTo(25, 22);
-  ctx.lineTo(28, 25);
-  ctx.lineTo(25, 28);
+  ctx.moveTo(centerX - 20, centerY);
+  ctx.lineTo(centerX + 10, centerY);
+  ctx.moveTo(centerX, centerY - 8);
+  ctx.lineTo(centerX + 10, centerY);
+  ctx.lineTo(centerX, centerY + 8);
   ctx.stroke();
   
   // Pony transformada (derecha) - oscura
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(32, 20, 8, 10);
-  ctx.fillRect(34, 15, 6, 8);
+  ctx.fillRect(centerX + 24, centerY - 10, 16, 20);
+  ctx.fillRect(centerX + 28, centerY - 25, 12, 16);
   
   // Ojos rojos
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(35, 17, 2, 2);
-  ctx.fillRect(38, 17, 2, 2);
+  ctx.fillRect(centerX + 30, centerY - 21, 4, 4);
+  ctx.fillRect(centerX + 36, centerY - 21, 4, 4);
   
   // Efectos mágicos
   ctx.fillStyle = '#FF69B4';
   for (let i = 0; i < 5; i++) {
-    ctx.fillRect(15 + i * 3, 10 + (i % 2) * 2, 2, 2);
+    ctx.fillRect(centerX - 30 + i * 6, centerY - 35 + (i % 2) * 4, 4, 4);
   }
   
-  // Texto "CAMBIARON"
+  // Texto "CAMBIARON" (centrado)
   ctx.fillStyle = '#FF69B4';
-  ctx.font = 'bold 8px monospace';
-  ctx.fillText('CAMBIARON', 12, 52);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('CAMBIARON', centerX, centerY + 45);
+  ctx.textAlign = 'left';
 }
 
 // Foto de máquinas
 function drawMachinePhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo de fábrica
   ctx.fillStyle = '#1a1a2e';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Máquina grande
+  // Máquina grande (centrada)
   ctx.fillStyle = '#4a4a4a';
-  ctx.fillRect(12, 15, 26, 25);
+  ctx.fillRect(centerX - 35, centerY - 20, 70, 50);
   
   // Engranajes
   ctx.fillStyle = '#888';
-  ctx.fillRect(16, 20, 6, 6);
-  ctx.fillRect(28, 20, 6, 6);
-  ctx.fillRect(22, 28, 6, 6);
+  ctx.fillRect(centerX - 25, centerY - 10, 12, 12);
+  ctx.fillRect(centerX + 13, centerY - 10, 12, 12);
+  ctx.fillRect(centerX - 6, centerY + 8, 12, 12);
   
   // Luces
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(18, 32, 3, 3);
+  ctx.fillRect(centerX - 20, centerY + 24, 6, 6);
   ctx.fillStyle = '#00FF00';
-  ctx.fillRect(24, 32, 3, 3);
+  ctx.fillRect(centerX - 3, centerY + 24, 6, 6);
   ctx.fillStyle = '#0000FF';
-  ctx.fillRect(30, 32, 3, 3);
+  ctx.fillRect(centerX + 14, centerY + 24, 6, 6);
   
   // Tubos
   ctx.fillStyle = '#666';
-  ctx.fillRect(14, 12, 2, 8);
-  ctx.fillRect(34, 12, 2, 8);
+  ctx.fillRect(centerX - 30, centerY - 28, 4, 16);
+  ctx.fillRect(centerX + 26, centerY - 28, 4, 16);
   
-  // Texto "ACTIVAR"
+  // Texto "ACTIVAR" (centrado)
   ctx.fillStyle = '#00FF00';
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('ACTIVAR', 15, 52);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('ACTIVAR', centerX, centerY + 50);
+  ctx.textAlign = 'left';
 }
 
 // Foto de Pinkie aterradora
 function drawScaryPinkiePhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo rojo oscuro
   ctx.fillStyle = '#2a0a0a';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Pinkie Pie corrupta
+  // Pinkie Pie corrupta (centrada)
   ctx.fillStyle = '#1a0a1a';
-  ctx.fillRect(18, 15, 14, 20);
-  ctx.fillRect(20, 10, 10, 8);
+  ctx.fillRect(centerX - 16, centerY - 15, 32, 40);
+  ctx.fillRect(centerX - 12, centerY - 30, 24, 16);
   
   // Melena oscura
   ctx.fillStyle = '#0a000a';
-  ctx.fillRect(16, 8, 18, 6);
-  ctx.fillRect(14, 12, 4, 10);
-  ctx.fillRect(32, 12, 4, 10);
+  ctx.fillRect(centerX - 20, centerY - 35, 40, 12);
+  ctx.fillRect(centerX - 24, centerY - 25, 8, 20);
+  ctx.fillRect(centerX + 16, centerY - 25, 8, 20);
   
   // Ojos rojos brillantes
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(22, 12, 3, 3);
-  ctx.fillRect(27, 12, 3, 3);
+  ctx.fillRect(centerX - 8, centerY - 26, 6, 6);
+  ctx.fillRect(centerX + 2, centerY - 26, 6, 6);
   
   // Sonrisa siniestra
   ctx.fillStyle = '#FF0000';
-  ctx.fillRect(21, 16, 8, 2);
+  ctx.fillRect(centerX - 10, centerY - 18, 20, 4);
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(22, 16, 1, 1);
-  ctx.fillRect(24, 16, 1, 1);
-  ctx.fillRect(26, 16, 1, 1);
-  ctx.fillRect(28, 16, 1, 1);
+  ctx.fillRect(centerX - 8, centerY - 18, 2, 2);
+  ctx.fillRect(centerX - 2, centerY - 18, 2, 2);
+  ctx.fillRect(centerX + 4, centerY - 18, 2, 2);
+  ctx.fillRect(centerX + 10, centerY - 18, 2, 2);
   
-  // Efecto de distorsión
+  // Efecto de distorsión (centrado)
   ctx.strokeStyle = '#FF0000';
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 2;
   for (let i = 0; i < 3; i++) {
     ctx.beginPath();
-    ctx.arc(25, 25, 12 + i * 3, 0, Math.PI * 2);
+    ctx.arc(centerX, centerY - 10, 24 + i * 6, 0, Math.PI * 2);
     ctx.stroke();
   }
   
-  // Texto "NO ES ELLA"
+  // Texto "NO ES ELLA" (centrado)
   ctx.fillStyle = '#FF0000';
-  ctx.font = 'bold 8px monospace';
-  ctx.fillText('NO ES ELLA', 12, 52);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('NO ES ELLA', centerX, centerY + 45);
+  ctx.textAlign = 'left';
 }
 
 // Foto de fiesta eterna
 function drawEternalPartyPhoto(ctx: CanvasRenderingContext2D, s: number, w: number, h: number) {
+  const centerX = w / 2;
+  const centerY = h / 2;
+  
   // Fondo mágico
   ctx.fillStyle = '#1a0a3a';
   ctx.fillRect(4, 4, w - 8, h - 8);
   
-  // Ciclo infinito (símbolo)
+  // Ciclo infinito (símbolo) - centrado
   ctx.strokeStyle = '#FF69B4';
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.arc(20, 25, 6, 0, Math.PI, false);
-  ctx.arc(30, 25, 6, Math.PI, 0, false);
+  ctx.arc(centerX - 12, centerY - 10, 12, 0, Math.PI, false);
+  ctx.arc(centerX + 12, centerY - 10, 12, Math.PI, 0, false);
   ctx.stroke();
   
-  // Globos en循环
+  // Globos en las esquinas (centrados)
   ctx.fillStyle = '#FF69B4';
-  ctx.fillRect(10, 10, 4, 6);
+  ctx.fillRect(centerX - 50, centerY - 35, 8, 12);
   ctx.fillStyle = '#FFD700';
-  ctx.fillRect(36, 10, 4, 6);
+  ctx.fillRect(centerX + 42, centerY - 35, 8, 12);
   ctx.fillStyle = '#4169E1';
-  ctx.fillRect(10, 35, 4, 6);
+  ctx.fillRect(centerX - 50, centerY + 25, 8, 12);
   ctx.fillStyle = '#00FF00';
-  ctx.fillRect(36, 35, 4, 6);
+  ctx.fillRect(centerX + 42, centerY + 25, 8, 12);
   
-  // Estrellas mágicas
+  // Estrellas mágicas (centradas)
   ctx.fillStyle = '#FFFFFF';
   for (let i = 0; i < 8; i++) {
     const angle = (i / 8) * Math.PI * 2;
-    const x = 25 + Math.cos(angle) * 15;
-    const y = 25 + Math.sin(angle) * 15;
-    ctx.fillRect(x, y, 2, 2);
+    const x = centerX + Math.cos(angle) * 30;
+    const y = centerY - 10 + Math.sin(angle) * 30;
+    ctx.fillRect(x - 2, y - 2, 4, 4);
   }
   
-  // Texto "∞ ETERNA"
+  // Texto "∞ ETERNA" (centrado)
   ctx.fillStyle = '#FF69B4';
-  ctx.font = 'bold 9px monospace';
-  ctx.fillText('∞ ETERNA', 14, 52);
+  ctx.font = 'bold 14px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('∞ ETERNA', centerX, centerY + 50);
+  ctx.textAlign = 'left';
 }
 
 // Foto genérica

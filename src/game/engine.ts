@@ -1798,8 +1798,43 @@ export class GameEngine {
       ctx.textAlign='left';
     }
 
-    // Dibujar foto de nota si está activa - más grande
-    if (this.showNotePhoto && this.currentNotePhoto) {
+    // Dibujar notificación de pickup en el centro (prioridad más alta)
+    if (this.showPickupNotification && this.currentPickupItem) {
+      const itemSize = 120;
+      const itemX = (CANVAS_WIDTH - itemSize) / 2;
+      const itemY = (CANVAS_HEIGHT - itemSize) / 2 - 30;
+      
+      // Fondo oscuro con borde brillante
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+      ctx.fillRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
+      
+      // Borde brillante animado
+      const glowIntensity = Math.sin(this.frame * 0.1) * 0.3 + 0.7;
+      ctx.strokeStyle = `rgba(255, 215, 0, ${glowIntensity})`;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
+      
+      // Dibujar el icono del item (grande y centrado)
+      ctx.font = `${itemSize}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.currentPickupItem.icon, CANVAS_WIDTH / 2, itemY + itemSize / 2);
+      
+      // Nombre del item debajo
+      ctx.fillStyle = '#FFD700';
+      ctx.font = 'bold 22px monospace';
+      ctx.fillText(this.currentPickupItem.name, CANVAS_WIDTH / 2, itemY + itemSize + 20);
+      
+      // Texto "¡Obtenido!"
+      ctx.fillStyle = '#FFF';
+      ctx.font = 'bold 18px monospace';
+      ctx.fillText('¡Obtenido!', CANVAS_WIDTH / 2, itemY + itemSize + 50);
+      
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+    }
+    // Dibujar foto de nota si está activa (segunda prioridad)
+    else if (this.showNotePhoto && this.currentNotePhoto) {
       const photoW = 200, photoH = 140;
       const photoX = (CANVAS_WIDTH - photoW) / 2;
       const photoY = 45;
@@ -1836,42 +1871,8 @@ export class GameEngine {
       ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
       ctx.textAlign = 'left';
     }
-
-    // Dibujar notificación de pickup en el centro
-    if (this.showPickupNotification && this.currentPickupItem) {
-      const itemSize = 120;
-      const itemX = (CANVAS_WIDTH - itemSize) / 2;
-      const itemY = (CANVAS_HEIGHT - itemSize) / 2 - 30;
-      
-      // Fondo oscuro con borde brillante
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
-      ctx.fillRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
-      
-      // Borde brillante animado
-      const glowIntensity = Math.sin(this.frame * 0.1) * 0.3 + 0.7;
-      ctx.strokeStyle = `rgba(255, 215, 0, ${glowIntensity})`;
-      ctx.lineWidth = 4;
-      ctx.strokeRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
-      
-      // Dibujar el icono del item (grande y centrado)
-      ctx.font = `${itemSize}px serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(this.currentPickupItem.icon, CANVAS_WIDTH / 2, itemY + itemSize / 2);
-      
-      // Nombre del item debajo
-      ctx.fillStyle = '#FFD700';
-      ctx.font = 'bold 22px monospace';
-      ctx.fillText(this.currentPickupItem.name, CANVAS_WIDTH / 2, itemY + itemSize + 20);
-      
-      // Texto "¡Obtenido!"
-      ctx.fillStyle = '#FFF';
-      ctx.font = 'bold 18px monospace';
-      ctx.fillText('¡Obtenido!', CANVAS_WIDTH / 2, itemY + itemSize + 50);
-      
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'alphabetic';
-    } else if (this.showDialog && this.dialogText) {
+    // Dibujar diálogo normal (tercera prioridad)
+    else if (this.showDialog && this.dialogText) {
       const bH=80, bY=CANVAS_HEIGHT-110;
       ctx.fillStyle='rgba(0,0,0,0.95)'; ctx.fillRect(25,bY,CANVAS_WIDTH-50,bH);
       ctx.strokeStyle='#FF69B4'; ctx.lineWidth=3; ctx.strokeRect(25,bY,CANVAS_WIDTH-50,bH);
