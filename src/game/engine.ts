@@ -706,7 +706,8 @@ function drawCutieMark(ctx: CanvasRenderingContext2D, charId: string, x: number,
 export function drawScaryPony(ctx: CanvasRenderingContext2D, x: number, y: number, frame: number) {
   const s = 2;
   ctx.save();
-  ctx.translate(x-6, y-12);
+  // Ajustar offsets para que no salga del viewport
+  ctx.translate(Math.max(0, x-4), Math.max(0, y-8));
   
   const wf = frame % 4;
   const legFront1 = [0, 1, 0, -1][wf];
@@ -791,7 +792,8 @@ export function drawScaryPony(ctx: CanvasRenderingContext2D, x: number, y: numbe
 export function drawBossPony(ctx: CanvasRenderingContext2D, x: number, y: number, frame: number, phase: number) {
   const s = 2;
   ctx.save();
-  ctx.translate(x-8, y-14);
+  // Ajustar offsets para que no salga del viewport
+  ctx.translate(Math.max(0, x-6), Math.max(0, y-10));
   const sc = phase === 2 ? 1.4 : 1.2;
   ctx.scale(sc, sc);
   
@@ -1694,20 +1696,23 @@ export class GameEngine {
           ctx.fillStyle=`rgba(100,100,255,${eg})`; ctx.fillRect(ex+6,ey+6,TILE_SIZE-12,TILE_SIZE-12);
           break;
         case 'final_boss':
-          if (!e.data?.defeated) drawBossPony(ctx, ex-4, ey-4, this.frame, this.bossPhase);
+          if (!e.data?.defeated) drawBossPony(ctx, ex, ey, this.frame, this.bossPhase);
           break;
       }
     }
 
     // Enemies (Pony Town style positioning)
-    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE+6, this.chaserY*TILE_SIZE+12, this.frame);
-    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE+6, this.pinkieChaseY*TILE_SIZE+12, this.frame);
-    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE+8, this.bossY*TILE_SIZE+14, this.frame, this.bossPhase);
+    if (this.chaserActive && !this.isHiding) drawScaryPony(ctx, this.chaserX*TILE_SIZE, this.chaserY*TILE_SIZE, this.frame);
+    if (this.pinkieChaseActive && !this.isHiding) drawScaryPony(ctx, this.pinkieChaseX*TILE_SIZE, this.pinkieChaseY*TILE_SIZE, this.frame);
+    if (this.bossActive && !this.isHiding) drawBossPony(ctx, this.bossX*TILE_SIZE, this.bossY*TILE_SIZE, this.frame, this.bossPhase);
 
     // Player (Pony Town style positioning)
     if (!this.isHiding) {
       const c = CHARACTERS.find(ch=>ch.id===this.characterId)||CHARACTERS[0];
-      drawPonySprite(ctx, this.playerX*TILE_SIZE-6, this.playerY*TILE_SIZE-12, c, this.playerDir, this.playerMoving?this.playerFrame:0);
+      // Ajustar posición para que el sprite nunca salga del viewport
+      const spriteOffsetX = Math.max(0, this.playerX*TILE_SIZE-4);
+      const spriteOffsetY = Math.max(0, this.playerY*TILE_SIZE-8);
+      drawPonySprite(ctx, spriteOffsetX, spriteOffsetY, c, this.playerDir, this.playerMoving?this.playerFrame:0);
     } else {
       ctx.fillStyle='rgba(50,50,150,0.3)';
       ctx.fillRect(this.playerX*TILE_SIZE+4, this.playerY*TILE_SIZE+4, TILE_SIZE-8, TILE_SIZE-8);
