@@ -107,7 +107,8 @@ function App() {
         setTimeout(() => { playCelebration(); setEndingPhase(3); }, 11000),
         setTimeout(() => setEndingPhase(4), 15000),
         setTimeout(() => { playCelebration(); setEndingPhase(5); }, 19000),
-        setTimeout(() => setEndingPhase(6), 25000),
+        setTimeout(() => { playMagicReveal(); setEndingPhase(6); }, 25000),
+        setTimeout(() => setEndingPhase(7), 35000),
       ];
       return () => timers.forEach(clearTimeout);
     }
@@ -1018,7 +1019,7 @@ function App() {
                 ))}
               </div>
               <p className="text-pink-300 text-sm">Pinkie Pie, Twilight, Rainbow Dash, Fluttershy, Rarity y Applejack...</p>
-              <p className="text-purple-300 text-sm">...y el Rey Sombra, todos reunidos para una celebración especial.</p>
+              <p className="text-purple-300 text-sm">...y Milo, todos reunidos para una celebración especial.</p>
             </div>
           )}
 
@@ -1045,7 +1046,33 @@ function App() {
             </div>
           )}
 
-          {endingPhase >= 6 && (
+          {endingPhase === 6 && (
+            <div className="text-center z-10 bg-gradient-to-br from-pink-900/80 to-purple-900/80 p-10 rounded-2xl border-4 border-pink-400 shadow-2xl shadow-pink-500/50 max-w-2xl">
+              <div className="mb-6 flex justify-center gap-3">
+                <span className="text-5xl animate-pulse">🥹</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.2s' }}>💕</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.4s' }}>💕</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.6s' }}>💕</span>
+              </div>
+              <p className="text-2xl text-white mb-6 leading-relaxed font-light">
+                Te amo, gracias por estar conmigo.
+              </p>
+              <p className="text-2xl text-pink-300 mb-6 leading-relaxed font-light">
+                De verdad que te amo, mi.. Pinkie Pie.
+              </p>
+              <p className="text-xl text-purple-200 mb-8 leading-relaxed italic">
+                Juntos tendremos una fiesta eterna, donde nos amaremos eternamente.
+              </p>
+              <div className="flex justify-center gap-2">
+                <span className="text-6xl animate-bounce">🥹</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.1s' }}>💕</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>💕</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.3s' }}>💕</span>
+              </div>
+            </div>
+          )}
+
+          {endingPhase >= 7 && (
             <div className="text-center z-10">
               <p className="text-pink-400 text-lg mb-4">¡GRACIAS POR COMPARTIR ESTA AVENTURA!</p>
               <p className="text-white text-sm mb-6">Una sorpresa especial para ti, con todo mi amor 💕</p>
