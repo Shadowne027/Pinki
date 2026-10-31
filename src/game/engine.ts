@@ -1173,6 +1173,7 @@ export class GameEngine {
   inventory: InventoryItem[] = [];
   dialogText = ''; showDialog = false; dialogTimer = 0;
   currentNotePhoto: string | null = null; showNotePhoto = false; notePhotoTimer = 0;
+  currentPickupItem: { id: string; name: string; icon: string } | null = null; showPickupNotification = false; pickupNotificationTimer = 0;
   frame = 0;
   keys = new Set<string>();
   lastMove = 0; moveDelay = 150;
@@ -1272,6 +1273,9 @@ export class GameEngine {
           this.inventory.push({ id: entity.data.itemId, name: entity.data.name, icon: entity.data.icon });
           if (entity.data.itemId?.startsWith('photo_')) this.photosFound++;
           
+          // Mostrar notificación de pickup en el centro
+          this.showPickupItemNotification({ id: entity.data.itemId, name: entity.data.name, icon: entity.data.icon });
+          
           // Manejo especial de gemas
           if (entity.data.gem) {
             this.gemsCollected.add(entity.data.itemId);
@@ -1279,14 +1283,12 @@ export class GameEngine {
             this.screenShake = 8;
             this.flashTimer = 15;
             this.flashColor = `rgba(${entity.data.color === '#FF69B4' ? '255,105,180' : entity.data.color === '#4169E1' ? '65,105,225' : entity.data.color === '#2ECC71' ? '46,204,113' : entity.data.color === '#9B59B6' ? '155,89,182' : entity.data.color === '#F1C40F' ? '241,196,15' : '231,76,60'},0.5)`;
-            this.addMessage(`💎 ¡Gema obtenida: ${entity.data.name}! (${this.gemsCollected.size}/6)`);
             if (this.gemsCollected.size === 6) {
               setTimeout(() => this.addMessage('✨ ¡Has reunido las 6 gemas! El final secreto se ha desbloqueado...'), 3000);
               this.secretEndingUnlocked = true;
             }
           } else {
             playPickup();
-            this.addMessage(`¡Obtuviste: ${entity.data.name}!`);
           }
           
           entity.active = false;
@@ -1361,6 +1363,12 @@ export class GameEngine {
     this.dialogTimer = 240;
     this.onDialog?.(text);
     playPickup();
+  }
+
+  showPickupItemNotification(item: { id: string; name: string; icon: string }) {
+    this.currentPickupItem = item;
+    this.showPickupNotification = true;
+    this.pickupNotificationTimer = 180; // 3 segundos a 60fps
   }
 
   toggleHide() {
@@ -1444,6 +1452,15 @@ export class GameEngine {
         this.onDialog?.(''); 
       }
       return;
+    }
+
+    // Pickup notification timer
+    if (this.pickupNotificationTimer > 0) {
+      this.pickupNotificationTimer--;
+      if (this.pickupNotificationTimer <= 0) {
+        this.showPickupNotification = false;
+        this.currentPickupItem = null;
+      }
     }
 
     // Chaser delay countdown
@@ -1818,6 +1835,42 @@ export class GameEngine {
       }
       ctx.fillText(line.trim(), CANVAS_WIDTH / 2, lineY);
       ctx.textAlign = 'left';
+    }
+
+    // Dibujar notificación de pickup en el centro
+    if (this.showPickupNotification && this.currentPickupItem) {
+      const itemSize = 120;
+      const itemX = (CANVAS_WIDTH - itemSize) / 2;
+      const itemY = (CANVAS_HEIGHT - itemSize) / 2 - 30;
+      
+      // Fondo oscuro con borde brillante
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
+      ctx.fillRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
+      
+      // Borde brillante animado
+      const glowIntensity = Math.sin(this.frame * 0.1) * 0.3 + 0.7;
+      ctx.strokeStyle = `rgba(255, 215, 0, ${glowIntensity})`;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(itemX - 30, itemY - 30, itemSize + 60, itemSize + 100);
+      
+      // Dibujar el icono del item (grande y centrado)
+      ctx.font = `${itemSize}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.currentPickupItem.icon, CANVAS_WIDTH / 2, itemY + itemSize / 2);
+      
+      // Nombre del item debajo
+      ctx.fillStyle = '#FFD700';
+      ctx.font = 'bold 22px monospace';
+      ctx.fillText(this.currentPickupItem.name, CANVAS_WIDTH / 2, itemY + itemSize + 20);
+      
+      // Texto "¡Obtenido!"
+      ctx.fillStyle = '#FFF';
+      ctx.font = 'bold 18px monospace';
+      ctx.fillText('¡Obtenido!', CANVAS_WIDTH / 2, itemY + itemSize + 50);
+      
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
     } else if (this.showDialog && this.dialogText) {
       const bH=80, bY=CANVAS_HEIGHT-110;
       ctx.fillStyle='rgba(0,0,0,0.95)'; ctx.fillRect(25,bY,CANVAS_WIDTH-50,bH);

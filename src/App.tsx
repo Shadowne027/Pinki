@@ -707,18 +707,12 @@ function App() {
                 {inventory.map((item, i) => (
                   <button 
                     key={i} 
-                    onClick={() => {
-                      if (item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) {
-                        setSelectedItem(item);
-                      }
-                    }}
+                    onClick={() => setSelectedItem(item)}
                     className="bg-gray-800 border border-gray-600 p-4 flex flex-col items-center hover:border-pink-500 transition-colors cursor-pointer active:scale-95"
                   >
                     <span className="text-4xl mb-2">{item.icon}</span>
                     <span className="text-xs text-gray-300 text-center leading-tight">{item.name}</span>
-                    {(item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) && (
-                      <span className="text-xs text-pink-400 mt-2 font-bold">Ver</span>
-                    )}
+                    <span className="text-xs text-pink-400 mt-2 font-bold">Ver</span>
                   </button>
                 ))}
               </div>
@@ -874,6 +868,47 @@ function App() {
                 </p>
                 <p className="text-pink-400 text-xs text-center mt-2">
                   Una de las seis gemas necesarias para desbloquear el final secreto.
+                </p>
+              </div>
+            )}
+
+            {/* Key Viewer */}
+            {(selectedItem.id === 'key_sugarcube' || selectedItem.id === 'key_castle') && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-yellow-900/30 to-amber-900/30 flex items-center justify-center mb-3">
+                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Llave */}
+                    <rect x="6" y="4" width="8" height="8" fill="#FFD700" />
+                    <rect x="7" y="5" width="6" height="6" fill="#FFA500" />
+                    <rect x="9" y="12" width="2" height="6" fill="#FFD700" />
+                    <rect x="11" y="14" width="2" height="2" fill="#FFD700" />
+                    <rect x="11" y="16" width="2" height="2" fill="#FFD700" />
+                    {/* Brillo */}
+                    <rect x="8" y="6" width="2" height="2" fill="#FFFFFF" opacity="0.6" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.id === 'key_sugarcube' && 'Llave de Sugarcube Corner. Abre la puerta de la pastelería abandonada.'}
+                  {selectedItem.id === 'key_castle' && 'Llave del Castillo de Twilight. Abre la puerta del castillo al final del Bosque Everfree.'}
+                </p>
+              </div>
+            )}
+
+            {/* Generic Item Viewer */}
+            {!selectedItem.id.startsWith('photo_') && 
+             selectedItem.id !== 'diary' && 
+             selectedItem.id !== 'map' && 
+             selectedItem.id !== 'crystal' && 
+             selectedItem.id !== 'truth' && 
+             !selectedItem.id.startsWith('gem_') &&
+             selectedItem.id !== 'key_sugarcube' &&
+             selectedItem.id !== 'key_castle' && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-gray-900/50 to-purple-900/50 flex items-center justify-center mb-3">
+                  <div className="text-8xl">{selectedItem.icon}</div>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.name}
                 </p>
               </div>
             )}
