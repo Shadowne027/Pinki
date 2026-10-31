@@ -830,7 +830,7 @@ function App() {
                   LA VERDAD
                 </p>
                 <p className="text-gray-300 text-sm text-center">
-                  Pinkie Pie no quería una fiesta normal. Quería una fiesta ETERNA. Usó las máquinas de la fábrica para atrapar a sus amigas en un ciclo infinito de celebración. Solo reuniendo las seis gemas puedes liberarlas y revelar al verdadero responsable: el Rey Sombra, quien manipuló a Pinkie desde las sombras.
+                  Pinkie Pie no quería una fiesta normal. Quería una fiesta ETERNA. Usó las máquinas de la fábrica para atrapar a sus amigas en un ciclo infinito de celebración. Solo reuniendo las seis gemas puedes liberarlas y revelar al verdadero responsable: Milo, quien manipuló a Pinkie desde las sombras.
                 </p>
               </div>
             )}
@@ -961,7 +961,7 @@ function App() {
               <p className="text-white text-lg mb-4">Una sombra aparece en la habitación...</p>
               <div className="mb-6">
                 <svg width="120" height="100" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
-                  {/* Rey Sombra */}
+                  {/* Milo */}
                   <rect x="5" y="9" width="12" height="8" fill="#000000" />
                   <rect x="6" y="2" width="10" height="8" fill="#000000" />
                   <rect x="6" y="10" width="10" height="6" fill="#1a0a1a" />
@@ -972,7 +972,7 @@ function App() {
                   <rect x="11" y="4" width="4" height="4" fill="#FF0000" />
                 </svg>
               </div>
-              <p className="text-purple-300 text-sm italic">"Yo soy el Rey Sombra... y yo orchestré todo esto."</p>
+              <p className="text-purple-300 text-sm italic">"Soy Milo, y orquesté todo esto..."</p>
             </div>
           )}
 
