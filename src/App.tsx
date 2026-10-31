@@ -290,7 +290,7 @@ function App() {
       {/* Botón de pantalla completa - Flotante */}
       <button
         onClick={toggleFullscreen}
-        className="fixed top-[1cm] left-[1cm] z-[9999] bg-gradient-to-br from-purple-900/90 to-pink-900/90 hover:from-purple-800 hover:to-pink-800 text-white px-4 py-2.5 rounded-xl border-2 border-pink-400/60 transition-all hover:scale-110 active:scale-95 text-sm font-bold flex items-center gap-2 shadow-xl shadow-pink-500/30 backdrop-blur-sm"
+        className="fixed top-[0.4cm] left-[0.4cm] z-[9999] bg-gradient-to-br from-purple-900/90 to-pink-900/90 hover:from-purple-800 hover:to-pink-800 text-white px-4 py-2.5 rounded-xl border-2 border-pink-400/60 transition-all hover:scale-110 active:scale-95 text-sm font-bold flex items-center gap-2 shadow-xl shadow-pink-500/30 backdrop-blur-sm"
         title={isFullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}
         style={{
           animation: 'pulse-glow 2s ease-in-out infinite',
@@ -607,7 +607,7 @@ function App() {
 
       {/* ===== PLAYING ===== */}
       {(gameState === 'playing' || gameState === 'inventory') && (
-        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden p-[1cm]">
+        <div className="relative w-full h-full flex items-center justify-center bg-black overflow-hidden p-[0.4cm]">
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}
@@ -615,16 +615,16 @@ function App() {
             className="border-2 border-purple-900/50 md:border-purple-900/50 md:max-w-full md:max-h-full"
             style={{
               imageRendering: 'pixelated',
-              width: 'calc(100vw - 2cm)',
-              height: 'calc(100vh - 2cm)',
-              maxWidth: 'calc(100vw - 2cm)',
-              maxHeight: 'calc(100vh - 2cm)',
+              width: 'calc(100vw - 0.8cm)',
+              height: 'calc(100vh - 0.8cm)',
+              maxWidth: 'calc(100vw - 0.8cm)',
+              maxHeight: 'calc(100vh - 0.8cm)',
               objectFit: 'contain',
             }}
           />
 
           {/* Mobile Controls - Overlay on canvas */}
-          <div className="md:hidden absolute bottom-[1cm] left-[1cm] right-[1cm] flex justify-between items-end pointer-events-none z-20">
+          <div className="md:hidden absolute bottom-[0.4cm] left-[0.4cm] right-[0.4cm] flex justify-between items-end pointer-events-none z-20">
             <div
               className="w-32 h-32 rounded-full bg-black/40 backdrop-blur-sm border-2 border-gray-600/40 flex items-center justify-center touch-none pointer-events-auto relative"
               onTouchStart={handleJoystickStart}
@@ -670,7 +670,7 @@ function App() {
           </div>
 
           {/* Top controls overlay */}
-          <div className="absolute top-[1cm] right-[1cm] gap-2 z-10 flex">
+          <div className="absolute top-[0.4cm] right-[0.4cm] gap-2 z-10 flex">
             <button
               onClick={toggleMusic}
               className="px-2 py-1.5 bg-gray-900/80 border border-gray-600 text-gray-300 text-xs hover:bg-gray-700 transition-colors"
@@ -686,7 +686,7 @@ function App() {
             </button>
           </div>
 
-          <div className="hidden md:block absolute bottom-[1cm] left-[1cm]">
+          <div className="hidden md:block absolute bottom-[0.4cm] left-[0.4cm]">
             <p className="text-[9px] text-gray-600">WASD: Mover | E: Interactuar | Shift: Correr | H: Esconder | I: Inventario</p>
           </div>
         </div>
@@ -707,18 +707,12 @@ function App() {
                 {inventory.map((item, i) => (
                   <button 
                     key={i} 
-                    onClick={() => {
-                      if (item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) {
-                        setSelectedItem(item);
-                      }
-                    }}
+                    onClick={() => setSelectedItem(item)}
                     className="bg-gray-800 border border-gray-600 p-4 flex flex-col items-center hover:border-pink-500 transition-colors cursor-pointer active:scale-95"
                   >
                     <span className="text-4xl mb-2">{item.icon}</span>
                     <span className="text-xs text-gray-300 text-center leading-tight">{item.name}</span>
-                    {(item.id.startsWith('photo_') || item.id === 'diary' || item.id === 'map' || item.id === 'crystal' || item.id === 'truth' || item.id.startsWith('gem_')) && (
-                      <span className="text-xs text-pink-400 mt-2 font-bold">Ver</span>
-                    )}
+                    <span className="text-xs text-pink-400 mt-2 font-bold">Ver</span>
                   </button>
                 ))}
               </div>
@@ -874,6 +868,47 @@ function App() {
                 </p>
                 <p className="text-pink-400 text-xs text-center mt-2">
                   Una de las seis gemas necesarias para desbloquear el final secreto.
+                </p>
+              </div>
+            )}
+
+            {/* Key Viewer */}
+            {(selectedItem.id === 'key_sugarcube' || selectedItem.id === 'key_castle') && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-yellow-900/30 to-amber-900/30 flex items-center justify-center mb-3">
+                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Llave */}
+                    <rect x="6" y="4" width="8" height="8" fill="#FFD700" />
+                    <rect x="7" y="5" width="6" height="6" fill="#FFA500" />
+                    <rect x="9" y="12" width="2" height="6" fill="#FFD700" />
+                    <rect x="11" y="14" width="2" height="2" fill="#FFD700" />
+                    <rect x="11" y="16" width="2" height="2" fill="#FFD700" />
+                    {/* Brillo */}
+                    <rect x="8" y="6" width="2" height="2" fill="#FFFFFF" opacity="0.6" />
+                  </svg>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.id === 'key_sugarcube' && 'Llave de Sugarcube Corner. Abre la puerta de la pastelería abandonada.'}
+                  {selectedItem.id === 'key_castle' && 'Llave del Castillo de Twilight. Abre la puerta del castillo al final del Bosque Everfree.'}
+                </p>
+              </div>
+            )}
+
+            {/* Generic Item Viewer */}
+            {!selectedItem.id.startsWith('photo_') && 
+             selectedItem.id !== 'diary' && 
+             selectedItem.id !== 'map' && 
+             selectedItem.id !== 'crystal' && 
+             selectedItem.id !== 'truth' && 
+             !selectedItem.id.startsWith('gem_') &&
+             selectedItem.id !== 'key_sugarcube' &&
+             selectedItem.id !== 'key_castle' && (
+              <div className="bg-gray-800 p-4 border border-gray-600">
+                <div className="aspect-square bg-gradient-to-br from-gray-900/50 to-purple-900/50 flex items-center justify-center mb-3">
+                  <div className="text-8xl">{selectedItem.icon}</div>
+                </div>
+                <p className="text-gray-300 text-sm text-center">
+                  {selectedItem.name}
                 </p>
               </div>
             )}
