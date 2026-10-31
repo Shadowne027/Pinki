@@ -107,7 +107,8 @@ function App() {
         setTimeout(() => { playCelebration(); setEndingPhase(3); }, 11000),
         setTimeout(() => setEndingPhase(4), 15000),
         setTimeout(() => { playCelebration(); setEndingPhase(5); }, 19000),
-        setTimeout(() => setEndingPhase(6), 25000),
+        setTimeout(() => { playMagicReveal(); setEndingPhase(6); }, 25000),
+        setTimeout(() => setEndingPhase(7), 35000),
       ];
       return () => timers.forEach(clearTimeout);
     }
@@ -801,20 +802,49 @@ function App() {
 
             {/* Crystal Viewer */}
             {selectedItem.id === 'crystal' && (
-              <div className="bg-gray-800 p-4 border border-gray-600">
-                <div className="aspect-square bg-gradient-to-br from-purple-900/50 to-blue-900/50 flex items-center justify-center mb-3">
-                  <svg width="150" height="150" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
-                    {/* Cristal mágico */}
-                    <rect x="8" y="4" width="4" height="12" fill="#9B59B6" />
-                    <rect x="7" y="6" width="6" height="8" fill="#8E44AD" />
-                    <rect x="9" y="3" width="2" height="2" fill="#D2B4DE" />
-                    <rect x="9" y="15" width="2" height="2" fill="#D2B4DE" />
-                    {/* Brillo */}
-                    <rect x="10" y="5" width="1" height="2" fill="#FFFFFF" opacity="0.8" />
+              <div className="bg-gray-800 p-4 border border-purple-500/50 shadow-lg shadow-purple-500/20">
+                <div className="aspect-square bg-gradient-to-br from-purple-900/30 via-pink-900/30 to-blue-900/30 flex items-center justify-center mb-3 relative overflow-hidden">
+                  {/* Efecto de brillo de fondo */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-pink-500 rounded-full blur-xl animate-pulse"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-8 h-8 bg-blue-500 rounded-full blur-xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  </div>
+                  
+                  <svg width="180" height="180" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
+                    {/* Cristal mágico con los 6 colores de las gemas */}
+                    {/* Base del cristal - forma de diamante */}
+                    <rect x="7" y="3" width="6" height="14" fill="#9B59B6" />
+                    <rect x="6" y="5" width="8" height="10" fill="#8E44AD" />
+                    
+                    {/* Facetas con los 6 colores de las gemas */}
+                    {/* Gema Rosa - Amistad */}
+                    <rect x="7" y="4" width="2" height="2" fill="#FF69B4" opacity="0.9" />
+                    {/* Gema Azul - Alegría */}
+                    <rect x="11" y="4" width="2" height="2" fill="#4169E1" opacity="0.9" />
+                    {/* Gema Verde - Bondad */}
+                    <rect x="6" y="7" width="2" height="2" fill="#2ECC71" opacity="0.9" />
+                    {/* Gema Violeta - Magia */}
+                    <rect x="12" y="7" width="2" height="2" fill="#9B59B6" opacity="0.9" />
+                    {/* Gema Amarilla - Honestidad */}
+                    <rect x="7" y="12" width="2" height="2" fill="#F1C40F" opacity="0.9" />
+                    {/* Gema Roja - Lealtad */}
+                    <rect x="11" y="12" width="2" height="2" fill="#E74C3C" opacity="0.9" />
+                    
+                    {/* Brillos y reflejos */}
+                    <rect x="9" y="3" width="2" height="2" fill="#FFFFFF" opacity="0.7" />
+                    <rect x="8" y="6" width="1" height="1" fill="#FFFFFF" opacity="0.5" />
+                    <rect x="11" y="9" width="1" height="1" fill="#FFFFFF" opacity="0.5" />
+                    <rect x="9" y="14" width="2" height="2" fill="#FFFFFF" opacity="0.6" />
+                    
+                    {/* Centro brillante */}
+                    <rect x="9" y="8" width="2" height="4" fill="#FFFFFF" opacity="0.4" />
                   </svg>
                 </div>
-                <p className="text-gray-300 text-sm text-center">
-                  Un cristal mágico que pulsa con energía. Parece reaccionar a la presencia de las gemas coleccionables.
+                <p className="text-purple-300 text-sm text-center font-light">
+                  ✨ Cristal Mágico ✨
+                </p>
+                <p className="text-gray-300 text-xs text-center mt-2">
+                  Un cristal que contiene la esencia de las seis gemas. Pulsa con energía mágica, reaccionando a la presencia de cada elemento.
                 </p>
               </div>
             )}
@@ -960,7 +990,7 @@ function App() {
               <p className="text-white text-lg mb-4">Una sombra aparece en la habitación...</p>
               <div className="mb-6">
                 <svg width="120" height="100" viewBox="0 0 20 20" style={{ imageRendering: 'pixelated' }}>
-                  {/* Rey Sombra */}
+                  {/* Milo */}
                   <rect x="5" y="9" width="12" height="8" fill="#000000" />
                   <rect x="6" y="2" width="10" height="8" fill="#000000" />
                   <rect x="6" y="10" width="10" height="6" fill="#1a0a1a" />
@@ -971,7 +1001,7 @@ function App() {
                   <rect x="11" y="4" width="4" height="4" fill="#FF0000" />
                 </svg>
               </div>
-              <p className="text-purple-300 text-sm italic">"Yo soy el Rey Sombra... y yo orchestré todo esto."</p>
+              <p className="text-purple-300 text-sm italic">"Soy Milo, y orquesté todo esto..."</p>
             </div>
           )}
 
@@ -1018,7 +1048,7 @@ function App() {
                 ))}
               </div>
               <p className="text-pink-300 text-sm">Pinkie Pie, Twilight, Rainbow Dash, Fluttershy, Rarity y Applejack...</p>
-              <p className="text-purple-300 text-sm">...y el Rey Sombra, todos reunidos para una celebración especial.</p>
+              <p className="text-purple-300 text-sm">...y Milo, todos reunidos para una celebración especial.</p>
             </div>
           )}
 
@@ -1045,7 +1075,33 @@ function App() {
             </div>
           )}
 
-          {endingPhase >= 6 && (
+          {endingPhase === 6 && (
+            <div className="text-center z-10 bg-gradient-to-br from-pink-900/80 to-purple-900/80 p-10 rounded-2xl border-4 border-pink-400 shadow-2xl shadow-pink-500/50 max-w-2xl">
+              <div className="mb-6 flex justify-center gap-3">
+                <span className="text-5xl animate-pulse">🥹</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.2s' }}>💕</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.4s' }}>💕</span>
+                <span className="text-5xl animate-pulse" style={{ animationDelay: '0.6s' }}>💕</span>
+              </div>
+              <p className="text-2xl text-white mb-6 leading-relaxed font-light">
+                Te amo, gracias por estar conmigo.
+              </p>
+              <p className="text-2xl text-pink-300 mb-6 leading-relaxed font-light">
+                De verdad que te amo, mi.. Pinkie Pie.
+              </p>
+              <p className="text-xl text-purple-200 mb-8 leading-relaxed italic">
+                Juntos tendremos una fiesta eterna, donde nos amaremos eternamente.
+              </p>
+              <div className="flex justify-center gap-2">
+                <span className="text-6xl animate-bounce">🥹</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.1s' }}>💕</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>💕</span>
+                <span className="text-6xl animate-bounce" style={{ animationDelay: '0.3s' }}>💕</span>
+              </div>
+            </div>
+          )}
+
+          {endingPhase >= 7 && (
             <div className="text-center z-10">
               <p className="text-pink-400 text-lg mb-4">¡GRACIAS POR COMPARTIR ESTA AVENTURA!</p>
               <p className="text-white text-sm mb-6">Una sorpresa especial para ti, con todo mi amor 💕</p>
